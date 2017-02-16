@@ -14,12 +14,12 @@
 <body>
     <h1>用户管理</h1>
     <hr/>
-    <h3>所有用户<a href="/admin/user/add" type="button">添加</a> </h3>
+    <h3>所有用户<a href="/admin/users/add">添加</a> </h3>
 
     <%--如果用户列表为空--%>
     <c:if test="${empty userList}">
         <div>
-            User表为空，请<a href="/admin/users/add" type="button">添加</a>
+            User表为空，请<a href="/admin/users/add">添加</a>
         </div>
     </c:if>
 
@@ -41,9 +41,9 @@
                     <td>${user.sex}</td>
                     <td>${user.age}</td>
                     <td>
-                        <a href="/admin/users/show/${user.id}" type="button">详情</a>
-                        <a href="/admin/users/update/${user.id}" type="button">修改</a>
-                        <a href="/admin/users/delete/${user.id}" type="button">删除</a>
+                        <a href="/admin/users/show/${user.id}">详情</a>
+                        <a href="/admin/users/update/${user.id}">修改</a>
+                        <a href="/admin/users/delete/${user.id}">删除</a>
                     </td>
                 </tr>
             </c:forEach>

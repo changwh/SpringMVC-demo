@@ -18,18 +18,18 @@
         <div>
             <div>
                 <label>Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter name:" value="${user.name}"/>
+                <input type="text" name="name" placeholder="Enter name:" value="${user.name}"/>
             </div>
             <div>
                 <label>Sex</label>
-                <input type="text" id="sex" name="sex" placeholder="Enter sex:" value="${user.sex}"/>
+                <input type="text" name="sex" placeholder="Enter sex:" value="${user.sex}"/>
             </div>
             <div>
                 <label>Age</label>
-                <input type="text" id="age" name="age" placeholder="Enter age:" value="${user.age}"/>
+                <input type="text" name="age" placeholder="Enter age:" value="${user.age}"/>
             </div>
             <div>
-                <input type="hidden" id="id" name="id" value="${user.id}"/>
+                <input type="hidden" name="id" value="${user.id}"/>
             </div>
             <div>
                 <button type="submit">提交</button>

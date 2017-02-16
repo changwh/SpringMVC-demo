@@ -13,5 +13,9 @@
     <body>
         <h1>Demo首页</h1>
         <hr/>
+        <h3>
+            <a href="/admin/users">查看用户</a>
+            <a href="/admin/info">查看信息</a>
+        </h3>
     </body>
 </html>
