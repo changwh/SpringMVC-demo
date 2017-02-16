@@ -10,6 +10,7 @@
 <html lang="zh-CN">
 <head>
     <title>用户管理</title>
+    <meta charset="utf-8">
 </head>
 <body>
     <h1>用户管理</h1>

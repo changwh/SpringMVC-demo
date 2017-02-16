@@ -51,4 +51,27 @@ public class InfoController {
         modelMap.addAttribute("info",info);
         return "admin/infoDetail";
     }
+
+    @RequestMapping(value = "/admin/info/update/{id}",method = RequestMethod.GET)
+    public String updateInfo(@PathVariable("id") int id,ModelMap modelMap){
+        InfoEntity info=infoRepository.findOne(id);
+        List<UserEntity> userList=userRepository.findAll();
+        modelMap.addAttribute("info",info);
+        modelMap.addAttribute("userList",userList);
+        return "admin/updateInfo";
+    }
+
+    @RequestMapping(value = "/admin/info/updateP",method = RequestMethod.POST)
+    public String updateInfoP(@ModelAttribute("infoP") InfoEntity infoEntity){
+        infoRepository.updateInfo(infoEntity.getPhone(),infoEntity.getAddress(),infoEntity.getEmail(),infoEntity.getMobile(),infoEntity.getUserByUserId().getId(),infoEntity.getId());
+        infoRepository.flush();
+        return "redirect:/admin/info";
+    }
+
+    @RequestMapping(value = "/admin/info/delete/{id}")
+    public String deleteInfo(@PathVariable("id") int id){
+        infoRepository.delete(id);
+        infoRepository.flush();
+        return "redirect:/admin/info";
+    }
 }
