@@ -25,6 +25,7 @@ public class InfoController {
     @Autowired
     UserRepository userRepository;
 
+//    查看所有信息
     @RequestMapping(value = "/admin/info",method = RequestMethod.GET)
     public String showInfo(ModelMap modelMap){
         List<InfoEntity> infoList=infoRepository.findAll();
@@ -32,6 +33,7 @@ public class InfoController {
         return "admin/info";
     }
 
+//    访问添加信息页面
     @RequestMapping(value = "/admin/info/add",method = RequestMethod.GET)
     public String addInfo(ModelMap modelMap){
         List<UserEntity>userList=userRepository.findAll();
@@ -39,12 +41,14 @@ public class InfoController {
         return "admin/addInfo";
     }
 
+//    添加信息操作
     @RequestMapping(value = "/admin/info/addP",method = RequestMethod.POST)
     public String addInfoPost(@ModelAttribute("info") InfoEntity infoEntity){
         infoRepository.saveAndFlush(infoEntity);
         return "redirect:/admin/info";
     }
 
+//    显示信息详情
     @RequestMapping(value = "/admin/info/show/{id}",method = RequestMethod.GET)
     public String showInfo(@PathVariable("id") int id,ModelMap modelMap){
         InfoEntity info=infoRepository.findOne(id);
@@ -52,6 +56,7 @@ public class InfoController {
         return "admin/infoDetail";
     }
 
+//    访问修改信息页面
     @RequestMapping(value = "/admin/info/update/{id}",method = RequestMethod.GET)
     public String updateInfo(@PathVariable("id") int id,ModelMap modelMap){
         InfoEntity info=infoRepository.findOne(id);
@@ -61,13 +66,16 @@ public class InfoController {
         return "admin/updateInfo";
     }
 
+//    修改信息操作
     @RequestMapping(value = "/admin/info/updateP",method = RequestMethod.POST)
     public String updateInfoP(@ModelAttribute("infoP") InfoEntity infoEntity){
+//        更新信息
         infoRepository.updateInfo(infoEntity.getPhone(),infoEntity.getAddress(),infoEntity.getEmail(),infoEntity.getMobile(),infoEntity.getUserByUserId().getId(),infoEntity.getId());
         infoRepository.flush();
         return "redirect:/admin/info";
     }
 
+//    删除信息
     @RequestMapping(value = "/admin/info/delete/{id}")
     public String deleteInfo(@PathVariable("id") int id){
         infoRepository.delete(id);

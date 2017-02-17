@@ -17,11 +17,11 @@
         <h1>信息管理</h1>
         <hr/>
         <h3>所有信息<a href="/admin/info/add">添加</a></h3>
-
+        <%--Info表为空--%>
         <c:if test="${empty infoList}">
-            <div>Blog表为空，请<a href="/admin/info/add">添加</a></div>
+            <div>Info表为空，请<a href="/admin/info/add">添加</a></div>
         </c:if>
-
+        <%--Info表不为空--%>
         <c:if test="${!empty infoList}">
             <table>
                 <tr>

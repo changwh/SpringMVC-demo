@@ -20,6 +20,7 @@
             <form:form action="/admin/info/updateP" method="post" commandName="infoP" role="form">
                 <div>
                     <label>Name</label>
+                    <%--选择用户--%>
                     <select name="userByUserId.Id">
                         <c:forEach items="${userList}" var="user">
                             <c:if test="${user.id==info.userByUserId.id}">

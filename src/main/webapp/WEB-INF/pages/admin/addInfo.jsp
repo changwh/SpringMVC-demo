@@ -20,6 +20,7 @@
         <form:form action="/admin/info/addP" method="post" commandName="info" role="form">
             <div>
                 <label>User:</label>
+                <%--选择用户--%>
                 <select name="userByUserId.id">
                     <c:forEach items="${userList}" var="user">
                         <option value="${user.id}">${user.name},${user.sex},${user.age}</option>

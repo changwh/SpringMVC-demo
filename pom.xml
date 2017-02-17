@@ -33,18 +33,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-c3p0</artifactId>
-      <version>${hibernate.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.mchange</groupId>
-      <artifactId>c3p0</artifactId>
-      <version>0.9.5.2</version>
-    </dependency>
-
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
       <version>1.2</version>
@@ -58,15 +46,5 @@
   </dependencies>
   <build>
     <finalName>Test</finalName>
-    <!--<plugins>-->
-      <!--<plugin>-->
-        <!--<groupId>org.apache.maven.plugins</groupId>-->
-        <!--<artifactId>maven-compiler-plugin</artifactId>-->
-        <!--<configuration>-->
-          <!--<source>1.8</source>-->
-          <!--<target>1.8</target>-->
-        <!--</configuration>-->
-      <!--</plugin>-->
-    <!--</plugins>-->
   </build>
 </project>
