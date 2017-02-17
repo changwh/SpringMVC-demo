@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: cnc-parent:cnc-netty:4.0.28">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/cnc-parent/cnc-netty/4.0.28/cnc-netty-4.0.28.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/cnc-parent/cnc-netty/4.0.28/cnc-netty-4.0.28-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/cnc-parent/cnc-netty/4.0.28/cnc-netty-4.0.28-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

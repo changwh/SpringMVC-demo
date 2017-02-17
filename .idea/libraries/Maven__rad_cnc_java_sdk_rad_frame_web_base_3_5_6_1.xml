@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: rad:cnc-java-sdk-rad-frame-web-base:3.5.6-1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/rad/cnc-java-sdk-rad-frame-web-base/3.5.6-1/cnc-java-sdk-rad-frame-web-base-3.5.6-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/rad/cnc-java-sdk-rad-frame-web-base/3.5.6-1/cnc-java-sdk-rad-frame-web-base-3.5.6-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/rad/cnc-java-sdk-rad-frame-web-base/3.5.6-1/cnc-java-sdk-rad-frame-web-base-3.5.6-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
