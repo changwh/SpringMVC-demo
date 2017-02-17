@@ -13,24 +13,27 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <h1>添加用户</h1>
-    <hr/>
-    <form:form action="/admin/users/addP" method="post" commandName="user" role="form">
-        <div>
-            <label>Name</label>
-            <input type="text" name="name" placeholder="Enter name:"/>
-        </div>
-        <div>
-            <label>Sex</label>
-            <input type="text" name="sex" placeholder="Enter sex:"/>
-        </div>
-        <div>
-            <label>Age</label>
-            <input type="text" name="age" placeholder="Enter age:"/>
-        </div>
-        <div>
-            <button type="submit">提交</button>
-        </div>
-    </form:form>
+    <div>
+        <h1>添加用户</h1>
+        <hr/>
+        <form:form action="/admin/users/addP" method="post" commandName="user" role="form">
+            <div>
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Enter name:"/>
+            </div>
+            <div>
+                <label>Sex</label>
+                <input type="text" name="sex" placeholder="Enter sex:"/>
+            </div>
+            <div>
+                <label>Age</label>
+                <input type="text" name="age" placeholder="Enter age:"/>
+            </div>
+            <div>
+                <button type="submit">提交</button>
+            </div>
+        </form:form>
+    </div>
+
 </body>
 </html>

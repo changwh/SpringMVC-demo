@@ -13,29 +13,32 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <h1>更新用户</h1>
-    <hr/>
-    <form:form action="/admin/users/updateP" method="post" commandName="userP" role="form">
-        <div>
+    <div>
+        <h1>更新用户</h1>
+        <hr/>
+        <form:form action="/admin/users/updateP" method="post" commandName="userP" role="form">
             <div>
-                <label>Name</label>
-                <input type="text" name="name" placeholder="Enter name:" value="${user.name}"/>
+                <div>
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Enter name:" value="${user.name}"/>
+                </div>
+                <div>
+                    <label>Sex</label>
+                    <input type="text" name="sex" placeholder="Enter sex:" value="${user.sex}"/>
+                </div>
+                <div>
+                    <label>Age</label>
+                    <input type="text" name="age" placeholder="Enter age:" value="${user.age}"/>
+                </div>
+                <div>
+                    <input type="hidden" name="id" value="${user.id}"/>
+                </div>
+                <div>
+                    <button type="submit">提交</button>
+                </div>
             </div>
-            <div>
-                <label>Sex</label>
-                <input type="text" name="sex" placeholder="Enter sex:" value="${user.sex}"/>
-            </div>
-            <div>
-                <label>Age</label>
-                <input type="text" name="age" placeholder="Enter age:" value="${user.age}"/>
-            </div>
-            <div>
-                <input type="hidden" name="id" value="${user.id}"/>
-            </div>
-            <div>
-                <button type="submit">提交</button>
-            </div>
-        </div>
-    </form:form>
+        </form:form>
+    </div>
+
 </body>
 </html>

@@ -12,25 +12,28 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <h1>用户详情</h1>
-    <hr/>
-    <table>
-        <tr>
-            <th>ID</th>
-            <td>${user.id}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>${user.name}</td>
-        </tr>
-        <tr>
-            <th>Sex</th>
-            <td>${user.sex}</td>
-        </tr>
-        <tr>
-            <th>Age</th>
-            <td>${user.age}</td>
-        </tr>
-    </table>
+    <div>
+        <h1>用户详情</h1>
+        <hr/>
+        <table>
+            <tr>
+                <th>ID</th>
+                <td>${user.id}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>${user.name}</td>
+            </tr>
+            <tr>
+                <th>Sex</th>
+                <td>${user.sex}</td>
+            </tr>
+            <tr>
+                <th>Age</th>
+                <td>${user.age}</td>
+            </tr>
+        </table>
+    </div>
+
 </body>
 </html>
