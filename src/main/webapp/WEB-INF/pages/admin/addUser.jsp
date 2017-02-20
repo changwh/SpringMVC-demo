@@ -13,7 +13,7 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <div>
+    <div class="content">
         <h1>添加用户</h1>
         <hr/>
         <form:form action="/admin/users/addP" method="post" commandName="user" role="form">

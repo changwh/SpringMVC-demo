@@ -14,7 +14,7 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <div>
+    <div class="content">
         <h1>添加信息</h1>
         <hr/>
         <form:form action="/admin/info/addP" method="post" commandName="info" role="form">
