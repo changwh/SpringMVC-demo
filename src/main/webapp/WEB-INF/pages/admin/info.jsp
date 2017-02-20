@@ -21,7 +21,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $(".addB").click(function(){
-            addUser=$.ajax({
+            addInfo=$.ajax({
                 url:"/admin/info/add",
                 async:false,
                 global:false,
@@ -31,7 +31,7 @@
                 }),
                 dataType:"jsp"
             });
-            $(".addP").html(addUser.responseText);
+            $(".panel").html(addInfo.responseText);
         });
     });
 </script>
@@ -41,7 +41,7 @@
         <%--<hr/>--%>
         <div class="container">
             <h1>所有信息<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
-            <div class="addP">
+            <div class="panel">
                 <%--Info表为空--%>
                 <div>
                     <c:if test="${empty infoList}">
@@ -73,9 +73,54 @@
                                         <td>${info.email}</td>
                                         <td>${info.mobile}</td>
                                         <td>
-                                            <a href="/admin/info/show/${user.id}"><button class="showB button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button></a>
-                                            <a href="/admin/info/update/${user.id}"><button class="updateB button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button></a>
-                                            <a href="/admin/info/delete/${user.id}"><button class="deleteB button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button></a>
+                                            <button class="showB${info.id} button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
+                                            <script>
+                                                $(".showB${info.id}").click(function () {
+                                                    showInfo=$.ajax({
+                                                        url:"/admin/info/show/${info.id}",
+                                                        async:false,
+                                                        global:false,
+                                                        type:"GET",
+                                                        data:({
+                                                            id:this.getAttribute("content")
+                                                        }),
+                                                        dataType:"jsp"
+                                                    });
+                                                    $(".panel").html(showInfo.responseText);
+                                                });
+                                            </script>
+                                            <button class="updateB${info.id} button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
+                                            <script>
+                                                $(".updateB${info.id}").click(function () {
+                                                    updateInfo=$.ajax({
+                                                        url:"/admin/info/update/${info.id}",
+                                                        async:false,
+                                                        global:false,
+                                                        type:"GET",
+                                                        data:({
+                                                            id:this.getAttribute("content")
+                                                        }),
+                                                        dataType:"jsp"
+                                                    });
+                                                    $(".panel").html(updateInfo.responseText);
+                                                });
+                                            </script>
+                                            <a href="/admin/info/delete/${info.id}"><button class="deleteB button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button></a>
+                                            <script>
+                                                $(".deleteB${info.id}").click(function () {
+                                                    deleteInfo=$.ajax({
+                                                        url:"/admin/info/delete/${info.id}",
+                                                        async:false,
+                                                        global:false,
+                                                        type:"GET",
+                                                        data:({
+                                                            id:this.getAttribute("content")
+                                                        }),
+                                                        dataType:"jsp"
+                                                    });
+                                                    $(".panel").html(deleteInfo.responseText);
+                                                });
+                                            </script>
                                         </td>
                                     </tr>
                                 </tbody>
