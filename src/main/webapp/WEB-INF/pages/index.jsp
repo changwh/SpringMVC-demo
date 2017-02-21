@@ -13,6 +13,11 @@
         <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
         <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
         <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+        <style type="text/css">
+            body {
+                background-color: #fff;
+            }
+        </style>
     </head>
     <body>
         <div class="header">
@@ -22,8 +27,8 @@
         </div>
         <hr style="margin-top: 10px;margin-bottom: 10px"/>
         <h3 style="text-align: center">
-            <button id="label1" class="button button-primary"><i class="icon-white icon-user"></i>查看用户</button>
-            <button id="label2" class="button button-primary"><i class="icon-white icon-info-sign"></i>查看信息</button>
+            <button id="label1" class="button button-primary"><i class="icon-white icon-user"></i>用户管理</button>
+            <button id="label2" class="button button-primary"><i class="icon-white icon-info-sign"></i>信息管理</button>
         </h3>
         <div id="tab"></div>
         <script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
@@ -40,7 +45,7 @@
                         data:({
                             id:this.getAttribute('content')
                         }),
-                        dataType:"jsp"
+                        dataType:"html"
                     });
                     $("#tab").html(htmlobj.responseText);
                 });
@@ -53,7 +58,7 @@
                         data:({
                             id:this.getAttribute('content')
                         }),
-                        dataType:"jsp"
+                        dataType:"html"
                     });
                     $("#tab").html(htmlobj.responseText);
                 });

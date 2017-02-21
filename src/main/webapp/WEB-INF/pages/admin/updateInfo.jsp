@@ -15,6 +15,11 @@
         <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
         <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
         <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+        <style type="text/css">
+            body {
+                background-color: #fff;
+            }
+        </style>
     </head>
     <script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
     <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>

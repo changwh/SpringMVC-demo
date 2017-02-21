@@ -14,6 +14,11 @@
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body>
     <div id="content">
@@ -60,7 +65,7 @@
                                                         data:({
                                                             id:this.getAttribute("content")
                                                         }),
-                                                        dataType:"jsp"
+                                                        dataType:"html"
                                                     });
                                                     $(".panel").html(showUser.responseText);
                                                 });
@@ -76,7 +81,7 @@
                                                         data:({
                                                             id:this.getAttribute("content")
                                                         }),
-                                                        dataType:"jsp"
+                                                        dataType:"html"
                                                     });
                                                     $(".panel").html(updateUser.responseText);
                                                 });
@@ -92,7 +97,7 @@
                                                         data:({
                                                             id:this.getAttribute("content")
                                                         }),
-                                                        dataType:"jsp"
+                                                        dataType:"html"
                                                     });
                                                     $(".panel").html(deleteUser.responseText);
                                                 });
