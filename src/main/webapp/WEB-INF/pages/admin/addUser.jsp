@@ -24,7 +24,7 @@
     <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 </head>
 <body>
-    <div class="content">
+    <div id="content">
         <%--<h1>添加用户</h1>--%>
         <%--<hr/>--%>
         <div class="container">

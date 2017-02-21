@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
@@ -25,39 +25,62 @@
 <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <body>
-    <div class="content">
-        <h1>添加信息</h1>
-        <hr/>
-        <form:form action="/admin/info/addP" method="post" commandName="info" role="form">
-            <div>
-                <label>User:</label>
-                <%--选择用户--%>
-                <select name="userByUserId.id">
-                    <c:forEach items="${userList}" var="user">
-                        <option value="${user.id}">${user.name},${user.sex},${user.age}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div>
-                <label>Phone:</label>
-                <input name="phone" placeholder="Enter phone number:"/>
-            </div>
-            <div>
-                <label>Address:</label>
-                <input name="address" placeholder="Enter address:"/>
-            </div>
-            <div>
-                <label>Email：</label>
-                <input name="email" placeholder="Enter email:"/>
-            </div>
-            <div>
-                <label>Mobile：</label>
-                <input name="mobile" placeholder="Enter mobilephone number:"/>
-            </div>
-            <div>
-                <button type="submit">提交</button>
-            </div>
-        </form:form>
+    <div id="content">
+        <%--<h1>添加信息</h1>--%>
+        <%--<hr/>--%>
+        <div class="container">
+            <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/addP" method="post" commandName="info" role="form">
+                <div class="control-group">
+                    <label class="control-label"><s></s>User:</label>
+                        <%--选择用户--%>
+                    <div class="controls bui-form-group-select">
+                        <select class="input-middle" name="userByUserId.id">
+                            <c:forEach items="${userList}" var="user">
+                                <option value="${user.id}">${user.name},${user.sex},${user.age}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><s></s>Phone:</label>
+                    <div class="controls">
+                        <input class="input-middle" name="phone" placeholder="Enter phone number:"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><s></s>Address:</label>
+                    <div class="controls">
+                        <input class="input-large" name="address" placeholder="Enter address:"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><s></s>Email:</label>
+                    <div class="controls">
+                        <input class="input-large" name="email" placeholder="Enter email:"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"><s></s>Mobile:</label>
+                    <div class="controls">
+                        <input class="input-middle" name="mobile" placeholder="Enter mobilephone number:"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-actions span13 offset3">
+                        <button type="submit" class="button button-primary">Submit</button>
+                        <button type="reset" class="button">Reset</button>
+                    </div>
+                </div>
+            </form>
+            <script type="text/javascript">
+                BUI.use('bui/form',function(Form){
+                    new Form.Form({
+                        srcNode : '#J_Form'
+                    }).render();
+                });
+            </script>
+        </div>
+
     </div>
 
 

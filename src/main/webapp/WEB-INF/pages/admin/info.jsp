@@ -41,7 +41,7 @@
     });
 </script>
 <body>
-    <div id="content">
+    <div id="content" class="panel">
         <%--<h1>信息管理</h1>--%>
         <%--<hr/>--%>
         <div class="container">
@@ -89,7 +89,7 @@
                                                         data:({
                                                             id:this.getAttribute("content")
                                                         }),
-                                                        dataType:"jsp"
+                                                        dataType:"html"
                                                     });
                                                     $(".panel").html(showInfo.responseText);
                                                 });
@@ -105,12 +105,12 @@
                                                         data:({
                                                             id:this.getAttribute("content")
                                                         }),
-                                                        dataType:"jsp"
+                                                        dataType:"html"
                                                     });
                                                     $(".panel").html(updateInfo.responseText);
                                                 });
                                             </script>
-                                            <a href="/admin/info/delete/${info.id}"><button class="deleteB button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button></a>
+                                            <button class="deleteB${info.id} button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
                                             <script>
                                                 $(".deleteB${info.id}").click(function () {
                                                     deleteInfo=$.ajax({
@@ -121,7 +121,7 @@
                                                         data:({
                                                             id:this.getAttribute("content")
                                                         }),
-                                                        dataType:"jsp"
+                                                        dataType:"html"
                                                     });
                                                     $(".panel").html(deleteInfo.responseText);
                                                 });

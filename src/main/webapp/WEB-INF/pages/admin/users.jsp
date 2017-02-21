@@ -20,8 +20,28 @@
         }
     </style>
 </head>
+<script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
+<script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
+<script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".addB").click(function(){
+            addUser=$.ajax({
+                url:"/admin/users/add",
+                async:false,
+                global:false,
+                type:"GET",
+                data:({
+                    id:this.getAttribute('content')
+                }),
+                dataType:"jsp"
+            });
+            $(".panel").html(addUser.responseText);
+        });
+    });
+</script>
 <body>
-    <div id="content">
+    <div id="content" class="panel">
             <%--<h1>用户管理</h1>--%>
             <%--<hr/>--%>
         <div class="container">
@@ -113,24 +133,4 @@
         </div>
     </div>
 </body>
-<script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
-<script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
-<script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".addB").click(function(){
-            addUser=$.ajax({
-                url:"/admin/users/add",
-                async:false,
-                global:false,
-                type:"GET",
-                data:({
-                    id:this.getAttribute('content')
-                }),
-                dataType:"jsp"
-            });
-            $(".panel").html(addUser.responseText);
-        });
-    });
-</script>
 </html>

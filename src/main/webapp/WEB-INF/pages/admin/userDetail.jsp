@@ -23,27 +23,30 @@
 <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <body>
-    <div class="content">
-        <h1>用户详情</h1>
-        <hr/>
-        <table>
-            <tr>
-                <th>ID</th>
-                <td>${user.id}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>${user.name}</td>
-            </tr>
-            <tr>
-                <th>Sex</th>
-                <td>${user.sex}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>${user.age}</td>
-            </tr>
-        </table>
+    <div id="content">
+        <%--<h1>用户详情</h1>--%>
+        <%--<hr/>--%>
+        <div class="container">
+            <table cellspacing="0" class="table table-head-bordered">
+                <tr>
+                    <th>ID</th>
+                    <td>${user.id}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>${user.name}</td>
+                </tr>
+                <tr>
+                    <th>Sex</th>
+                    <td>${user.sex}</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>${user.age}</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 
 </body>

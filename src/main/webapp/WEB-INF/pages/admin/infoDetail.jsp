@@ -23,43 +23,46 @@
 <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <body>
-    <div>
-        <h1>信息详情</h1>
-        <hr/>
-        <table>
-            <tr>
-                <th>ID</th>
-                <td>${info.id}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>${info.userByUserId.name}</td>
-            </tr>
-            <tr>
-                <th>Sex</th>
-                <td>${info.userByUserId.sex}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>${info.userByUserId.age}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>${info.phone}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>${info.address}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>${info.email}</td>
-            </tr>
-            <tr>
-                <th>Mobile</th>
-                <td>${info.mobile}</td>
-            </tr>
-        </table>
+    <div id="content">
+        <div class="container">
+            <%--<h1>信息详情</h1>--%>
+            <%--<hr/>--%>
+            <table cellspacing="0" class="table table-head-bordered">
+                <tr>
+                    <th>ID</th>
+                    <td>${info.id}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>${info.userByUserId.name}</td>
+                </tr>
+                <tr>
+                    <th>Sex</th>
+                    <td>${info.userByUserId.sex}</td>
+                </tr>
+                <tr>
+                    <th>Age</th>
+                    <td>${info.userByUserId.age}</td>
+                </tr>
+                <tr>
+                    <th>Phone</th>
+                    <td>${info.phone}</td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td>${info.address}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>${info.email}</td>
+                </tr>
+                <tr>
+                    <th>Mobile</th>
+                    <td>${info.mobile}</td>
+                </tr>
+            </table>
+        </div>
+
     </div>
 </body>
 </html>

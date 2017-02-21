@@ -25,45 +25,60 @@
     <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
     <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
     <body>
-        <div>
-            <h1>修改信息</h1>
-            <hr/>
-            <form:form action="/admin/info/updateP" method="post" commandName="infoP" role="form">
-                <div>
-                    <label>Name</label>
-                    <%--选择用户--%>
-                    <select name="userByUserId.Id">
-                        <c:forEach items="${userList}" var="user">
-                            <c:if test="${user.id==info.userByUserId.id}">
-                                <option value="${user.id}" selected="selected">${user.name},${user.sex},${user.age}</option>
-                            </c:if>
-                            <c:if test="${user.id!=info.userByUserId.id}">
-                                <option value="${user.id}">${user.name},${user.sex},${user.age}</option>
-                            </c:if>
-                        </c:forEach>
-                    </select>
-                </div>
-                <div>
-                    <label>Phone:</label>
-                    <input name="phone" value="${info.phone}"/>
-                </div>
-                <div>
-                    <label>Address:</label>
-                    <input name="address" value="${info.address}"/>
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input name="email" value="${info.email}"/>
-                </div>
-                <div>
-                    <label>Mobile:</label>
-                    <input name="mobile" value="${info.mobile}"/>
-                </div>
-                <input type="hidden" name="id" value="${info.id}"/>
-                <div>
-                    <button type="submit">提交</button>
-                </div>
-            </form:form>
+        <div id="content">
+            <%--<h1>修改信息</h1>--%>
+            <%--<hr/>--%>
+            <div class="container">
+                <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/updateP" method="post" commandName="infoP" role="form">
+                    <div class="control-group">
+                        <label class="control-label">Name</label>
+                        <%--选择用户--%>
+                        <div class="controls bui-form-group-select">
+                            <select class="input-middle" name="userByUserId.Id">
+                                <c:forEach items="${userList}" var="user">
+                                    <c:if test="${user.id==info.userByUserId.id}">
+                                        <option value="${user.id}" selected="selected">${user.name},${user.sex},${user.age}</option>
+                                    </c:if>
+                                    <c:if test="${user.id!=info.userByUserId.id}">
+                                        <option value="${user.id}">${user.name},${user.sex},${user.age}</option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Phone:</label>
+                        <div class="controls">
+                            <input class="input-middle" name="phone" value="${info.phone}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Address:</label>
+                        <div class="controls">
+                            <input class="input-large" name="address" value="${info.address}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Email:</label>
+                        <div class="controls">
+                        <input class="input-large" name="email" value="${info.email}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">Mobile:</label>
+                        <div class="controls">
+                            <input class="input-middle" name="mobile" value="${info.mobile}"/>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="${info.id}"/>
+                    <div class="row">
+                        <div class="form-actions span13 offset3">
+                            <button type="submit" class="button button-primary">Submit</button>
+                            <button type="reset" class="button">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </body>
 </html>
