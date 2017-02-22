@@ -87,6 +87,11 @@
                                         <td>${user.age}</td>
                                         <td>
                                             <button id="showB${user.id}" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
+
+                                            <%----%>
+                                                <%--尝试使用单一弹窗，通过点击按键向其注入数据。这里产生了过多的弹窗，会占用不必要的资源，之后进行修改。--%>
+                                            <%----%>
+
                                             <%--<script type="text/javascript">--%>
                                                 <%--BUI.use('bui/overlay',function(Overlay) {--%>
                                                     <%--$("#${user.id}").click(function () {--%>
