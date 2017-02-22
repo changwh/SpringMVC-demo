@@ -41,6 +41,12 @@
     });
 </script>
 <body>
+    <div class="header">
+        <div class="dl-title" style="background-color: #205081;">
+            <h1><a href="/" style="text-decoration: none;color: white">Demo首页</a></h1>
+        </div>
+    </div>
+    <hr style="margin-top: 10px;margin-bottom: 10px"/>
     <div id="content" class="panel">
             <%--<h1>用户管理</h1>--%>
             <%--<hr/>--%>
