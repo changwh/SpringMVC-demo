@@ -23,23 +23,23 @@
 <script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
 <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".addB").click(function(){
-            addUser=$.ajax({
-                url:"/admin/users/add",
-                async:false,
-                global:false,
-                type:"GET",
-                data:({
-                    id:this.getAttribute('content')
-                }),
-                dataType:"jsp"
-            });
-            $(".panel").html(addUser.responseText);
-        });
-    });
-</script>
+<%--<script type="text/javascript">--%>
+    <%--$(document).ready(function(){--%>
+        <%--$(".addB").click(function(){--%>
+            <%--addUser=$.ajax({--%>
+                <%--url:"/admin/users/add",--%>
+                <%--async:false,--%>
+                <%--global:false,--%>
+                <%--type:"GET",--%>
+                <%--data:({--%>
+                    <%--id:this.getAttribute('content')--%>
+                <%--}),--%>
+                <%--dataType:"jsp"--%>
+            <%--});--%>
+            <%--$(".panel").html(addUser.responseText);--%>
+        <%--});--%>
+    <%--});--%>
+<%--</script>--%>
 <body>
     <div class="header">
         <div class="dl-title" style="background-color: #205081;">
@@ -47,6 +47,7 @@
         </div>
     </div>
     <hr style="margin-top: 10px;margin-bottom: 10px"/>
+
     <div id="content" class="panel">
             <%--<h1>用户管理</h1>--%>
             <%--<hr/>--%>
@@ -81,53 +82,53 @@
                                         <td>${user.age}</td>
                                         <td>
                                             <button class="showB${user.id} button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
-                                            <script>
-                                                $(".showB${user.id}").click(function () {
-                                                    showUser=$.ajax({
-                                                        url:"/admin/users/show/${user.id}",
-                                                        async:false,
-                                                        global:false,
-                                                        type:"GET",
-                                                        data:({
-                                                            id:this.getAttribute("content")
-                                                        }),
-                                                        dataType:"html"
-                                                    });
-                                                    $(".panel").html(showUser.responseText);
-                                                });
-                                            </script>
+                                            <%--<script>--%>
+                                                <%--$(".showB${user.id}").click(function () {--%>
+                                                    <%--showUser=$.ajax({--%>
+                                                        <%--url:"/admin/users/show/${user.id}",--%>
+                                                        <%--async:false,--%>
+                                                        <%--global:false,--%>
+                                                        <%--type:"GET",--%>
+                                                        <%--data:({--%>
+                                                            <%--id:this.getAttribute("content")--%>
+                                                        <%--}),--%>
+                                                        <%--dataType:"html"--%>
+                                                    <%--});--%>
+                                                    <%--$(".panel").html(showUser.responseText);--%>
+                                                <%--});--%>
+                                            <%--</script>--%>
                                             <button class="updateB${user.id} button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
-                                            <script>
-                                                $(".updateB${user.id}").click(function () {
-                                                    updateUser=$.ajax({
-                                                        url:"/admin/users/update/${user.id}",
-                                                        async:false,
-                                                        global:false,
-                                                        type:"GET",
-                                                        data:({
-                                                            id:this.getAttribute("content")
-                                                        }),
-                                                        dataType:"html"
-                                                    });
-                                                    $(".panel").html(updateUser.responseText);
-                                                });
-                                            </script>
+                                            <%--<script>--%>
+                                                <%--$(".updateB${user.id}").click(function () {--%>
+                                                    <%--updateUser=$.ajax({--%>
+                                                        <%--url:"/admin/users/update/${user.id}",--%>
+                                                        <%--async:false,--%>
+                                                        <%--global:false,--%>
+                                                        <%--type:"GET",--%>
+                                                        <%--data:({--%>
+                                                            <%--id:this.getAttribute("content")--%>
+                                                        <%--}),--%>
+                                                        <%--dataType:"html"--%>
+                                                    <%--});--%>
+                                                    <%--$(".panel").html(updateUser.responseText);--%>
+                                                <%--});--%>
+                                            <%--</script>--%>
                                             <button class="deleteB${user.id} button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
-                                            <script>
-                                                $(".deleteB${user.id}").click(function () {
-                                                    deleteUser=$.ajax({
-                                                        url:"/admin/users/delete/${user.id}",
-                                                        async:false,
-                                                        global:false,
-                                                        type:"GET",
-                                                        data:({
-                                                            id:this.getAttribute("content")
-                                                        }),
-                                                        dataType:"html"
-                                                    });
-                                                    $(".panel").html(deleteUser.responseText);
-                                                });
-                                            </script>
+                                            <%--<script>--%>
+                                                <%--$(".deleteB${user.id}").click(function () {--%>
+                                                    <%--deleteUser=$.ajax({--%>
+                                                        <%--url:"/admin/users/delete/${user.id}",--%>
+                                                        <%--async:false,--%>
+                                                        <%--global:false,--%>
+                                                        <%--type:"GET",--%>
+                                                        <%--data:({--%>
+                                                            <%--id:this.getAttribute("content")--%>
+                                                        <%--}),--%>
+                                                        <%--dataType:"html"--%>
+                                                    <%--});--%>
+                                                    <%--$(".panel").html(deleteUser.responseText);--%>
+                                                <%--});--%>
+                                            <%--</script>--%>
                                         </td>
                                     </tr>
                                 </tbody>
