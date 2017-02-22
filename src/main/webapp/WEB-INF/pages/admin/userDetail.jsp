@@ -26,8 +26,8 @@
     <div id="content">
         <%--<h1>用户详情</h1>--%>
         <%--<hr/>--%>
-        <div class="container">
-            <table cellspacing="0" class="table table-head-bordered">
+        <div class="container" style="width: auto">
+            <table cellspacing="0" class="table table-bordered">
                 <tr>
                     <th>ID</th>
                     <td>${user.id}</td>
