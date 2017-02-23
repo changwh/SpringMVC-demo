@@ -123,7 +123,6 @@
                                             </script>
                                             <button id="deleteB${user.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
                                             <script>
-                                                $("#deleteB${user.id}").click(function () {
                                                     BUI.use('bui/overlay',function(Overlay){
                                                         var dialog1 = new Overlay.Dialog({
                                                             title:'警告',
@@ -143,12 +142,10 @@
                                                                 location.reload();
                                                             }
                                                         });
-                                                        dialog1.show();
                                                         $('#deleteB${user.id}').on('click',function () {
                                                             dialog1.show();
                                                         });
                                                     });
-                                                });
                                             </script>
                                         </td>
                                     </tr>
