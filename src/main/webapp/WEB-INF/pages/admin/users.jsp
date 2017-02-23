@@ -112,46 +112,46 @@
                                                 })
                                             </script>
                                             <button id="updateB${user.id}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
-                                            <%--<script>--%>
-                                                <%--BUI.use('bui/overlay',function(Overlay){--%>
-                                                    <%--var dialog1 = new Overlay.Dialog({--%>
-                                                        <%--title:'用户详情',--%>
-                                                        <%--width:500,--%>
-                                                        <%--height:250,--%>
-<%--//                                                            closeAction:'destroy',--%>
-                                                        <%--mask:true,--%>
-                                                        <%--buttons:[],--%>
-                                                        <%--&lt;%&ndash;loader:{&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;url:'/admin/users/update/${user.id}',&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;autoLoad:false,&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;lazyLoad:{&ndash;%&gt;--%>
-                                                                <%--&lt;%&ndash;event:'show',&ndash;%&gt;--%>
-                                                                <%--&lt;%&ndash;repeat:false&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;}&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;}&ndash;%&gt;--%>
+                                            <script>
+                                                BUI.use('bui/overlay',function(Overlay){
+                                                    var dialog1 = new Overlay.Dialog({
+                                                        title:'用户详情',
+                                                        width:500,
+                                                        height:250,
+//                                                            closeAction:'destroy',
+                                                        mask:true,
+                                                        buttons:[],
+                                                        loader:{
+                                                            url:'/admin/users/update/${user.id}',
+                                                            autoLoad:false,
+                                                            lazyLoad:{
+                                                                event:'show',
+                                                                repeat:false
+                                                            }
+                                                        }
+                                                    });
+                                                    $("#updateB${user.id}").click(function () {
+                                                        dialog1.show();
+                                                    });
+                                                })
+                                                <%--$("#updateB${user.id}").click(function () {--%>
+                                                    <%--updateInfo=$.ajax({--%>
+                                                        <%--url:"/admin/users/update/${user.id}",--%>
+                                                        <%--async:false,--%>
+                                                        <%--global:false,--%>
+                                                        <%--type:"GET",--%>
+                                                        <%--dataType:"html"--%>
                                                     <%--});--%>
-                                                    <%--$("#updateB${user.id}").click(function () {--%>
-                                                        <%--dialog1.show();--%>
-                                                    <%--});--%>
-                                                <%--})--%>
-                                                <%--&lt;%&ndash;$("#updateB${user.id}").click(function () {&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;updateInfo=$.ajax({&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;url:"/admin/users/update/${user.id}",&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;async:false,&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;global:false,&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;type:"GET",&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;dataType:"html"&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;});&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;$(".display").html(updateInfo.responseText);&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;});&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;$("#updateB${user.id}").click(function () {&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;$(".display").hide();&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;$(".display").removeClass("display");&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;$("#updateUser").addClass("display");&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;$("#updateUser").show();&ndash;%&gt;--%>
+                                                    <%--$(".display").html(updateInfo.responseText);--%>
+                                                <%--});--%>
+                                                <%--$("#updateB${user.id}").click(function () {--%>
+                                                    <%--$(".display").hide();--%>
+                                                    <%--$(".display").removeClass("display");--%>
+                                                    <%--$("#updateUser").addClass("display");--%>
+                                                    <%--$("#updateUser").show();--%>
 
-                                                <%--&lt;%&ndash;});&ndash;%&gt;--%>
-                                            <%--</script>--%>
+                                                <%--});--%>
+                                            </script>
                                             <button id="deleteB${user.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
                                             <script>
                                                     BUI.use('bui/overlay',function(Overlay){
