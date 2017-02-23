@@ -30,6 +30,7 @@
             $(".display").removeClass("display");
             $("#addUser").addClass("display");
             $("#addUser").show();
+
 //            addUser=$.ajax({
 //                url:"/admin/users/add",
 //                async:false,
@@ -41,7 +42,21 @@
 //                dataType:"jsp"
 //            });
 //            $(".panel").html(addUser.responseText);
-
+        });
+        window.dialog;
+        BUI.use('bui/overlay',function(Overlay){
+            dialog = new Overlay.Dialog({
+                title:'用户信息',
+                width:500,
+                height:250,
+//                                                        closeAction:'destroy',
+                mask:true
+                <%--loader:{--%>
+                <%--url:"/admin/users/show/${user.id}",--%>
+                <%--autoLoad:false,--%>
+                <%--lazyLoad:false--%>
+                <%--}--%>
+            });
         });
     });
 </script>
@@ -87,11 +102,6 @@
                                         <td>${user.age}</td>
                                         <td>
                                             <button id="showB${user.id}" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
-
-                                            <%----%>
-                                                <%--尝试使用单一弹窗，通过点击按键向其注入数据。这里产生了过多的弹窗，会占用不必要的资源，之后进行修改。--%>
-                                            <%----%>
-
                                             <%--<script type="text/javascript">--%>
                                                 <%--BUI.use('bui/overlay',function(Overlay) {--%>
                                                     <%--$("#${user.id}").click(function () {--%>
@@ -124,21 +134,22 @@
                                             <%--</script>--%>
                                             <script type="text/javascript">
                                                 BUI.use('bui/overlay',function(Overlay){
-                                                    var dialog = new Overlay.Dialog({
-                                                        title:'用户信息',
-                                                        width:500,
-                                                        height:250,
-//                                                        closeAction:'destroy',
-                                                        mask:true
-                                                        <%--loader:{--%>
-                                                            <%--url:"/admin/users/show/${user.id}",--%>
-                                                            <%--autoLoad:false,--%>
-                                                            <%--lazyLoad:false--%>
-                                                        <%--}--%>
-                                                    });
+                                                    <%--var dialog = new Overlay.Dialog({--%>
+                                                        <%--title:'用户信息',--%>
+                                                        <%--width:500,--%>
+                                                        <%--height:250,--%>
+<%--//                                                        closeAction:'destroy',--%>
+                                                        <%--mask:true--%>
+                                                        <%--&lt;%&ndash;loader:{&ndash;%&gt;--%>
+                                                            <%--&lt;%&ndash;url:"/admin/users/show/${user.id}",&ndash;%&gt;--%>
+                                                            <%--&lt;%&ndash;autoLoad:false,&ndash;%&gt;--%>
+                                                            <%--&lt;%&ndash;lazyLoad:false&ndash;%&gt;--%>
+                                                        <%--&lt;%&ndash;}&ndash;%&gt;--%>
+                                                    <%--});--%>
                                                     $('#showB${user.id}').on('click',function () {
-                                                        dialog.show();
+//                                                        dialog.show();
 //                                                        dialog.get("loader").load();
+                                                        dialog.show();
                                                         showUser=$.ajax({
                                                         url:"/admin/users/show/${user.id}",
                                                         async:false,
@@ -170,8 +181,8 @@
                                                 <%--});--%>
                                             <%--</script>--%>
                                             <button class="deleteB${user.id} button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
-                                            <%--<script>--%>
-                                                <%--$(".deleteB${user.id}").click(function () {--%>
+                                            <script>
+                                                $(".deleteB${user.id}").click(function () {
                                                     <%--deleteUser=$.ajax({--%>
                                                         <%--url:"/admin/users/delete/${user.id}",--%>
                                                         <%--async:false,--%>
@@ -183,8 +194,9 @@
                                                         <%--dataType:"html"--%>
                                                     <%--});--%>
                                                     <%--$(".panel").html(deleteUser.responseText);--%>
-                                                <%--});--%>
-                                            <%--</script>--%>
+
+                                                });
+                                            </script>
                                         </td>
                                     </tr>
                                 </tbody>
