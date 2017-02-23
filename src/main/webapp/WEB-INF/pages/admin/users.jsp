@@ -30,34 +30,17 @@
             $(".display").removeClass("display");
             $("#addUser").addClass("display");
             $("#addUser").show();
-
-//            addUser=$.ajax({
-//                url:"/admin/users/add",
-//                async:false,
-//                global:false,
-//                type:"GET",
-//                data:({
-//                    id:this.getAttribute('content')
-//                }),
-//                dataType:"jsp"
+        });
+//        window.dialog;
+//        BUI.use('bui/overlay',function(Overlay){
+//            dialog = new Overlay.Dialog({
+//                title:'用户信息',
+//                width:500,
+//                height:250,
+//                closeAction:'destroy',
+//                mask:true
 //            });
-//            $(".panel").html(addUser.responseText);
-        });
-        window.dialog;
-        BUI.use('bui/overlay',function(Overlay){
-            dialog = new Overlay.Dialog({
-                title:'用户信息',
-                width:500,
-                height:250,
-//                                                        closeAction:'destroy',
-                mask:true
-                <%--loader:{--%>
-                <%--url:"/admin/users/show/${user.id}",--%>
-                <%--autoLoad:false,--%>
-                <%--lazyLoad:false--%>
-                <%--}--%>
-            });
-        });
+//        });
     });
 </script>
 <body>
@@ -69,8 +52,6 @@
     <hr style="margin-top: 10px;margin-bottom: 10px"/>
 
     <div id="users" class="display">
-            <%--<h1>用户管理</h1>--%>
-            <%--<hr/>--%>
         <div class="container">
             <h1>所有用户<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
             <div class="panel">
@@ -107,64 +88,28 @@
                                                 <%--数据交换方式最好改为json，不应该加载整个页面。之后进行修改。--%>
                                                 <%----%>
 
-                                                <%--<script type="text/javascript">--%>
-                                                <%--BUI.use('bui/overlay',function(Overlay) {--%>
-                                                    <%--$("#${user.id}").click(function () {--%>
-                                                        <%--var dialog = new Overlay.Dialog({--%>
-                                                            <%--title: '用户详情',--%>
-                                                            <%--width: 500,--%>
-                                                            <%--height: 300,--%>
-                                                            <%--mask:true,--%>
-                                                            <%--closeAction:'hide',--%>
-                                                            <%--loader:{--%>
-                                                                <%--url:"/admin/users/show/${user.id}",--%>
-                                                                <%--autoLoad:true--%>
-                                                            <%--}--%>
-                                                        <%--});--%>
-                                                        <%--dialog.show();--%>
-                                                        <%--dialog.get("loader").load();--%>
-                                                    <%--});--%>
-                                                <%--&lt;%&ndash;showUser=$.ajax({&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;url:"/admin/users/show/${user.id}",&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;async:false,&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;global:false,&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;type:"GET",&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;data:({&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;id:this.getAttribute("content")&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;}),&ndash;%&gt;--%>
-                                                    <%--&lt;%&ndash;dataType:"html"&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;});&ndash;%&gt;--%>
-                                                <%--&lt;%&ndash;$(".panel").html(showUser.responseText);&ndash;%&gt;--%>
-                                                <%--});--%>
-                                            <%--</script>--%>
+
                                             <script type="text/javascript">
                                                 BUI.use('bui/overlay',function(Overlay){
-                                                    <%--var dialog = new Overlay.Dialog({--%>
-                                                        <%--title:'用户信息',--%>
-                                                        <%--width:500,--%>
-                                                        <%--height:250,--%>
-<%--//                                                        closeAction:'destroy',--%>
-                                                        <%--mask:true--%>
-                                                        <%--&lt;%&ndash;loader:{&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;url:"/admin/users/show/${user.id}",&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;autoLoad:false,&ndash;%&gt;--%>
-                                                            <%--&lt;%&ndash;lazyLoad:false&ndash;%&gt;--%>
-                                                        <%--&lt;%&ndash;}&ndash;%&gt;--%>
-                                                    <%--});--%>
-                                                    var target;
-                                                    $('#showB${user.id}').on('click',function () {
-//                                                        dialog.show();
-//                                                        dialog.get("loader").load();
-                                                        dialog.show();
-                                                        showUser=$.ajax({
-                                                            url:"/admin/users/show/${user.id}",
-                                                            async:false,
-                                                            global:false,
-                                                            type:"GET"
-                                                        });
-                                                        $(".bui-stdmod-body").html(showUser.responseText);
+                                                    var dialog = new Overlay.Dialog({
+                                                        title:'用户详情',
+                                                        width:500,
+                                                        height:250,
+//                                                            closeAction:'destroy',
+                                                        mask:true,
+                                                        loader:{
+                                                            url:'/admin/users/show/${user.id}',
+                                                            autoLoad:false,
+                                                            lazyLoad:{
+                                                                event:'show',
+                                                                repeat:true
+                                                            }
+                                                        }
                                                     });
-                                                });
+                                                    $("#showB${user.id}").click(function () {
+                                                        dialog.show();
+                                                    });
+                                                })
                                             </script>
                                             <button class="updateB${user.id} button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
                                             <script>
@@ -174,17 +119,6 @@
                                                     $("#updateUser").addClass("display");
                                                     $("#updateUser").show();
 
-                                                    <%--updateUser=$.ajax({--%>
-                                                        <%--url:"/admin/users/update/${user.id}",--%>
-                                                        <%--async:false,--%>
-                                                        <%--global:false,--%>
-                                                        <%--type:"GET",--%>
-                                                        <%--data:({--%>
-                                                            <%--id:this.getAttribute("content")--%>
-                                                        <%--}),--%>
-                                                        <%--dataType:"html"--%>
-                                                    <%--});--%>
-                                                    <%--$(".panel").html(updateUser.responseText);--%>
                                                 });
                                             </script>
                                             <button id="deleteB${user.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
@@ -195,8 +129,9 @@
                                                             title:'警告',
                                                             width:500,
                                                             height:250,
-                                                            closeAction:'destroy',
-                                                            bodyContent:'<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户${user.name}?</div>',
+//                                                            closeAction:'destroy',
+                                                            mask:true,
+                                                            bodyContent:'<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户：${user.name}？</div>',
                                                             success:function () {
                                                                 $.ajax({
                                                                     url:"/admin/users/delete/${user.id}",
