@@ -84,10 +84,13 @@
                                         <td>
                                             <button id="showB${user.id}" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
 
-                                                <%----%>
-                                                <%--数据交换方式最好改为json，不应该加载整个页面。之后进行修改。--%>
-                                                <%----%>
+                                            <%----%>
+                                            <%--数据交换方式最好改为json，不应该加载整个页面。之后进行修改。--%>
+                                            <%----%>
 
+                                            <%----%>
+                                            <%--出现弹窗数大于两个的情况时，不能再打开新的弹窗。考虑将js进行封装，之后通过点击按键传入参数id进行触发，关闭弹窗时：closeAction:'destroy'--%>
+                                            <%----%>
 
                                             <script type="text/javascript">
                                                 BUI.use('bui/overlay',function(Overlay){
