@@ -134,6 +134,7 @@
                                                         dialog1.show();
                                                     });
                                                 })
+
                                                 <%--$("#updateB${user.id}").click(function () {--%>
                                                     <%--updateInfo=$.ajax({--%>
                                                         <%--url:"/admin/users/update/${user.id}",--%>
@@ -144,6 +145,7 @@
                                                     <%--});--%>
                                                     <%--$(".display").html(updateInfo.responseText);--%>
                                                 <%--});--%>
+
                                                 <%--$("#updateB${user.id}").click(function () {--%>
                                                     <%--$(".display").hide();--%>
                                                     <%--$(".display").removeClass("display");--%>
