@@ -33,15 +33,15 @@
                     <td>${user.id}</td>
                 </tr>
                 <tr>
-                    <th>Name</th>
+                    <th>姓名</th>
                     <td>${user.name}</td>
                 </tr>
                 <tr>
-                    <th>Sex</th>
+                    <th>性别</th>
                     <td>${user.sex}</td>
                 </tr>
                 <tr>
-                    <th>Age</th>
+                    <th>年龄</th>
                     <td>${user.age}</td>
                 </tr>
             </table>

@@ -29,15 +29,15 @@
     <%--<h1>更新用户</h1>--%>
     <%--<hr/>--%>
     <div class="container" style="width: auto">
-        <form id="J_Form2" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/updateP" method="post" commandName="userP" role="form">
+        <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/updateP" method="post" commandName="userP" role="form">
             <div class="control-group">
-                <label class="control-label"><s>*</s>Name:</label>
+                <label class="control-label"><s>*</s>姓名：</label>
                 <div class="controls">
                     <input type="text" name="name" placeholder="Enter name:" value="${user.name}" data-rules="{required : true,name}"/>
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label"><s>*</s>Sex:</label>
+                <label class="control-label"><s>*</s>性别：</label>
                 <div class="controls bui-form-group-select">
                     <select class="input-small" name="sex">
                         <c:if test="${user.sex=='男'}">
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label"><s>*</s>Age:</label>
+                <label class="control-label"><s>*</s>年龄：</label>
                 <div class="controls">
                     <input class="input-small" type="text" name="age" placeholder="Enter age:" value="${user.age}" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>
                 </div>
@@ -82,7 +82,7 @@
                     }
                 });
                 new Form.Form({
-                    srcNode : '#J_Form2'
+                    srcNode : '#J_Form'
                 }).render();
             });
         </script>

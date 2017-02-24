@@ -24,10 +24,8 @@
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <body>
     <div id="content">
-        <div class="container">
-            <%--<h1>信息详情</h1>--%>
-            <%--<hr/>--%>
-            <table cellspacing="0" class="table table-head-bordered">
+        <div class="container" style="width: auto">
+            <table cellspacing="0" class="table table-head-bordered" style="table-layout:fixed">
                 <tr>
                     <th>ID</th>
                     <td>${info.id}</td>
@@ -50,7 +48,7 @@
                 </tr>
                 <tr>
                     <th>Address</th>
-                    <td>${info.address}</td>
+                    <td style="word-break : break-all; overflow:hidden; ">${info.address}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
@@ -62,7 +60,6 @@
                 </tr>
             </table>
         </div>
-
     </div>
 </body>
 </html>

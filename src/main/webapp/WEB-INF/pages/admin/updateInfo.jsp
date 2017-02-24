@@ -28,10 +28,10 @@
         <div id="content">
             <%--<h1>修改信息</h1>--%>
             <%--<hr/>--%>
-            <div class="container">
-                <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/updateP" method="post" commandName="infoP" role="form">
+            <div class="container" style="width: auto">
+                <form id="J_Form2" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/updateP" method="post" commandName="infoP" role="form">
                     <div class="control-group">
-                        <label class="control-label">Name</label>
+                        <label class="control-label">用户：</label>
                         <%--选择用户--%>
                         <div class="controls bui-form-group-select">
                             <select class="input-middle" name="userByUserId.Id">
@@ -47,27 +47,27 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Phone:</label>
+                        <label class="control-label">电话：</label>
                         <div class="controls">
-                            <input class="input-middle" name="phone" value="${info.phone}"/>
+                            <input class="input-middle" name="phone" value="${info.phone}" data-rules="{number:true,maxlength:20}"/>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Address:</label>
+                        <label class="control-label">地址：</label>
                         <div class="controls">
-                            <input class="input-large" name="address" value="${info.address}"/>
+                            <input class="input-large" name="address" value="${info.address}" data-rules="{maxlength:255}"/>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Email:</label>
+                        <label class="control-label">邮箱：</label>
                         <div class="controls">
-                        <input class="input-large" name="email" value="${info.email}"/>
+                        <input class="input-large" name="email" value="${info.email}" data-rules="{email:true,maxlength:45}"/>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label">Mobile:</label>
+                        <label class="control-label">手机：</label>
                         <div class="controls">
-                            <input class="input-middle" name="mobile" value="${info.mobile}"/>
+                            <input class="input-middle" name="mobile" value="${info.mobile}" data-rules="{mobile:true}"/>
                         </div>
                     </div>
                     <input type="hidden" name="id" value="${info.id}"/>
@@ -78,6 +78,13 @@
                         </div>
                     </div>
                 </form>
+                <script type="text/javascript">
+                    BUI.use('bui/form',function(Form){
+                        new Form.Form({
+                            srcNode : '#J_Form2'
+                        }).render();
+                    });
+                </script>
             </div>
         </div>
     </body>

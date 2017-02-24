@@ -33,20 +33,10 @@ public class InfoController {
     @RequestMapping(value = "/admin/info",method = RequestMethod.GET)
     public String showInfo(ModelMap modelMap){
         List<InfoEntity> infoList=infoRepository.findAll();
-        modelMap.addAttribute("infoList",infoList);
-        return "admin/info";
-    }
-
-    /**
-     * 访问添加信息页面
-      * @param modelMap
-     * @return
-     */
-    @RequestMapping(value = "/admin/info/add",method = RequestMethod.GET)
-    public String addInfo(ModelMap modelMap){
         List<UserEntity>userList=userRepository.findAll();
         modelMap.addAttribute("userList",userList);
-        return "admin/addInfo";
+        modelMap.addAttribute("infoList",infoList);
+        return "admin/info";
     }
 
     /**

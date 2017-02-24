@@ -34,7 +34,7 @@
                     height:250,
                     mask:true,
                     align:{
-                        points:['cc','cc']
+                        points:['tc','bc']
                     }
                 });
                 effect={
@@ -79,7 +79,6 @@
             $("#addUser").show();
         });
     });
-
 </script>
 <body>
     <div class="header">
@@ -225,18 +224,16 @@
         </div>
     </div>
     <div id="addUser" style="display: none">
-        <%--<h1>添加用户</h1>--%>
-        <%--<hr/>--%>
         <div class="container">
             <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/addP" method="post" commandName="user" >
                 <div class="control-group">
-                    <label class="control-label"><s>*</s>Name:</label>
+                    <label class="control-label"><s>*</s>姓名：</label>
                     <div class="controls">
                         <input class="input-small" type="text" name="name" placeholder="Enter name:" data-rules="{required : true,name}"/>
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label"><s>*</s>Sex:</label>
+                    <label class="control-label"><s>*</s>性别：</label>
                     <div class="controls bui-form-group-select">
                         <select class="input-small" name="sex">
                             <option>男</option>
@@ -245,7 +242,7 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label"><s>*</s>Age:</label>
+                    <label class="control-label"><s>*</s>年龄：</label>
                     <div class="controls">
                         <input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>
                     </div>

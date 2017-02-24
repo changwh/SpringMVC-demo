@@ -40,16 +40,6 @@ public class MainController {
     }
 
     /**
-     * get请求，访问添加用户界面
-     * @return
-     */
-    @RequestMapping(value = "/admin/users/add",method = RequestMethod.GET)
-    public String addUser(){
-        //转到admin/addUser.jsp页面
-        return "admin/addUser";
-    }
-
-    /**
      * post请求，处理添加用户请求，并重定向到用户管理页面
      * @param userEntity
      * @return
