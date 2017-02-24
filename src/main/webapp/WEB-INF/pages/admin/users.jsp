@@ -34,10 +34,13 @@
                     height:250,
 //                    closeAction:'destroy',
                     mask:true,
+                    align:{
+                        points:['cc','cc']
+                    }
                 });
                 effect={
                     effect:slide,
-                    duration:40000
+                    duration:400
                 };
                 dialog.set('effect',effect);
                 dialog.set(BName,BValue);
@@ -53,7 +56,10 @@
                     width:500,
                     height:250,
                     closeAction:'destroy',
-                    mask:true
+                    mask:true,
+                    align:{
+                        points:['tc','bc']
+                    }
                 });
                 effect={
                     effect:'slide',
@@ -272,9 +278,16 @@
                                                                     async:false,
                                                                     global:false,
                                                                     type:"GET",
-                                                                    dataType:"heml"
+                                                                    dataType:"html",
+                                                                    error:function(){
+                                                                        <%--bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">删除用户：${user.name}失败！</div>';--%>
+                                                                        alert("删除用户：${user.name}失败！");
+                                                                    },
+                                                                    success:function () {
+                                                                        location.reload();
+
+                                                                    }
                                                                 });
-                                                                location.reload();
                                                             }
                                                             bDialog.showD('bodyContent',bodyContent,'success',success);
                                                         })
