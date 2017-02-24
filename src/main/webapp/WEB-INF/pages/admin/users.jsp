@@ -172,7 +172,7 @@
                                                             }
                                                         };
                                                         buttons=[{
-                                                            text:'删除',
+                                                            text:'关闭',
                                                             elCls:'button button-primary',
                                                             handler:function(){
                                                                 this.close();
