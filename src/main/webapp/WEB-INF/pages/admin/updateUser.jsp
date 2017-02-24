@@ -28,7 +28,7 @@
 <div id="updateUser">
     <%--<h1>更新用户</h1>--%>
     <%--<hr/>--%>
-    <div class="container">
+    <div class="container" style="width: auto">
         <form id="J_Form2" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/updateP" method="post" commandName="userP" role="form">
             <div class="control-group">
                 <label class="control-label"><s>*</s>Name:</label>

@@ -32,7 +32,6 @@
                     title:'用户详情',
                     width:500,
                     height:250,
-//                    closeAction:'destroy',
                     mask:true,
                     align:{
                         points:['cc','cc']
@@ -48,7 +47,6 @@
             });
             $(".bui-ext-close").hide();
         };
-//        overload
         this.showD=function(BName,BValue,BName2,BValue2){
             BUI.use('bui/overlay',function(Overlay){
                 var dialog = new Overlay.Dialog({
@@ -80,16 +78,6 @@
             $("#addUser").addClass("display");
             $("#addUser").show();
         });
-//        window.dialog;
-//        BUI.use('bui/overlay',function(Overlay){
-//            dialog = new Overlay.Dialog({
-//                title:'用户信息',
-//                width:500,
-//                height:250,
-//                closeAction:'destroy',
-//                mask:true
-//            });
-//        });
     });
 
 </script>
@@ -142,11 +130,13 @@
                                             <%--出现弹窗数大于两个的情况时，不能再打开新的弹窗。考虑将js进行封装，之后通过点击按键传入参数id进行触发，关闭弹窗时：closeAction:'destroy'--%>
                                             <%----%>
 
-                                            <script type="text/javascript">
+                                            <%----%>
+                                            <%--以上方式尝试后发现没有效果，暂时使用强制刷新跳过此BUG--%>
+                                            <%----%>
 
+                                            <script type="text/javascript">
                                                 BUI.use('bui/overlay',function(Overlay){
                                                     $("#showB${user.id}").click(function () {
-//                                                        $("#content").destroy();
                                                         bDialog=new BDialog();
                                                         loader={
                                                             url:'/admin/users/show/${user.id}',
@@ -167,54 +157,11 @@
                                                         bDialog.showD('loader',loader,'buttons',buttons);
                                                     })
                                                 })
-                                                <%--BUI.use('bui/overlay',function(Overlay){--%>
-                                                    <%--var dialog = new Overlay.Dialog({--%>
-                                                        <%--title:'用户详情',--%>
-                                                        <%--width:500,--%>
-                                                        <%--height:250,--%>
-<%--//                                                            closeAction:'destroy',--%>
-                                                        <%--mask:true,--%>
-                                                        <%--loader:{--%>
-                                                            <%--url:'/admin/users/show/${user.id}',--%>
-                                                            <%--autoLoad:false,--%>
-                                                            <%--lazyLoad:{--%>
-                                                                <%--event:'show',--%>
-                                                                <%--repeat:true--%>
-                                                            <%--}--%>
-                                                        <%--}--%>
-                                                    <%--});--%>
-                                                    <%--$("#showB${user.id}").click(function () {--%>
-                                                        <%--dialog.show();--%>
-                                                    <%--});--%>
-                                                <%--})--%>
                                             </script>
                                             <button id="updateB${user.id}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
                                             <script>
-                                                <%--BUI.use('bui/overlay',function(Overlay){--%>
-                                                    <%--var dialog1 = new Overlay.Dialog({--%>
-                                                        <%--title:'用户详情',--%>
-                                                        <%--width:500,--%>
-                                                        <%--height:250,--%>
-<%--//                                                            closeAction:'destroy',--%>
-                                                        <%--mask:true,--%>
-                                                        <%--buttons:[],--%>
-                                                        <%--loader:{--%>
-                                                            <%--url:'/admin/users/update/${user.id}',--%>
-                                                            <%--autoLoad:false,--%>
-                                                            <%--lazyLoad:{--%>
-                                                                <%--event:'show',--%>
-                                                                <%--repeat:false--%>
-                                                            <%--}--%>
-                                                        <%--}--%>
-                                                    <%--});--%>
-                                                    <%--$("#updateB${user.id}").click(function () {--%>
-                                                        <%--dialog1.show();--%>
-                                                    <%--});--%>
-                                                <%--})--%>
-
                                                 BUI.use('bui/overlay',function(Overlay){
                                                     $("#updateB${user.id}").click(function () {
-//                                                        $("#content").destroy();
                                                         bDialog=new BDialog();
                                                         loader={
                                                             url:'/admin/users/update/${user.id}',
@@ -225,7 +172,7 @@
                                                             }
                                                         };
                                                         buttons=[{
-                                                            text:'Close',
+                                                            text:'删除',
                                                             elCls:'button button-primary',
                                                             handler:function(){
                                                                 this.close();
@@ -235,64 +182,37 @@
                                                         bDialog.showD('loader',loader,'buttons',buttons);
                                                     })
                                                 })
-
                                             </script>
                                             <button id="deleteB${user.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
                                             <script>
+                                                <%----%>
+                                                <%--删除失败提示框为系统自带，有时间可更换为BUI--%>
+                                                <%----%>
+                                                BUI.use('bui/overlay',function(Overlay){
+                                                    $("#deleteB${user.id}").click(function () {
+                                                        bDialog=new BDialog();
+                                                        bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户：${user.name}？</div>';
 
-//                                                缺少对删除成功与否的判断
+                                                        success=function(){
+                                                            $.ajax({
+                                                                url:"/admin/users/delete/${user.id}",
+                                                                async:false,
+                                                                global:false,
+                                                                type:"GET",
+                                                                dataType:"html",
+                                                                error:function(){
+                                                                    <%--bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">删除用户：${user.name}失败！</div>';--%>
+                                                                    alert("删除用户：${user.name} 失败！");
+                                                                },
+                                                                success:function () {
+                                                                    location.reload();
 
-                                                    <%--BUI.use('bui/overlay',function(Overlay){--%>
-                                                        <%--var dialog2 = new Overlay.Dialog({--%>
-                                                            <%--title:'警告',--%>
-                                                            <%--width:500,--%>
-                                                            <%--height:250,--%>
-<%--//                                                            closeAction:'destroy',--%>
-                                                            <%--mask:true,--%>
-                                                            <%--bodyContent:'<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户：${user.name}？</div>',--%>
-                                                            <%--success:function () {--%>
-                                                                <%--$.ajax({--%>
-                                                                    <%--url:"/admin/users/delete/${user.id}",--%>
-                                                                    <%--async:false,--%>
-                                                                    <%--global:false,--%>
-                                                                    <%--type:"GET",--%>
-                                                                    <%--dataType:"html"--%>
-                                                                <%--});--%>
-                                                                <%--location.reload();--%>
-                                                            <%--}--%>
-                                                        <%--});--%>
-                                                        <%--$('#deleteB${user.id}').on('click',function () {--%>
-                                                            <%--dialog2.show();--%>
-                                                        <%--});--%>
-                                                    <%--});--%>
-                                                    <%----%>
-                                                    BUI.use('bui/overlay',function(Overlay){
-                                                        $("#deleteB${user.id}").click(function () {
-                                                    //                                                        $("#content").destroy();
-                                                            bDialog=new BDialog();
-                                                            bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户：${user.name}？</div>';
-
-                                                            success=function(){
-                                                                $.ajax({
-                                                                    url:"/admin/users/delete/${user.id}",
-                                                                    async:false,
-                                                                    global:false,
-                                                                    type:"GET",
-                                                                    dataType:"html",
-                                                                    error:function(){
-                                                                        <%--bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">删除用户：${user.name}失败！</div>';--%>
-                                                                        alert("删除用户：${user.name}失败！");
-                                                                    },
-                                                                    success:function () {
-                                                                        location.reload();
-
-                                                                    }
-                                                                });
-                                                            }
-                                                            bDialog.showD('bodyContent',bodyContent,'success',success);
-                                                        })
+                                                                }
+                                                            });
+                                                        }
+                                                        bDialog.showD('bodyContent',bodyContent,'success',success);
                                                     })
-
+                                                })
                                             </script>
                                         </td>
                                     </tr>
