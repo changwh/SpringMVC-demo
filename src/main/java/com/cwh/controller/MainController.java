@@ -113,4 +113,9 @@ public class MainController {
         userRepository.flush();
         return "redirect:/admin/users";
     }
+
+    @RequestMapping(value = "/admin/test",method = RequestMethod.GET)
+    public String test(){
+        return "/admin/test";
+    }
 }

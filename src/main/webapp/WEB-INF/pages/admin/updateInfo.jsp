@@ -49,28 +49,30 @@
                     <div class="control-group">
                         <label class="control-label">电话：</label>
                         <div class="controls">
-                            <input class="input-middle" name="phone" value="${info.phone}" data-rules="{number:true,maxlength:20}"/>
+                            <input class="input-middle" type="text" name="phone" value="${info.phone}" data-rules="{number:true,maxlength:20}"/>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">地址：</label>
                         <div class="controls">
-                            <input class="input-large" name="address" value="${info.address}" data-rules="{maxlength:255}"/>
+                            <input class="input-large" type="text" name="address" value="${info.address}" data-rules="{maxlength:255}"/>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">邮箱：</label>
                         <div class="controls">
-                        <input class="input-large" name="email" value="${info.email}" data-rules="{email:true,maxlength:45}"/>
+                        <input class="input-large" type="text" name="email" value="${info.email}" data-rules="{email:true,maxlength:45}"/>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label">手机：</label>
                         <div class="controls">
-                            <input class="input-middle" name="mobile" value="${info.mobile}" data-rules="{mobile:true}"/>
+                            <input class="input-middle" type="text" name="mobile" value="${info.mobile}" data-rules="{mobile:true}"/>
                         </div>
                     </div>
-                    <input type="hidden" name="id" value="${info.id}"/>
+                    <div>
+                        <input type="hidden" name="id" value="${info.id}"/>
+                    </div>
                     <div class="row">
                         <div class="form-actions span13 offset3">
                             <button type="submit" class="button button-primary">Submit</button>

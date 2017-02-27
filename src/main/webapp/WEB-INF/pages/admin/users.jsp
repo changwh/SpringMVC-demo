@@ -14,6 +14,8 @@
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
+
     <style type="text/css">
         body {
             background-color: #fff;
@@ -101,7 +103,7 @@
                 <%--如果用户列表非空--%>
                 <div>
                     <c:if test="${!empty userList}">
-                        <table cellspacing="0" class="table table-head-bordered">
+                        <table id="test" cellspacing="0" class="table table-head-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -111,6 +113,15 @@
                                     <th>操作</th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>姓名</th>
+                                    <th>性别</th>
+                                    <th>年龄</th>
+                                    <th>操作</th>
+                                </tr>
+                            </tfoot>
                             <c:forEach items="${userList}" var="user">
                                 <tbody>
                                     <tr>
@@ -224,7 +235,7 @@
     </div>
     <div id="addUser" style="display: none">
         <div class="container">
-            <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/addP" method="post" commandName="user" >
+            <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/addP" method="post" commandName="user" role="form" >
                 <div class="control-group">
                     <label class="control-label"><s>*</s>姓名：</label>
                     <div class="controls">
@@ -248,8 +259,8 @@
                 </div>
                 <div class="row">
                     <div class="form-actions span13 offset3">
-                        <button type="submit" class="button button-primary">Submit</button>
-                        <button type="reset" class="button">Reset</button>
+                        <button type="submit" class="button button-primary">提交</button>
+                        <button type="reset" class="button">重置</button>
                     </div>
                 </div>
             </form>
