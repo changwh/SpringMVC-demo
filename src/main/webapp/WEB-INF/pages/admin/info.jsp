@@ -110,7 +110,7 @@
                                     <th>地址</th>
                                     <th>邮箱</th>
                                     <th>手机</th>
-                                    <th>操作</th>
+                                    <th style="width: 100px">操作</th>
                                 </tr>
                             </thead>
                             <c:forEach items="${infoList}" var="info">
@@ -257,7 +257,8 @@
             <script type="text/javascript">
                 BUI.use('bui/form',function(Form){
                     new Form.Form({
-                        srcNode : '#J_Form'
+                        srcNode : '#J_Form',
+                        submitType:'ajax'
                     }).render();
                 });
             </script>

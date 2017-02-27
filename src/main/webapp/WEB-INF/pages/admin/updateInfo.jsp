@@ -81,7 +81,8 @@
                 <script type="text/javascript">
                     BUI.use('bui/form',function(Form){
                         new Form.Form({
-                            srcNode : '#J_Form2'
+                            srcNode : '#J_Form2',
+                            submitType:'ajax'
                         }).render();
                     });
                 </script>

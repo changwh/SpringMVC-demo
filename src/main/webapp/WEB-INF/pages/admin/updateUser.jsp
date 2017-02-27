@@ -82,7 +82,8 @@
                     }
                 });
                 new Form.Form({
-                    srcNode : '#J_Form'
+                    srcNode : '#J_Form',
+                    submitType:'ajax'
                 }).render();
             });
         </script>
