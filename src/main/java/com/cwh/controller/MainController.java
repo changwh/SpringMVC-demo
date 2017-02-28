@@ -1,16 +1,16 @@
 package com.cwh.controller;
 
+import com.cnc.thirdparty.fastjson.JSON;
+import com.cnc.thirdparty.fastjson.serializer.ObjectArraySerializer;
+import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by changwh1 on 2017/2/16.
@@ -33,12 +33,44 @@ public class MainController {
     public String getUsers(ModelMap modelMap){
         //查询user表中所有记录
         List<UserEntity> userList=userRepository.findAll();
+
         //将所有记录传递给要返回的jsp页面，放在userList当中
         modelMap.addAttribute("userList",userList);
+
         //返回pages目录下的admin/users.jsp页面
         return "admin/users";
     }
+    @RequestMapping(value = "/admin/usersP",method = RequestMethod.GET)
+    public @ResponseBody String getUsersP(ModelMap modelMap){
+        //查询user表中所有记录
+        Map<String,Object> map = new HashMap<String,Object>();
+        List<UserEntity> userList=userRepository.findAll();
+        SimplePropertyPreFilter fliter=new SimplePropertyPreFilter(UserEntity.class,"id","name","sex","age");
+        String user= JSON.toJSONString(userList,fliter);
+        List<Object> userL=JSON.parseArray(user,Object.class);
+        long results=userRepository.count();
 
+        map.put("result",true);
+        map.put("rows",userL);
+        map.put("results",results);
+
+
+        String json=JSON.toJSONString(map,true);
+
+
+
+        System.out.println(json);
+        //将所有记录传递给要返回的jsp页面，放在userList当中
+//        modelMap.addAttribute("userList",userList);
+        //返回pages目录下的admin/users.jsp页面
+        return json;
+    }
+
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String test(ModelMap modelMap){
+
+        return "test";
+    }
     /**
      * post请求，处理添加用户请求，并重定向到用户管理页面
      * @param userEntity

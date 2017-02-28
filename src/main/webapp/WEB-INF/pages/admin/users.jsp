@@ -14,7 +14,6 @@
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
 
     <style type="text/css">
         body {
@@ -28,27 +27,6 @@
 <script type="text/javascript">
     /*创建一个空白的模态弹窗框*/
     function BDialog(){
-        this.showS=function(BName,BValue){
-            BUI.use('bui/overlay',function(Overlay){
-                var dialog = new Overlay.Dialog({
-                    title:'用户详情',
-                    width:500,
-                    height:250,
-                    mask:true,
-                    align:{
-                        points:['tc','bc']
-                    }
-                });
-                effect={
-                    effect:slide,
-                    duration:400
-                };
-                dialog.set('effect',effect);
-                dialog.set(BName,BValue);
-                dialog.show();
-            });
-            $(".bui-ext-close").hide();
-        };
         this.showD=function(BName,BValue,BName2,BValue2){
             BUI.use('bui/overlay',function(Overlay){
                 var dialog = new Overlay.Dialog({
@@ -81,6 +59,9 @@
             $("#addUser").show();
         });
     });
+    function hello() {
+        alert("hello");
+    }
 </script>
 <body>
     <div class="header">
@@ -95,143 +76,252 @@
             <h1>所有用户<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
             <div class="panel">
                 <%--如果用户列表为空--%>
-                <div>
-                    <c:if test="${empty userList}">
-                        <h2>User表为空，请<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h2>
-                    </c:if>
+                <div class="noUser" style="display: none">
+                    <h2>User表为空，请<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h2>
                 </div>
+                <%--如果用户列表不为空--%>
+                <div class="userExist">
+                    <div class="row">
+                        <div id="grid">
+                        </div>
+                    </div>
+                </div>
+
+                <script type="text/javascript">
+                    BUI.use(['bui/grid','bui/data'],function(Grid,Data){
+                        var Grid = Grid,
+                            Store = Data.Store,
+                            columns = [
+                                {title : 'ID',dataIndex :'id', width:'16%'},
+                                {title : '姓名',dataIndex :'name', width:'16%'},
+                                {title : '性别',dataIndex : 'sex',width:'16%'},
+                                {title:'年龄',dataIndex:'age',width:'16%'},
+                                {title:'操作',width:'36%',renderer:function () {
+                                    return '<button id="showB" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>' +
+                                            '<button id="updateB" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>' +
+                                            '<button id="deleteB" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>'
+                                }}
+                            ];
+
+                        var store = new Store({
+                            url : 'usersP',
+                            autoLoad:true, //自动加载数据
+                            params : { //配置初始请求的参数
+                                id : 'id',
+                                name : 'name',
+                                sex:'sex',
+                                age:'age'
+                            },
+                            pageSize:10,	// 配置分页数目
+                            proxy : {
+                                ajaxOptions : { //ajax的配置项，不要覆盖success,和error方法
+                                    traditional : true,
+                                    type : 'get',
+                                    dataType:'json',
+                                    success:function (data) {
+                                        window.jsonData=data;
+                                        if(jsonData.results==0) {
+                                            $(".noUser").show();
+                                            $(".userExist").hide();
+                                        }
+                                        alert(jsonData.rows[0].id);
+                                    }
+                                }
+                            },
+                        }),
+                        grid = new Grid.Grid({
+                            render:'#grid',
+                            columns : columns,
+                            width:'auto',
+                            loadMask: true, //加载数据时显示屏蔽层
+                            store: store,
+                            // 底部工具栏
+                            bbar:{
+                                // pagingBar:表明包含分页栏
+                                pagingBar:true
+                            }
+                        });
+
+                        grid.render();
+
+                    });
+                </script>
                 <%--如果用户列表非空--%>
-                <div>
-                    <c:if test="${!empty userList}">
-                        <table id="test" cellspacing="0" class="table table-head-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>姓名</th>
-                                    <th>性别</th>
-                                    <th>年龄</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>姓名</th>
-                                    <th>性别</th>
-                                    <th>年龄</th>
-                                    <th>操作</th>
-                                </tr>
-                            </tfoot>
-                            <c:forEach items="${userList}" var="user">
-                                <tbody>
-                                    <tr>
-                                        <td>${user.id}</td>
-                                        <td>${user.name}</td>
-                                        <td>${user.sex}</td>
-                                        <td>${user.age}</td>
-                                        <td>
-                                            <button id="showB${user.id}" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
+                <%--<div>--%>
+                    <%--<c:if test="${!empty userList}">--%>
+                        <%--<table cellspacing="0" class="table table-head-bordered">--%>
+                            <%--<thead>--%>
+                                <%--<tr>--%>
+                                    <%--<th>ID</th>--%>
+                                    <%--<th>姓名</th>--%>
+                                    <%--<th>性别</th>--%>
+                                    <%--<th>年龄</th>--%>
+                                    <%--<th>操作</th>--%>
+                                <%--</tr>--%>
+                            <%--</thead>--%>
+                            <%--<tbody>--%>
+                                <%--<c:forEach items="${userList}" var="user">--%>
+                                    <%--<tr>--%>
+                                        <%--<td>${user.id}</td>--%>
+                                        <%--<td>${user.name}</td>--%>
+                                        <%--<td>${user.sex}</td>--%>
+                                        <%--<td>${user.age}</td>--%>
+                                        <%--<td>--%>
+                                            <%--<button id="showB${user.id}" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>--%>
 
-                                            <%----%>
-                                            <%--数据交换方式最好改为json，不应该加载整个页面。之后进行修改。--%>
-                                            <%----%>
+                                            <%--&lt;%&ndash;&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;数据交换方式最好改为json，不应该加载整个页面。之后进行修改。&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;&ndash;%&gt;--%>
 
-                                            <%----%>
-                                            <%--出现弹窗数大于两个的情况时，不能再打开新的弹窗。考虑将js进行封装，之后通过点击按键传入参数id进行触发，关闭弹窗时：closeAction:'destroy'--%>
-                                            <%----%>
+                                            <%--&lt;%&ndash;&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;出现弹窗数大于两个的情况时，不能再打开新的弹窗。考虑将js进行封装，之后通过点击按键传入参数id进行触发，关闭弹窗时：closeAction:'destroy'&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;&ndash;%&gt;--%>
 
-                                            <%----%>
-                                            <%--以上方式尝试后发现没有效果，暂时使用强制刷新跳过此BUG--%>
-                                            <%----%>
+                                            <%--&lt;%&ndash;&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;以上方式尝试后发现没有效果，暂时使用强制刷新跳过此BUG&ndash;%&gt;--%>
+                                            <%--&lt;%&ndash;&ndash;%&gt;--%>
 
-                                            <script type="text/javascript">
-                                                BUI.use('bui/overlay',function(Overlay){
-                                                    $("#showB${user.id}").click(function () {
-                                                        bDialog=new BDialog();
-                                                        loader={
-                                                            url:'/admin/users/show/${user.id}',
-                                                            autoLoad:false,
-                                                            lazyLoad:{
-                                                                event:'show',
-                                                                repeat:true
-                                                            }
-                                                        };
-                                                        buttons=[{
-                                                            text:'关闭',
-                                                            elCls:'button button-primary',
-                                                            handler:function(){
-                                                                this.close();
-                                                                location.reload();
-                                                            }
-                                                        }];
-                                                        bDialog.showD('loader',loader,'buttons',buttons);
-                                                    })
-                                                })
-                                            </script>
-                                            <button id="updateB${user.id}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
-                                            <script>
-                                                BUI.use('bui/overlay',function(Overlay){
-                                                    $("#updateB${user.id}").click(function () {
-                                                        bDialog=new BDialog();
-                                                        loader={
-                                                            url:'/admin/users/update/${user.id}',
-                                                            autoLoad:false,
-                                                            lazyLoad:{
-                                                                event:'show',
-                                                                repeat:true
-                                                            }
-                                                        };
-                                                        buttons=[{
-                                                            text:'关闭',
-                                                            elCls:'button button-primary',
-                                                            handler:function(){
-                                                                this.close();
-                                                                location.reload();
-                                                            }
-                                                        }]
-                                                        bDialog.showD('loader',loader,'buttons',buttons);
-                                                    })
-                                                })
-                                            </script>
-                                            <button id="deleteB${user.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
-                                            <script>
-                                                <%----%>
-                                                <%--删除失败提示框为系统自带，有时间可更换为BUI--%>
-                                                <%----%>
-                                                BUI.use('bui/overlay',function(Overlay){
-                                                    $("#deleteB${user.id}").click(function () {
-                                                        bDialog=new BDialog();
-                                                        bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户：${user.name}？</div>';
+                                            <%--<script type="text/javascript">--%>
+                                                <%--BUI.use('bui/overlay',function(Overlay){--%>
+                                                    <%--$("#showB").on('click',function () {--%>
+                                                        <%--bDialog=new BDialog();--%>
+                                                        <%--loader={--%>
+                                                            <%--url:'/admin/users/show/${user.id}',--%>
+                                                            <%--autoLoad:false,--%>
+                                                            <%--lazyLoad:{--%>
+                                                                <%--event:'show',--%>
+                                                                <%--repeat:true--%>
+                                                            <%--}--%>
+                                                        <%--};--%>
+                                                        <%--buttons=[{--%>
+                                                            <%--text:'关闭',--%>
+                                                            <%--elCls:'button button-primary',--%>
+                                                            <%--handler:function(){--%>
+                                                                <%--this.close();--%>
+                                                                <%--location.reload();--%>
+                                                            <%--}--%>
+                                                        <%--}];--%>
+                                                        <%--bDialog.showD('loader',loader,'buttons',buttons);--%>
+                                                    <%--})--%>
+                                                <%--})--%>
+                                            <%--</script>--%>
+                                            <%--<button id="updateB${user.id}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>--%>
+                                            <%--<script>--%>
+                                                <%--BUI.use('bui/overlay',function(Overlay){--%>
+                                                    <%--$("#updateB${user.id}").on('click',function () {--%>
+                                                        <%--bDialog=new BDialog();--%>
+                                                        <%--loader={--%>
+                                                            <%--url:'/admin/users/update/${user.id}',--%>
+                                                            <%--autoLoad:false,--%>
+                                                            <%--lazyLoad:{--%>
+                                                                <%--event:'show',--%>
+                                                                <%--repeat:true--%>
+                                                            <%--}--%>
+                                                        <%--};--%>
+                                                        <%--buttons=[{--%>
+                                                            <%--text:'关闭',--%>
+                                                            <%--elCls:'button button-primary',--%>
+                                                            <%--handler:function(){--%>
+                                                                <%--this.close();--%>
+                                                                <%--location.reload();--%>
+                                                            <%--}--%>
+                                                        <%--}]--%>
+                                                        <%--bDialog.showD('loader',loader,'buttons',buttons);--%>
+                                                    <%--})--%>
+                                                <%--})--%>
+                                            <%--</script>--%>
+                                            <%--<button id="deleteB${user.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>--%>
+                                            <%--<script>--%>
+                                                <%--&lt;%&ndash;&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;删除失败提示框为系统自带，有时间可更换为BUI&ndash;%&gt;--%>
+                                                <%--&lt;%&ndash;&ndash;%&gt;--%>
+                                                <%--BUI.use('bui/overlay',function(Overlay){--%>
+                                                    <%--$("#deleteB${user.id}").on('click',function () {--%>
+                                                        <%--bDialog=new BDialog();--%>
+                                                        <%--bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户：${user.name}？</div>';--%>
 
-                                                        success=function(){
-                                                            $.ajax({
-                                                                url:"/admin/users/delete/${user.id}",
-                                                                async:false,
-                                                                global:false,
-                                                                type:"GET",
-                                                                dataType:"html",
-                                                                error:function(){
-                                                                    <%--bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">删除用户：${user.name}失败！</div>';--%>
-                                                                    alert("删除用户：${user.name} 失败！");
-                                                                },
-                                                                success:function () {
-                                                                    location.reload();
-                                                                }
-                                                            });
-                                                        }
-                                                        bDialog.showD('bodyContent',bodyContent,'success',success);
-                                                    })
-                                                })
-                                            </script>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </c:forEach>
-                        </table>
-                    </c:if>
-                </div>
+                                                        <%--success=function(){--%>
+                                                            <%--$.ajax({--%>
+                                                                <%--url:"/admin/users/delete/${user.id}",--%>
+                                                                <%--async:false,--%>
+                                                                <%--global:false,--%>
+                                                                <%--type:"GET",--%>
+                                                                <%--dataType:"html",--%>
+                                                                <%--error:function(){--%>
+                                                                    <%--&lt;%&ndash;bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">删除用户：${user.name}失败！</div>';&ndash;%&gt;--%>
+                                                                    <%--alert("删除用户：${user.name} 失败！");--%>
+                                                                <%--},--%>
+                                                                <%--success:function () {--%>
+                                                                    <%--location.reload();--%>
+                                                                <%--}--%>
+                                                            <%--});--%>
+                                                        <%--}--%>
+                                                        <%--bDialog.showD('bodyContent',bodyContent,'success',success);--%>
+                                                    <%--})--%>
+                                                <%--})--%>
+                                            <%--</script>--%>
+                                        <%--</td>--%>
+                                    <%--</tr>--%>
+                                <%--</c:forEach>--%>
+                            <%--</tbody>--%>
+                        <%--</table>--%>
+                    <%--</c:if>--%>
+                <%--</div>--%>
             </div>
         </div>
+    </div>
+    <div id="content" class="hide">
+        <form class="form-horizontal">
+            <div class="row">
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>文本：</label>
+                    <div class="controls">
+                        <input name="a" type="text" data-rules="{required:true}" class="input-normal control-text">
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label"><s>*</s>数字：</label>
+                    <div class="controls">
+                        <input name="b" type="text" data-rules="{required:true,number : true}" class="input-normal control-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span8 ">
+                    <label class="control-label">日期：</label>
+                    <div id="range" class="controls">
+                        <input name="c" class="calendar" type="text">
+                    </div>
+                </div>
+                <div class="control-group span8">
+                    <label class="control-label">选择：</label>
+                    <div class="controls">
+                        <select name="d" class="input-normal">
+                            <option value="">请选择</option>
+                            <option value="1">选项一</option>
+                            <option value="2">选项二</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="control-group span12">
+                    <label class="control-label">多选：</label>
+                    <div class="controls bui-form-field-select" data-select="{multipleSelect:true,items : [{text:'选项一',value:'1'},{text:'选项二',value:'2'},{text:'选项三',value:'3'}]}">
+                        <input type="hidden" name="e">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="control-group span15">
+                    <label class="control-label">备注：</label>
+                    <div class="controls control-row4">
+                        <textarea name="f" class="input-large" type="text"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     <div id="addUser" style="display: none">
         <div class="container">

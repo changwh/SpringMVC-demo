@@ -14,6 +14,7 @@
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+    <link href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet">
     <style type="text/css">
         body {
             background-color: #fff;
@@ -113,8 +114,8 @@
                                     <th style="width: 100px">操作</th>
                                 </tr>
                             </thead>
-                            <c:forEach items="${infoList}" var="info">
-                                <tbody>
+                            <tbody>
+                                <c:forEach items="${infoList}" var="info">
                                     <tr>
                                         <td>${info.id}</td>
                                         <td>${info.userByUserId.name}</td>
@@ -201,8 +202,8 @@
                                             </script>
                                         </td>
                                     </tr>
-                                </tbody>
-                            </c:forEach>
+                                </c:forEach>
+                            </tbody>
                         </table>
                     </c:if>
                 </div>
