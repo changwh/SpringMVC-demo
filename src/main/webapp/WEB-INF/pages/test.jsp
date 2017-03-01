@@ -24,6 +24,10 @@
         }
     </style>
 </head>
+<script src="http://g.tbcdn.cn/fi/bui/jquery-1.8.1.min.js"></script>
+<script src="http://g.alicdn.com/bui/bui/1.1.21/seed-min.js"></script>
+<script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
+
 <body>
 <div class="demo-content">
     <div class="row">
@@ -33,7 +37,32 @@
             </div>
         </div>
     </div>
+    <div class="control-group">
+        <label class="control-label"><s>*</s>性别：</label>
+    </div>
 
+
+    <div id="sex" class="controls">
+        <input type="hidden" id="hide" name="sex" value="女">
+    </div>
+
+
+    <script type="text/javascript">
+        BUI.use('bui/select',function(Select){
+
+            var items = [
+                        {text:'男',value:'男'},
+                        {text:'女',value:'女'}
+                    ],
+                    select = new Select.Select({
+                        render:'#sex',
+                        valueField:'#hide',
+                        items:items
+                    });
+            select.render();
+        });
+
+    </script>
 
     <div id="content" class="hide">
         <form id="J_Form" class="form-horizontal" action="/admin/users/updateP" method="post" commandName="userP" role="form">
@@ -70,9 +99,6 @@
         </form>
     </div>
     <!-- 使用seajs方式 -->
-
-    <script src="http://g.tbcdn.cn/fi/bui/jquery-1.8.1.min.js"></script>
-    <script src="http://g.alicdn.com/bui/bui/1.1.21/seed-min.js"></script>
 
     <!-- script start -->
     <script type="text/javascript">

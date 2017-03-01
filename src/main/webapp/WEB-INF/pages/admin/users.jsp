@@ -67,13 +67,11 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label"><s>*</s>性别：</label>
-                            <div class="controls bui-form-group-select">
-                                <select class="input-small" name="sex">
-                                    <option>男</option>
-                                    <option>女</option>
-                                </select>
+                            <div id="sex" class="controls">
+                                <input type="hidden" id="hide" name="sex" value="">
                             </div>
                         </div>
+
                         <div class="control-group">
                             <label class="control-label"><s>*</s>年龄：</label>
                             <div class="controls">
@@ -92,26 +90,21 @@
                     </form>
                 </div>
 
-                <div id="deleteWarming" class="hide">
-                    <div>
-                        <div>
-                            <h1>确定删除？</h1>
-                        </div>
-                        <form id="D_Form" method="post" action="/admin/users/deleteP" commandName="deleteP" role="form">
-                            <div>
-                                <input type="hidden" name="id"/>
-                            </div>
-                            <div class="row">
-                                <div class="form-actions span13 offset3">
-                                    <button type="submit" class="button button-primary">确定</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
                     
                 <script type="text/javascript">
-                    BUI.use(['bui/grid','bui/data'],function(Grid,Data){
+                    BUI.use(['bui/grid','bui/data','bui/select'],function(Grid,Data,Select){
+                        var items = [
+                                    {text:'男',value:'男'},
+                                    {text:'女',value:'女'}
+                                ],
+                                select = new Select.Select({
+                                    render:'#sex',
+                                    valueField:'#hide',
+                                    items:items
+                                });
+
+
                         var Grid = Grid,
                             Store = Data.Store,
                             columns = [
@@ -125,33 +118,6 @@
                                 }}
                             ];
 
-
-                        editing = new Grid.Plugins.DialogEditing({
-                            contentId : 'update', //设置隐藏的Dialog内容
-                            triggerCls : 'btn-edit', //触发显示Dialog的样式
-                            editor : {
-                                title : '修改用户',
-                                width : 600,
-                                form:{
-                                    srcNode : '#U_Form',
-                                    submitType:'ajax'
-                                },
-                                buttons:[]
-                            }
-                        });
-                        warming=new Grid.Plugins.DialogEditing({
-                            contentId:'deleteWarming',
-                            triggerCls:'btn-delete',
-                            editor: {
-                                title: '警告',
-                                width: 600,
-                                form: {
-                                    srcNode: '#D_Form',
-                                    submitType:'ajax'
-                                },
-                                buttons: []
-                            }
-                        })
                         var store = new Store({
                             url : 'usersP',
                             autoLoad:true, //自动加载数据
@@ -174,7 +140,20 @@
                                         }
                                     }
                                 }
-                            },
+                            }
+                        }),
+                        editing = new Grid.Plugins.DialogEditing({
+                            contentId : 'update', //设置隐藏的Dialog内容
+                            triggerCls : 'btn-edit', //触发显示Dialog的样式
+                            editor : {
+                                title : '修改用户',
+                                width : 600,
+                                form:{
+                                    srcNode : '#U_Form',
+                                    submitType:'ajax'
+                                },
+                                buttons:[]
+                            }
                         }),
                         grid = new Grid.Grid({
                             render:'#grid',
@@ -182,7 +161,7 @@
                             width:'auto',
                             loadMask: true, //加载数据时显示屏蔽层
                             store: store,
-                            plugins:[editing,warming],
+                            plugins:[editing],
                             // 底部工具栏
                             bbar:{
                                 // pagingBar:表明包含分页栏
@@ -190,8 +169,25 @@
                             }
                         });
 
-                        grid.render();
 
+                        grid.render();
+                        select.render();
+
+
+//                        $(".btn-edit").click(function(){
+//                            var idField=grid.columns.column[0].value.id;
+//                            alert(idField);
+////                            $.ajax({
+////                                url:"",
+////                                global:false,
+////                                type:"GET",
+////                                dataType:"json",
+////                                async:false,
+////                                success:function(){
+////
+////                                }
+////                            })
+//                        });
                     });
                 </script>
             </div>
