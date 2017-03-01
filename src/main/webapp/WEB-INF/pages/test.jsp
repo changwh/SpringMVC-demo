@@ -34,6 +34,41 @@
         </div>
     </div>
 
+
+    <div id="content" class="hide">
+        <form id="J_Form" class="form-horizontal" action="/admin/users/updateP" method="post" commandName="userP" role="form">
+            <div class="control-group">
+                <label class="control-label"><s>*</s>姓名：</label>
+                <div class="controls">
+                    <input class="input-small" type="text" name="name" placeholder="Enter name:" value="${user.name}" data-rules="{required : true,name}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><s>*</s>性别：</label>
+                <div class="controls bui-form-group-select">
+                    <select class="input-small" name="sex">
+                            <option>男</option>
+                            <option>女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><s>*</s>年龄：</label>
+                <div class="controls">
+                    <input class="input-small" type="text" name="age" placeholder="Enter age:" value="${user.age}" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>
+                </div>
+            </div>
+            <div>
+                <input type="hidden" name="id" value="${user.id}"/>
+            </div>
+            <div class="row">
+                <div class="form-actions span13 offset3">
+                    <button type="submit" class="button button-primary">提交</button>
+                    <button type="reset" class="button">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
     <!-- 使用seajs方式 -->
 
     <script src="http://g.tbcdn.cn/fi/bui/jquery-1.8.1.min.js"></script>
@@ -50,10 +85,48 @@
                         {title : '性别',dataIndex : 'sex',width:100},
                         {title:'年龄',dataIndex:'age',width:100},
                         {title:'操作',width:300,renderer:function () {
-                            return '<button id="showB" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button><button id="updateB}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button><button id="deleteB" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>'
+//                            return '<button id="showB" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button><button id="updateB}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button><button id="deleteB" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>'
+                            return '<span class="button button-warning btn-edit"><i class="icon-white icon-edit"></i>编辑</span>'
                         }}
                     ];
+//                    data=[{id:'1',name:'test',sex:'男',age:'11'}];
 
+
+//            var isAddRemote = false,
+                    editing = new Grid.Plugins.DialogEditing({
+                        contentId : 'content', //设置隐藏的Dialog内容
+                        triggerCls : 'btn-edit', //触发显示Dialog的样式
+                        editor : {
+                            title : '自定义',
+                            width : 600,
+                            form:{
+                                srcNode : '#J_Form',
+                                submitType:'ajax'
+                            },
+//                            listeners : {
+//                                show : function(){
+//                                    var form = this.get('form');
+//                                    if(!isAddRemote){
+//                                        var bField = form.getField('id');
+//                                        bField.set('remote',{
+//                                            url : 'admin/usersP',
+//                                            dataType:'json',//默认为字符串
+//                                            callback : function(data){
+//                                                if(data.success){
+//                                                    alert("success");
+//                                                    return '';
+//                                                }else{
+//                                                    return data.msg;
+//                                                }
+//                                            }
+//                                        });
+//                                        isAddRemote = true;
+//                                    }
+//                                    //TO DO
+//                                }
+//                            }
+                        }
+                    }),
             /**
              * 自动发送的数据格式：
              *  1. start: 开始记录的起始数，如第 20 条,从0开始
@@ -69,7 +142,7 @@
              *   }
              *
              */
-            var store = new Store({
+            store = new Store({
                 url : 'admin/usersP',
                 autoLoad:true, //自动加载数据
                 params : { //配置初始请求的参数
@@ -92,6 +165,7 @@
                 width:'800',
                 loadMask: true, //加载数据时显示屏蔽层
                 store: store,
+                plugins:[editing],
                 // 底部工具栏
                 bbar:{
                     // pagingBar:表明包含分页栏
