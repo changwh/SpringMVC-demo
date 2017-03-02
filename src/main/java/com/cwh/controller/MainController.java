@@ -97,7 +97,7 @@ public class MainController {
 
 
     @RequestMapping(value = "/admin/users/deleteP",method = RequestMethod.POST)
-    public String deleteUserPost(@ModelAttribute("deleteP") UserEntity user){
+    public @ResponseBody String deleteUserPost(@ModelAttribute("deleteP") UserEntity user){
 
         Map<String,Object> status=new HashMap<String,Object>();
 
@@ -116,7 +116,7 @@ public class MainController {
         String json=JSON.toJSONString(status,true);
 
 
-        return "redirect:/admin/users";
+        return json;
     }
 
     @RequestMapping(value = "/admin/test",method = RequestMethod.GET)

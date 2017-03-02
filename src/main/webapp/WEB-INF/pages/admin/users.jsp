@@ -93,7 +93,7 @@
 
                     
                 <script type="text/javascript">
-                    BUI.use(['bui/grid','bui/data'],function(Grid,Data){
+                    BUI.use(['bui/grid','bui/data','bui/overlay'],function(Grid,Data,overlay){
                         var Grid = Grid,
                             Store = Data.Store,
                             columns = [
@@ -158,33 +158,35 @@
                             }
                         });
 
-
                         grid.render();
 
+                        function deleteWarming(userID){
+                            BUI.Message.Alert('确定删除此用户？',function () {
+                                $.ajax({
+                                    url:"/admin/users/deleteP",
+                                    type:"post",
+                                    dataType:"json",
+                                    data:{"id":userID},
+                                    success:function (res) {
+                                        if(res.error){
+                                            BUI.Message.Alert(res.error,'error');
+                                        }else {
+                                            location.reload();
+                                        }
+                                    }
+                                })
+                            },'warning');
+                        }
 
                         grid.on('cellclick',function  (ev) {
                             record = ev.record, //点击行的记录
                                     field = ev.field, //点击对应列的dataIndex
                                     target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
-                                alert(record.id);
+                                deleteWarming(record.id);
                             }
 
                         });
-//                        $(".btn-edit").click(function(){
-//                            var idField=grid.columns.column[0].value.id;
-//                            alert(idField);
-////                            $.ajax({
-////                                url:"",
-////                                global:false,
-////                                type:"GET",
-////                                dataType:"json",
-////                                async:false,
-////                                success:function(){
-////
-////                                }
-////                            })
-//                        });
                     });
                 </script>
             </div>
