@@ -30,6 +30,7 @@
 
 <body>
 <div class="demo-content">
+    <div id="tab"></div>
     <div class="row">
         <div class="span16">
             <div id="grid">
@@ -48,6 +49,20 @@
 
 
     <script type="text/javascript">
+        BUI.use('bui/tab',function(Tab){
+
+            var tab = new Tab.Tab({
+                render : '#tab',
+                elCls : 'link-tabs',
+                autoRender: true,
+                children:[
+                    {text:'标签一',value:'1',href:'/admin/users'},
+                    {text:'标签二',value:'2',href:'/admin/info'}
+                ],
+                itemTpl : '<a href="{href}">{text}</a>'
+            });
+        });
+
         BUI.use('bui/select',function(Select){
 
             var items = [

@@ -25,6 +25,19 @@
 <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <script type="text/javascript">
+    BUI.use('bui/tab',function(Tab){
+        var tab = new Tab.Tab({
+            render : '#tab',
+            elCls : 'link-tabs',
+            autoRender: true,
+            children:[
+                {text:'<i class="icon-white icon-user"></i>用户管理',value:'1',href:'/'},
+                {text:'<i class="icon-white icon-info-sign"></i>信息管理',value:'2',href:'/admin/info'}
+            ],
+            itemTpl : '<a href="{href}">{text}</a>'
+        });
+        tab.setSelected(tab.getItemAt(1));
+    });
     /*创建一个空白的模态弹窗框*/
     function BDialog(){
         this.showS=function(BName,BValue){
@@ -84,7 +97,7 @@
 <body>
     <div class="header">
         <div class="dl-title" style="background-color: #205081;">
-            <h1><a href="/" style="text-decoration: none;color: white">Demo首页</a></h1>
+            <h1><div id="tab"></div></h1>
         </div>
     </div>
     <hr style="margin-top: 10px;margin-bottom: 10px"/>

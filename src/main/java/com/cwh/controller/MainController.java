@@ -18,20 +18,18 @@ import java.util.*;
 public class MainController {
     @Autowired
     UserRepository userRepository;
-    @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index(){
-        return "index";
-    }
 
     /**
      * 查看所有用户
      * @param modelMap
      * @return
      */
-    @RequestMapping(value = "/admin/users",method = RequestMethod.GET)
+    @RequestMapping(value = "/",method = RequestMethod.GET)
     public String getUsers(ModelMap modelMap){
         return "admin/users";
     }
+
+
 
 
     @RequestMapping(value = "/admin/usersP",method = RequestMethod.GET)

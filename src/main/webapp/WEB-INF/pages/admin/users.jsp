@@ -30,6 +30,20 @@
         });
     });
 
+    BUI.use('bui/tab',function(Tab){
+        var tab = new Tab.Tab({
+            render : '#tab',
+            elCls : 'link-tabs',
+            autoRender: true,
+            children:[
+                {text:'<i class="icon-white icon-user"></i>用户管理',value:'1',href:'/admin/users'},
+                {text:'<i class="icon-white icon-info-sign"></i>信息管理',value:'2',href:'/admin/info'}
+            ],
+            itemTpl : '<a href="{href}">{text}</a>'
+        });
+        tab.setSelected(tab.getItemAt(0));
+    });
+
     BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
         var form=new Form.Form({
             srcNode : '#A_Form',
@@ -57,7 +71,7 @@
 <body>
     <div class="header">
         <div class="dl-title" style="background-color: #205081;">
-            <h1><a href="/" style="text-decoration: none;color: white">Demo首页</a></h1>
+            <h1><div id="tab"></div></h1>
         </div>
     </div>
     <hr style="margin-top: 10px;margin-bottom: 10px"/>
@@ -127,7 +141,7 @@
                             ];
 
                         var store = new Store({
-                            url : 'usersP',
+                            url : 'admin/usersP',
                             autoLoad:true, //自动加载数据
                             params : { //配置初始请求的参数
                                 id : 'id',
