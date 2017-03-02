@@ -24,188 +24,150 @@
 <script src="http://img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <script type="text/javascript">
-    /*创建一个空白的模态弹窗框*/
-    function BDialog(){
-        this.showS=function(BName,BValue){
-            BUI.use('bui/overlay',function(Overlay){
-                var dialog = new Overlay.Dialog({
-                    title:'用户详情',
-                    width:650,
-                    height:'auto',
-                    mask:true,
-                    align:{
-                        points:['tc','bc']
-                    }
-                });
-                effect={
-                    effect:slide,
-                    duration:400
-                };
-                dialog.set('effect',effect);
-                dialog.set(BName,BValue);
-                dialog.show();
-            });
-            $(".bui-ext-close").hide();
-        };
-        this.showD=function(BName,BValue,BName2,BValue2){
-            BUI.use('bui/overlay',function(Overlay){
-                var dialog = new Overlay.Dialog({
-                    title:'用户详情',
-                    width:650,
-                    height:'auto',
-                    closeAction:'destroy',
-                    mask:true,
-                    align:{
-                        points:['tc','bc']
-                    }
-                });
-                effect={
-                    effect:'slide',
-                    duration:400
-                };
-                dialog.set('effect',effect);
-                dialog.set(BName,BValue);
-                dialog.set(BName2,BValue2);
-                dialog.show();
-            });
-            $(".bui-ext-close").hide();
-        }
-    }
     $(document).ready(function(){
-        $(".addB").click(function(){
-            $(".display").hide();
-            $(".display").removeClass("display");
-            $("#addInfo").addClass("display");
-            $("#addInfo").show();
+        $(".resetBtn").click(function () {
+            $(".needReset").attr("value","");
         });
     });
+
+    BUI.use('bui/tab',function(Tab){
+        var tab = new Tab.Tab({
+            render : '#tab',
+            elCls : 'link-tabs',
+            autoRender: true,
+            children:[
+                {text:'<i class="icon-white icon-user"></i>用户管理',value:'1',href:'/'},
+                {text:'<i class="icon-white icon-info-sign"></i>信息管理',value:'2',href:'/admin/info'}
+            ],
+            itemTpl : '<a href="{href}">{text}</a>'
+        });
+        tab.setSelected(tab.getItemAt(1));
+    });
+
 </script>
 <body>
     <div class="header">
         <div class="dl-title" style="background-color: #205081;">
-            <h1><a href="/" style="text-decoration: none;color: white">Demo首页</a></h1>
+            <h1><div id="tab"></div></h1>
         </div>
     </div>
     <hr style="margin-top: 10px;margin-bottom: 10px"/>
 
-    <div id="info" class="display">
+    <div id="info">
         <div class="container">
             <h1>所有信息<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
             <div class="panel">
                 <%--Info表为空--%>
-                <div>
-                    <c:if test="${empty infoList}">
-                        <h2>Info表为空，请<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h2>
-                    </c:if>
+                <div class="noInfo" style="display: none">
+                    <h2>Info表为空，请<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h2>
                 </div>
                 <%--Info表不为空--%>
-                <div>
-                    <c:if test="${!empty infoList}">
-                        <table cellspacing="0" class="table table-head-bordered">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>用户</th>
-                                    <th>电话</th>
-                                    <th>地址</th>
-                                    <th>邮箱</th>
-                                    <th>手机</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <c:forEach items="${infoList}" var="info">
-                                <tbody>
-                                    <tr>
-                                        <td>${info.id}</td>
-                                        <td>${info.userByUserId.name}</td>
-                                        <td>${info.phone}</td>
-                                        <td style="word-break : break-all; overflow:hidden; width: 300px">${info.address}</td>
-                                        <td>${info.email}</td>
-                                        <td>${info.mobile}</td>
-                                        <td>
-                                            <button id="showB${info.id}" class="button button-info" style="margin-left: 20px"><i class="icon-white icon-th-list"></i>详情</button>
-                                            <script>
-                                                BUI.use('bui/overlay',function(Overlay){
-                                                    $("#showB${info.id}").click(function () {
-                                                        bDialog=new BDialog();
-                                                        loader={
-                                                            url:'/admin/info/show/${info.id}',
-                                                            autoLoad:false,
-                                                            lazyLoad:{
-                                                                event:'show',
-                                                                repeat:true
-                                                            }
-                                                        };
-                                                        buttons=[{
-                                                            text:'关闭',
-                                                            elCls:'button button-primary',
-                                                            handler:function(){
-                                                                this.close();
-                                                                location.reload();
-                                                            }
-                                                        }];
-                                                        bDialog.showD('loader',loader,'buttons',buttons);
-                                                    })
-                                                })
-                                            </script>
-                                            <button id="updateB${info.id}" class="button button-warning" style="margin-left: 20px"><i class="icon-white icon-edit"></i>修改</button>
-                                            <script>
-                                                BUI.use('bui/overlay',function(Overlay){
-                                                    $("#updateB${info.id}").click(function () {
-                                                        bDialog=new BDialog();
-                                                        loader={
-                                                            url:'/admin/info/update/${info.id}',
-                                                            autoLoad:false,
-                                                            lazyLoad:{
-                                                                event:'show',
-                                                                repeat:true
-                                                            }
-                                                        };
-                                                        buttons=[{
-                                                            text:'关闭',
-                                                            elCls:'button button-primary',
-                                                            handler:function(){
-                                                                this.close();
-                                                                location.reload();
-                                                            }
-                                                        }]
-                                                        bDialog.showD('loader',loader,'buttons',buttons);
-                                                    })
-                                                })
-                                            </script>
-                                            <button id="deleteB${info.id}" class="button button-danger" style="margin-left: 20px"><i class="icon-white icon-trash"></i>删除</button>
-                                            <script>
-                                                BUI.use('bui/overlay',function(Overlay){
-                                                    $("#deleteB${info.id}").click(function () {
-                                                        bDialog=new BDialog();
-                                                        bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">确认删除用户${info.userByUserId.name}的信息：${info.id}？</div>';
-                                                        success=function(){
-                                                            $.ajax({
-                                                                url:"/admin/info/delete/${info.id}",
-                                                                async:false,
-                                                                global:false,
-                                                                type:"GET",
-                                                                dataType:"html",
-                                                                error:function(){
-                                                                    <%--bodyContent='<div style="display:table;vertical-align:middle;height:100px;text-align: center">删除用户：${user.name}失败！</div>';--%>
-                                                                    alert("删除用户${info.userByUserId.name}的信息：${info.id}失败！");
-                                                                },
-                                                                success:function () {
-                                                                    location.reload();
-                                                                }
-                                                            });
-                                                        }
-                                                        bDialog.showD('bodyContent',bodyContent,'success',success);
-                                                    })
-                                                })
-                                            </script>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </c:forEach>
-                        </table>
-                    </c:if>
+                <div class="infoExist">
+                    <div class="row">
+                        <div id="grid">
+                        </div>
+                    </div>
                 </div>
+
+                <div id="showInfo" class="hide">
+
+                </div>
+
+                <div id="updateInfo" class="hide">
+
+                </div>
+
+                <script type="text/javascript">
+                    BUI.use(['bui/grid','bui/data'],function(Grid,Data){
+                        var Grid = Grid,
+                                Store = Data.Store,
+                                columns = [
+                                    {title : 'ID',dataIndex :'id', width:'18%'},
+                                    {title : '姓名',dataIndex :'name', width:'18%'},
+                                    {title : '性别',dataIndex : 'sex',width:'18%'},
+                                    {title:'年龄',dataIndex:'age',width:'18%'},
+                                    {title:'操作',width:'28%',renderer:function () {
+                                        return '<span class="button button-warning btn-edit" style="margin-left: 20px"><i class="icon-white icon-edit btn-edit"></i>编辑</span>' +
+                                                '<span class="button button-danger btn-delete" style="margin-left: 20px"><i class="icon-white icon-trash btn-delete"></i>删除</span>';
+                                    }}
+                                ];
+
+                        var store = new Store({
+                                    url : 'infoP',
+                                    autoLoad:true, //自动加载数据
+                                    pageSize:10,	// 配置分页数目
+                                    proxy : {
+                                        ajaxOptions : { //ajax的配置项，不要覆盖success,和error方法
+                                            traditional : true,
+                                            type : 'get',
+                                            dataType:'json',
+                                            success:function (data) {
+                                                if(data.results==0) {
+                                                    $(".noUser").show();
+                                                    $(".userExist").hide();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }),
+                                editing = new Grid.Plugins.DialogEditing({
+                                    contentId : 'updateUser', //设置隐藏的Dialog内容
+                                    triggerCls : 'btn-edit', //触发显示Dialog的样式
+                                    editor : {
+                                        title : '修改用户',
+                                        width : 600,
+                                        form:{
+                                            srcNode : '#U_Form',
+                                            submitType:'ajax'
+                                        },
+                                        buttons:[]
+                                    }
+                                }),
+                                grid = new Grid.Grid({
+                                    render:'#grid',
+                                    columns : columns,
+                                    width:'auto',
+                                    loadMask: true, //加载数据时显示屏蔽层
+                                    store: store,
+                                    plugins:[editing],
+                                    // 底部工具栏
+                                    bbar:{
+                                        // pagingBar:表明包含分页栏
+                                        pagingBar:true
+                                    }
+                                });
+
+                        grid.render();
+
+                        function deleteWarming(userID){
+                            BUI.Message.Alert('确定删除此用户？',function () {
+                                $.ajax({
+                                    url:"/admin/users/deleteP",
+                                    type:"post",
+                                    dataType:"json",
+                                    data:{"id":userID},
+                                    success:function (res) {
+                                        if(res.error){
+                                            BUI.Message.Alert(res.error,'error');
+                                        }else {
+                                            location.reload();
+                                        }
+                                    }
+                                })
+                            },'warning');
+                        }
+
+                        grid.on('cellclick',function  (ev) {
+                            record = ev.record, //点击行的记录
+                                    field = ev.field, //点击对应列的dataIndex
+                                    target = $(ev.domTarget); //点击的元素
+                            if(target.hasClass('btn-delete')){
+                                deleteWarming(record.id);
+                            }
+
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -257,7 +219,8 @@
             <script type="text/javascript">
                 BUI.use('bui/form',function(Form){
                     new Form.Form({
-                        srcNode : '#J_Form'
+                        srcNode : '#J_Form',
+                        submitType:'ajax'
                     }).render();
                 });
             </script>

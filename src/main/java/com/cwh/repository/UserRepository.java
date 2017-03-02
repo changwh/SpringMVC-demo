@@ -1,6 +1,8 @@
 package com.cwh.repository;
 
 import com.cwh.model.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
@@ -21,4 +23,6 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer>{
     @Query("update UserEntity us set us.name=:qName,us.sex=:qSex,us.age=:qAge where us.id=:qId")
 
     public void updateUser(@Param("qName")String name,@Param("qSex")String sex,@Param("qAge")int age,@Param("qId")int id);
+
+//    Page<UserEntity> findByName(String name , Pageable pageable);
 }

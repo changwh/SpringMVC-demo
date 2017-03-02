@@ -78,8 +78,7 @@ public class UserEntity {
         result = 31 * result + age;
         return result;
     }
-
-    @OneToMany(mappedBy = "userByUserId")
+    @OneToMany(mappedBy = "userByUserId",fetch=FetchType.EAGER) //关闭懒加载，解决“代理不能被初始化，session已经关闭”的问题
     public Collection<InfoEntity> getInfoById() {
         return infoById;
     }
