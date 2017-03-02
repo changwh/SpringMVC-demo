@@ -25,13 +25,34 @@
 <script src="http://img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".addB").click(function(){
-            $(".display").hide();
-            $(".display").removeClass("display");
-            $("#addUser").addClass("display");
-            $("#addUser").show();
+        $(".resetBtn").click(function () {
+            $(".needReset").attr("value","");
         });
     });
+
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
+        var form=new Form.Form({
+            srcNode : '#A_Form',
+            submitType:'ajax',
+            callback:function(data){
+                if(data.status==302){
+                    location.herf=data.location;
+                    location.reload();
+                }
+            }
+        }).render();
+
+        $(".addB").click(function () {
+            var dialog=new Overlay.Dialog({
+                title:'添加用户',
+                width:600,
+                contentId:'addUser',
+                buttons:[],
+                closeAction:'destroy'
+            })
+            dialog.show();
+        });
+    })
 </script>
 <body>
     <div class="header">
@@ -41,7 +62,7 @@
     </div>
     <hr style="margin-top: 10px;margin-bottom: 10px"/>
 
-    <div id="users" class="display">
+    <div id="users">
         <div class="container">
             <h1>所有用户<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
             <div class="panel">
@@ -57,7 +78,7 @@
                     </div>
                 </div>
 
-                <div id="update" class="hide">
+                <div id="updateUser" class="hide">
                     <form id="U_Form" class="form-horizontal" action="/admin/users/updateP" method="post" commandName="userP" role="form">
                         <div class="control-group">
                             <label class="control-label"><s>*</s>姓名：</label>
@@ -67,8 +88,8 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label"><s>*</s>性别：</label>
-                            <div class="controls bui-form-field-select" data-items="{'男':'男','女':'女'}">
-                                <input type="hidden" id="hide" name="sex">
+                            <div class="controls bui-form-field-select" data-items="{'男':'男','女':'女'}" data-rules="{required:true}">
+                                <input type="hidden" id="hide" name="sex" value="" class="needReset">
                             </div>
                         </div>
 
@@ -84,13 +105,11 @@
                         <div class="row">
                             <div class="form-actions span13 offset3">
                                 <button type="submit" class="button button-primary">提交</button>
-                                <button type="reset" class="button">重置</button>
+                                <button type="reset" class="button resetBtn">重置</button>
                             </div>
                         </div>
                     </form>
                 </div>
-
-
                     
                 <script type="text/javascript">
                     BUI.use(['bui/grid','bui/data','bui/overlay'],function(Grid,Data,overlay){
@@ -132,7 +151,7 @@
                             }
                         }),
                         editing = new Grid.Plugins.DialogEditing({
-                            contentId : 'update', //设置隐藏的Dialog内容
+                            contentId : 'updateUser', //设置隐藏的Dialog内容
                             triggerCls : 'btn-edit', //触发显示Dialog的样式
                             editor : {
                                 title : '修改用户',
@@ -193,64 +212,49 @@
         </div>
     </div>
 
-    <div id="addUser" style="display: none">
-        <div class="container">
-            <form id="A_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/addP" method="post" commandName="user" role="form" >
-                <div class="control-group">
-                    <label class="control-label"><s>*</s>姓名：</label>
-                    <div class="controls">
-                        <input class="input-small" type="text" name="name" placeholder="Enter name:" data-rules="{required : true,name}"/>
-                    </div>
+    <div id="addUser" class="hide">
+        <form id="A_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/addP" method="post" commandName="user" role="form" >
+            <div class="control-group">
+                <label class="control-label"><s>*</s>姓名：</label>
+                <div class="controls">
+                    <input class="input-small" type="text" name="name" placeholder="Enter name:" data-rules="{required : true,name}"/>
                 </div>
-                <div class="control-group">
-                    <label class="control-label"><s>*</s>性别：</label>
-                    <div class="controls bui-form-group-select">
-                        <select class="input-small" name="sex">
-                            <option>男</option>
-                            <option>女</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><s>*</s>性别：</label>
+                <div class="controls bui-form-field-select" data-items="{'男':'男','女':'女'}" data-rules="{required:true}">
+                    <input class="needReset" type="hidden" name="sex" value="">
                 </div>
-                <div class="control-group">
-                    <label class="control-label"><s>*</s>年龄：</label>
-                    <div class="controls">
-                        <input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>
-                    </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label"><s>*</s>年龄：</label>
+                <div class="controls">
+                    <input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>
                 </div>
-                <div class="row">
-                    <div class="form-actions span13 offset3">
-                        <button type="submit" class="button button-primary">提交</button>
-                        <button type="reset" class="button">重置</button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="form-actions span13 offset3">
+                    <button type="submit" class="button button-primary">提交</button>
+                    <button type="reset" class="button resetBtn">重置</button>
                 </div>
-            </form>
-            <script type="text/javascript">
-                BUI.use('bui/form',function(Form){
-                    //添加 名字为 sid的校验规则
-                    Form.Rules.add({
-                        name : 'name',  //规则名称
-                        msg : '请输入正确的名字！',//默认显示的错误信息
-                        validator : function(value,baseValue,formatMsg){ //验证函数，验证值、基准值、格式化后的错误信息
-                            var regexp = new RegExp('((?=[\\x21-\\x7e]+)[^A-Za-z])|[\\uFE30-\\uFFA0]|[\\u3002\\uff1b\\uff0c\\uff1a\\u201c\\u2018\\u201d\\uff08\\uff09\\u3001\\uff1f\\u300a\\u300b\\u2026\\u2014]');
-                            //筛选键盘上的大多数符号（ 。 ；  ， ： “ ”（ ） 、 ？ 《 》 … —）以及数字
-                            if(value && regexp.test(value)){
-                                return formatMsg;
-                            }
+            </div>
+        </form>
+        <script type="text/javascript">
+            BUI.use('bui/form',function(Form){
+                //添加 名字为 sid的校验规则
+                Form.Rules.add({
+                    name : 'name',  //规则名称
+                    msg : '请输入正确的名字！',//默认显示的错误信息
+                    validator : function(value,baseValue,formatMsg){ //验证函数，验证值、基准值、格式化后的错误信息
+                        var regexp = new RegExp('((?=[\\x21-\\x7e]+)[^A-Za-z])|[\\uFE30-\\uFFA0]|[\\u3002\\uff1b\\uff0c\\uff1a\\u201c\\u2018\\u201d\\uff08\\uff09\\u3001\\uff1f\\u300a\\u300b\\u2026\\u2014]');
+                        //筛选键盘上的大多数符号（ 。 ；  ， ： “ ”（ ） 、 ？ 《 》 … —）以及数字
+                        if(value && regexp.test(value)){
+                            return formatMsg;
                         }
-                    });
-                    new Form.Form({
-                        srcNode : '#A_Form',
-                        submitType:'ajax',
-                        callback:function(data){
-                            if(data.status==302){
-                                location.herf=data.location;
-                                location.reload();
-                            }
-                        }
-                    }).render();
+                    }
                 });
-            </script>
-        </div>
+            });
+        </script>
     </div>
 </body>
 </html>
