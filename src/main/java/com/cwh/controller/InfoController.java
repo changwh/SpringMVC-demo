@@ -65,7 +65,6 @@ public class InfoController {
             JSONObject userObj=jsonArray.getJSONObject(i).getJSONObject("userByUserId");
             String userName=userObj.getString("name");
             String userId=userObj.getString("id");
-
         }
 
         List<Object> userL=JSON.parseArray(user,Object.class);
