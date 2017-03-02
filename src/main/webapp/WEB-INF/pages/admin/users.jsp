@@ -36,7 +36,7 @@
             elCls : 'link-tabs',
             autoRender: true,
             children:[
-                {text:'<i class="icon-white icon-user"></i>用户管理',value:'1',href:'/admin/users'},
+                {text:'<i class="icon-white icon-user"></i>用户管理',value:'1',href:'/'},
                 {text:'<i class="icon-white icon-info-sign"></i>信息管理',value:'2',href:'/admin/info'}
             ],
             itemTpl : '<a href="{href}">{text}</a>'
@@ -126,7 +126,7 @@
                 </div>
                     
                 <script type="text/javascript">
-                    BUI.use(['bui/grid','bui/data','bui/overlay'],function(Grid,Data,overlay){
+                    BUI.use(['bui/grid','bui/data'],function(Grid,Data){
                         var Grid = Grid,
                             Store = Data.Store,
                             columns = [
@@ -143,12 +143,6 @@
                         var store = new Store({
                             url : 'admin/usersP',
                             autoLoad:true, //自动加载数据
-                            params : { //配置初始请求的参数
-                                id : 'id',
-                                name : 'name',
-                                sex:'sex',
-                                age:'age'
-                            },
                             pageSize:10,	// 配置分页数目
                             proxy : {
                                 ajaxOptions : { //ajax的配置项，不要覆盖success,和error方法

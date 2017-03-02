@@ -1,18 +1,22 @@
 package com.cwh.controller;
 
+import com.cnc.thirdparty.fastjson.JSON;
+import com.cnc.thirdparty.fastjson.JSONArray;
+import com.cnc.thirdparty.fastjson.JSONObject;
+import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
 import com.cwh.model.InfoEntity;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.InfoRepository;
 import com.cwh.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by changwh1 on 2017/2/16.
@@ -32,11 +36,52 @@ public class InfoController {
      */
     @RequestMapping(value = "/admin/info",method = RequestMethod.GET)
     public String showInfo(ModelMap modelMap){
-        List<InfoEntity> infoList=infoRepository.findAll();
-        List<UserEntity>userList=userRepository.findAll();
-        modelMap.addAttribute("userList",userList);
-        modelMap.addAttribute("infoList",infoList);
+    //        List<InfoEntity> infoList=infoRepository.findAll();
+    //        List<UserEntity>userList=userRepository.findAll();
+    //        modelMap.addAttribute("userList",userList);
+    //        modelMap.addAttribute("infoList",infoList);
         return "admin/info";
+    }
+
+    @RequestMapping(value = "/admin/infoP",method = RequestMethod.GET)
+    public @ResponseBody String getInfoP(ModelMap modelMap){
+        //查询user表中所有记录
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        List<UserEntity> userList=userRepository.findAll();
+        List<InfoEntity> infoList=infoRepository.findAll();
+
+        SimplePropertyPreFilter fliterUser=new SimplePropertyPreFilter(UserEntity.class,"id","name","sex","age");
+        SimplePropertyPreFilter fliterInfo=new SimplePropertyPreFilter(InfoEntity.class,"id","userByUserId","phone","address","email","mobile");
+
+        String user= JSON.toJSONString(userList,fliterUser);
+        String info=JSON.toJSONString(infoList,fliterInfo);
+
+        JSONArray jsonArray=JSON.parseArray(info);
+//        System.out.println("size of jsonArray:"+jsonArray.size());
+//        System.out.println();
+//        System.out.println(info);
+        for(int i = 0 ;i<jsonArray.size();i++) {
+            JSONObject userObj=jsonArray.getJSONObject(i).getJSONObject("userByUserId");
+            String userName=userObj.getString("name");
+            String userId=userObj.getString("id");
+
+        }
+
+        List<Object> userL=JSON.parseArray(user,Object.class);
+        List<Object> infoL=JSON.parseArray(info,Object.class);
+
+        long results=infoRepository.count();
+
+        map.put("result",true);
+        map.put("users",userL);
+        map.put("info",infoL);
+        map.put("results",results);
+
+        String json=JSON.toJSONString(map,true);
+
+//        System.out.println(json);
+        return json;
     }
 
     /**
