@@ -67,8 +67,8 @@
                         </div>
                         <div class="control-group">
                             <label class="control-label"><s>*</s>性别：</label>
-                            <div id="sex" class="controls">
-                                <input type="hidden" id="hide" name="sex" value="">
+                            <div class="controls bui-form-field-select" data-items="{'男':'男','女':'女'}">
+                                <input type="hidden" id="hide" name="sex">
                             </div>
                         </div>
 
@@ -93,18 +93,7 @@
 
                     
                 <script type="text/javascript">
-                    BUI.use(['bui/grid','bui/data','bui/select'],function(Grid,Data,Select){
-                        var items = [
-                                    {text:'男',value:'男'},
-                                    {text:'女',value:'女'}
-                                ],
-                                select = new Select.Select({
-                                    render:'#sex',
-                                    valueField:'#hide',
-                                    items:items
-                                });
-
-
+                    BUI.use(['bui/grid','bui/data'],function(Grid,Data){
                         var Grid = Grid,
                             Store = Data.Store,
                             columns = [
@@ -171,9 +160,17 @@
 
 
                         grid.render();
-                        select.render();
 
 
+                        grid.on('cellclick',function  (ev) {
+                            record = ev.record, //点击行的记录
+                                    field = ev.field, //点击对应列的dataIndex
+                                    target = $(ev.domTarget); //点击的元素
+                            if(target.hasClass('btn-delete')){
+                                alert(record.id);
+                            }
+
+                        });
 //                        $(".btn-edit").click(function(){
 //                            var idField=grid.columns.column[0].value.id;
 //                            alert(idField);
