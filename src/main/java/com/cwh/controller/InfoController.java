@@ -51,10 +51,10 @@ public class InfoController {
         List<UserEntity> userList=userRepository.findAll();
         List<InfoEntity> infoList=infoRepository.findAll();
 
-        SimplePropertyPreFilter fliterUser=new SimplePropertyPreFilter(UserEntity.class,"id","name","sex","age");
+//        SimplePropertyPreFilter fliterUser=new SimplePropertyPreFilter(UserEntity.class,"id","name","sex","age");
         SimplePropertyPreFilter fliterInfo=new SimplePropertyPreFilter(InfoEntity.class,"id","userByUserId","phone","address","email","mobile");
 
-        String user= JSON.toJSONString(userList,fliterUser);
+//        String user= JSON.toJSONString(userList,fliterUser);
         String info=JSON.toJSONString(infoList,fliterInfo);
 
         JSONArray jsonArray=JSON.parseArray(info);
@@ -65,16 +65,23 @@ public class InfoController {
             JSONObject userObj=jsonArray.getJSONObject(i).getJSONObject("userByUserId");
             String userName=userObj.getString("name");
             String userId=userObj.getString("id");
+            {
+                jsonArray.getJSONObject(i).put("userName",userName);
+                jsonArray.getJSONObject(i).put("userId",userId);
+            }
         }
+        System.out.println();
+        System.out.println(jsonArray.toJSONString());
+        System.out.println();
 
-        List<Object> userL=JSON.parseArray(user,Object.class);
-        List<Object> infoL=JSON.parseArray(info,Object.class);
+//        List<Object> userL=JSON.parseArray(user,Object.class);
+//        List<Object> infoL=JSON.parseArray(info,Object.class);
 
         long results=infoRepository.count();
 
-        map.put("result",true);
-        map.put("users",userL);
-        map.put("info",infoL);
+//        map.put("result",true);
+//        map.put("users",userL);
+        map.put("rows",jsonArray);
         map.put("results",results);
 
         String json=JSON.toJSONString(map,true);
