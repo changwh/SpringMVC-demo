@@ -44,6 +44,34 @@
         tab.setSelected(tab.getItemAt(1));
     });
 
+    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
+        var form=new Form.Form({
+            srcNode : '#A_Form',
+            submitType:'ajax',
+            callback:function(data){
+                if(data.status==302){
+                    location.herf=data.location;
+                    location.reload();
+                }
+            }
+        }).render();
+
+        $(".addB").click(function () {
+            var dialog=new Overlay.Dialog({
+                title:'添加信息',
+                width:600,
+                contentId:'addInfo',
+                buttons:[],
+                closeAction:'destroy',
+                align : {
+                    //node : '',//对齐的元素，由于使用了trigger，默认跟trigger对齐
+                    points : ['tc','tc'], //对齐方式
+                    offset : [0,100] //偏移量
+                },
+            });
+            dialog.show();
+        });
+    })
 </script>
 <body>
     <div class="header">
@@ -74,14 +102,12 @@
                 </div>
 
                 <div id="updateInfo" class="hide">
-                    <form id="U_Form" class="form-horizontal" action="/admin/info/updateP" method="post" commandName="infoP" role="form">
+                    <form id="U_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/updateP" method="post" commandName="infoP" role="form">
                         <div class="control-group">
                             <label class="control-label"><s>*</s>用户：</label>
                             <div class="controls">
-                                <div>
-                                    <input class="input-middle" type="text" id="show" name="userName">
-                                    <input type="hidden" id="hide" value="" name="userId">
-                                </div>
+                                <input class="input-middle" readonly="readonly" type="text" id="show" name="userName" data-rules="{required:true}">
+                                <input class="needReset" type="hidden" id="hide" name="userId">
                             </div>
                             <script type="text/javascript">
                                 BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
@@ -118,28 +144,24 @@
                         <div class="control-group">
                             <label class="control-label">电话：</label>
                             <div class="controls">
-                                <%--<input type="hidden" id="hide" name="sex" value="" class="needReset">--%>
                                 <input class="input-middle" type="text" name="phone" data-rules="{number:true,maxlength:20}"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">地址：</label>
                             <div class="controls">
-                                <%--<input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>--%>
                                 <input class="input-large" type="text" name="address" data-rules="{maxlength:255}"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">邮箱：</label>
                             <div class="controls">
-                                <%--<input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>--%>
                                 <input class="input-large" type="text" name="email" data-rules="{email:true,maxlength:45}"/>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">手机：</label>
                             <div class="controls">
-                                <%--<input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>--%>
                                 <input class="input-middle" type="text" name="mobile" data-rules="{mobile:true}"/>
                             </div>
                         </div>
@@ -202,7 +224,12 @@
                                             submitType:'ajax'
                                         },
                                         buttons:[]
-                                    }
+                                    },
+                                    align : {
+                                        //node : '',//对齐的元素，由于使用了trigger，默认跟trigger对齐
+                                        points : ['tc','tc'], //对齐方式
+                                        offset : [0,100] //偏移量
+                                    },
                                 }),
                                 grid = new Grid.Grid({
                                     render:'#grid',
@@ -251,6 +278,79 @@
                 </script>
             </div>
         </div>
+    </div>
+
+    <div id="addInfo" class="hide">
+        <form id="A_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/addP" method="post" commandName="info" role="form">
+            <div class="control-group">
+                <label class="control-label"><s>*</s>用户：</label>
+                <div class="controls">
+                    <input class="input-middle" readonly="readonly" type="text" id="aShow" name="userName">
+                    <input class="needReset" type="hidden" id="aHide" name="userId" data-rules="{required:true}">
+                </div>
+                <script type="text/javascript">
+                    BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
+
+                        var columns = [
+                            {title : 'id',dataIndex :'id', width:'25%'},
+                            {title : '姓名',dataIndex :'name', width:'25%'},
+                            {title : '性别',dataIndex :'sex', width:'25%'},
+                            {title : '年龄',dataIndex : 'age',width:'25%'}
+                        ];
+                        var store=new Data.Store({
+                                    url:'usersP',
+                                    autoLoad:true
+                                }),
+                                grid = new Grid.SimpleGrid({
+                                    idField : 'id',
+                                    columns : columns,
+                                    textGetter: function(item){ //返回选中的文本
+                                        return item.name;
+                                    },
+                                    store:store
+                                }),
+                                picker = new Picker.ListPicker({
+                                    trigger : '#aShow',
+                                    valueField : '#aHide', //如果需要列表返回的value，放在隐藏域，那么指定隐藏域
+                                    width:300,  //指定宽度
+                                    height:300,
+                                    children : [grid] //配置picker内的列表
+                                });
+                        picker.render();
+                    });
+                </script>
+            </div>
+            <div class="control-group">
+                <label class="control-label">电话：</label>
+                <div class="controls">
+                    <input class="input-middle" type="text" name="phone" data-rules="{number:true,maxlength:20}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">地址：</label>
+                <div class="controls">
+                    <input class="input-large" type="text" name="address" data-rules="{maxlength:255}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">邮箱：</label>
+                <div class="controls">
+                    <input class="input-large" type="text" name="email" data-rules="{email:true,maxlength:45}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">手机：</label>
+                <div class="controls">
+                    <input class="input-middle" type="text" name="mobile" data-rules="{mobile:true}"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-actions span13 offset3">
+                    <button type="submit" class="button button-primary">提交</button>
+                    <button type="reset" class="button resetBtn">重置</button>
+                </div>
+            </div>
+        </form>
     </div>
     <%--<div id="addInfo" style="display: none">--%>
         <%--<div class="container">--%>

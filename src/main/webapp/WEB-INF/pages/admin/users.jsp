@@ -63,7 +63,7 @@
                 contentId:'addUser',
                 buttons:[],
                 closeAction:'destroy'
-            })
+            });
             dialog.show();
         });
     })
@@ -93,7 +93,7 @@
                 </div>
 
                 <div id="updateUser" class="hide">
-                    <form id="U_Form" class="form-horizontal" action="/admin/users/updateP" method="post" commandName="userP" role="form">
+                    <form id="U_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/updateP" method="post" commandName="userP" role="form">
                         <div class="control-group">
                             <label class="control-label"><s>*</s>姓名：</label>
                             <div class="controls">
@@ -106,7 +106,6 @@
                                 <input type="hidden" id="hide" name="sex" value="" class="needReset">
                             </div>
                         </div>
-
                         <div class="control-group">
                             <label class="control-label"><s>*</s>年龄：</label>
                             <div class="controls">
