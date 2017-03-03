@@ -98,7 +98,50 @@
                 </div>
 
                 <div id="showInfo" class="hide">
-
+                    <form id="D_Form" class="form-horizontal form-horizontal-simple">
+                        <div class="control-group">
+                            <label class="control-label">用户名：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">性别：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">年龄：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">电话：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">地址：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">邮箱：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">手机：</label>
+                            <div class="controls">
+                                <span class="control-text"></span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <div id="updateInfo" class="hide">
@@ -265,6 +308,42 @@
                             },'warning');
                         }
 
+                        function showDetailInfo(userId,infoId) {
+                            alert(userId+","+infoId);
+                            //将这两个参数传到后端，重新读取数据后传回用户名、性别、年龄、电话、地址、邮箱、手机
+//                            BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
+//                                var form=new Form.Form({
+//                                    srcNode : '#A_Form',
+//                                    submitType:'ajax',
+//                                    callback:function(data){
+//                                        if(data.status==302){
+//                                            location.herf=data.location;
+//                                            location.reload();
+//                                        }
+//                                    }
+//                                }).render();
+//
+//                                $(".addB").click(function () {
+//                                    var dialog=new Overlay.Dialog({
+//                                        title:'添加信息',
+//                                        width:600,
+//                                        contentId:'addInfo',
+//                                        buttons:[],
+//                                        closeAction:'destroy',
+//                                        align : {
+//                                            //node : '',//对齐的元素，由于使用了trigger，默认跟trigger对齐
+//                                            points : ['tc','tc'], //对齐方式
+//                                            offset : [0,100] //偏移量
+//                                        },
+//                                    });
+//                                    dialog.show();
+//                                });
+//                            })
+//
+//                            参考以上代码将弹窗显示出来，在通过js向列表中指定位置赋值（innerHtml）
+//                            http://www.cnblogs.com/Zjingwen/p/4657127.html
+                        }
+
                         grid.on('cellclick',function  (ev) {
                             record = ev.record, //点击行的记录
                                     field = ev.field, //点击对应列的dataIndex
@@ -272,7 +351,9 @@
                             if(target.hasClass('btn-delete')){
                                 deleteWarming(record.id,record.userName);
                             }
-
+                            if(target.hasClass('btn-detail')){
+                                showDetailInfo(record.userId,record.id);
+                            }
                         });
                     });
                 </script>
@@ -352,61 +433,5 @@
             </div>
         </form>
     </div>
-    <%--<div id="addInfo" style="display: none">--%>
-        <%--<div class="container">--%>
-            <%--<form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/addP" method="post" commandName="info" role="form">--%>
-                <%--<div class="control-group">--%>
-                    <%--<label class="control-label">用户：</label>--%>
-                    <%--&lt;%&ndash;选择用户&ndash;%&gt;--%>
-                    <%--<div class="controls bui-form-group-select">--%>
-                        <%--<select class="input-middle" name="userByUserId.id">--%>
-                            <%--<c:forEach items="${userList}" var="user">--%>
-                                <%--<option value="${user.id}">${user.name},${user.sex},${user.age}</option>--%>
-                            <%--</c:forEach>--%>
-                        <%--</select>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="control-group">--%>
-                    <%--<label class="control-label">电话：</label>--%>
-                    <%--<div class="controls">--%>
-                        <%--<input class="input-middle" name="phone" placeholder="Enter phone number:" data-rules="{number:true,maxlength:20}"/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="control-group">--%>
-                    <%--<label class="control-label">地址：</label>--%>
-                    <%--<div class="controls">--%>
-                        <%--<input class="input-large" name="address" placeholder="Enter address:" data-rules="{maxlength:255}"/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="control-group">--%>
-                    <%--<label class="control-label">邮箱：</label>--%>
-                    <%--<div class="controls">--%>
-                        <%--<input class="input-large" name="email" placeholder="Enter email:" data-rules="{email:true,maxlength:45}"/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="control-group">--%>
-                    <%--<label class="control-label">手机：</label>--%>
-                    <%--<div class="controls">--%>
-                        <%--<input class="input-middle" name="mobile" placeholder="Enter mobilephone number:" data-rules="{mobile:true}"/>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="row">--%>
-                    <%--<div class="form-actions span13 offset3">--%>
-                        <%--<button type="submit" class="button button-primary">Submit</button>--%>
-                        <%--<button type="reset" class="button">Reset</button>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</form>--%>
-            <%--<script type="text/javascript">--%>
-                <%--BUI.use('bui/form',function(Form){--%>
-                    <%--new Form.Form({--%>
-                        <%--srcNode : '#J_Form',--%>
-                        <%--submitType:'ajax'--%>
-                    <%--}).render();--%>
-                <%--});--%>
-            <%--</script>--%>
-        <%--</div>--%>
-
-    <%--</div>--%>
 </body>
 </html>
