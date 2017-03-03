@@ -42,7 +42,6 @@ public class MainController {
         List<Object> userL=JSON.parseArray(user,Object.class);
         long results=userRepository.count();
 
-        map.put("result",true);
         map.put("rows",userL);
         map.put("results",results);
 

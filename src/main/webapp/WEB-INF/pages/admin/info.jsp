@@ -83,9 +83,11 @@
                                 Store = Data.Store,
                                 columns = [
                                     {title : 'ID',dataIndex :'id', width:'18%'},
-                                    {title : '姓名',dataIndex :'name', width:'18%'},
-                                    {title : '性别',dataIndex : 'sex',width:'18%'},
-                                    {title:'年龄',dataIndex:'age',width:'18%'},
+                                    {title : '用户姓名',dataIndex :'userName', width:'18%'},
+                                    {title : '电话',dataIndex : 'phone',width:'18%'},
+                                    {title:'地址',dataIndex:'address',width:'18%'},
+                                    {title:'邮箱',dataIndex:'email',width:'18%'},
+                                    {title:'手机',dataIndex:'mobile',width:'18%'},
                                     {title:'操作',width:'28%',renderer:function () {
                                         return '<span class="button button-warning btn-edit" style="margin-left: 20px"><i class="icon-white icon-edit btn-edit"></i>编辑</span>' +
                                                 '<span class="button button-danger btn-delete" style="margin-left: 20px"><i class="icon-white icon-trash btn-delete"></i>删除</span>';
@@ -103,8 +105,8 @@
                                             dataType:'json',
                                             success:function (data) {
                                                 if(data.results==0) {
-                                                    $(".noUser").show();
-                                                    $(".userExist").hide();
+                                                    $(".noInfo").show();
+                                                    $(".infoExist").hide();
                                                 }
                                             }
                                         }
@@ -171,61 +173,61 @@
             </div>
         </div>
     </div>
-    <div id="addInfo" style="display: none">
-        <div class="container">
-            <form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/addP" method="post" commandName="info" role="form">
-                <div class="control-group">
-                    <label class="control-label">用户：</label>
-                    <%--选择用户--%>
-                    <div class="controls bui-form-group-select">
-                        <select class="input-middle" name="userByUserId.id">
-                            <c:forEach items="${userList}" var="user">
-                                <option value="${user.id}">${user.name},${user.sex},${user.age}</option>
-                            </c:forEach>
-                        </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">电话：</label>
-                    <div class="controls">
-                        <input class="input-middle" name="phone" placeholder="Enter phone number:" data-rules="{number:true,maxlength:20}"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">地址：</label>
-                    <div class="controls">
-                        <input class="input-large" name="address" placeholder="Enter address:" data-rules="{maxlength:255}"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">邮箱：</label>
-                    <div class="controls">
-                        <input class="input-large" name="email" placeholder="Enter email:" data-rules="{email:true,maxlength:45}"/>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">手机：</label>
-                    <div class="controls">
-                        <input class="input-middle" name="mobile" placeholder="Enter mobilephone number:" data-rules="{mobile:true}"/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-actions span13 offset3">
-                        <button type="submit" class="button button-primary">Submit</button>
-                        <button type="reset" class="button">Reset</button>
-                    </div>
-                </div>
-            </form>
-            <script type="text/javascript">
-                BUI.use('bui/form',function(Form){
-                    new Form.Form({
-                        srcNode : '#J_Form',
-                        submitType:'ajax'
-                    }).render();
-                });
-            </script>
-        </div>
+    <%--<div id="addInfo" style="display: none">--%>
+        <%--<div class="container">--%>
+            <%--<form id="J_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/info/addP" method="post" commandName="info" role="form">--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">用户：</label>--%>
+                    <%--&lt;%&ndash;选择用户&ndash;%&gt;--%>
+                    <%--<div class="controls bui-form-group-select">--%>
+                        <%--<select class="input-middle" name="userByUserId.id">--%>
+                            <%--<c:forEach items="${userList}" var="user">--%>
+                                <%--<option value="${user.id}">${user.name},${user.sex},${user.age}</option>--%>
+                            <%--</c:forEach>--%>
+                        <%--</select>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">电话：</label>--%>
+                    <%--<div class="controls">--%>
+                        <%--<input class="input-middle" name="phone" placeholder="Enter phone number:" data-rules="{number:true,maxlength:20}"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">地址：</label>--%>
+                    <%--<div class="controls">--%>
+                        <%--<input class="input-large" name="address" placeholder="Enter address:" data-rules="{maxlength:255}"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">邮箱：</label>--%>
+                    <%--<div class="controls">--%>
+                        <%--<input class="input-large" name="email" placeholder="Enter email:" data-rules="{email:true,maxlength:45}"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="control-group">--%>
+                    <%--<label class="control-label">手机：</label>--%>
+                    <%--<div class="controls">--%>
+                        <%--<input class="input-middle" name="mobile" placeholder="Enter mobilephone number:" data-rules="{mobile:true}"/>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="row">--%>
+                    <%--<div class="form-actions span13 offset3">--%>
+                        <%--<button type="submit" class="button button-primary">Submit</button>--%>
+                        <%--<button type="reset" class="button">Reset</button>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</form>--%>
+            <%--<script type="text/javascript">--%>
+                <%--BUI.use('bui/form',function(Form){--%>
+                    <%--new Form.Form({--%>
+                        <%--srcNode : '#J_Form',--%>
+                        <%--submitType:'ajax'--%>
+                    <%--}).render();--%>
+                <%--});--%>
+            <%--</script>--%>
+        <%--</div>--%>
 
-    </div>
+    <%--</div>--%>
 </body>
 </html>
