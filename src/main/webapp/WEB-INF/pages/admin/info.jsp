@@ -74,7 +74,85 @@
                 </div>
 
                 <div id="updateInfo" class="hide">
+                    <form id="U_Form" class="form-horizontal" action="/admin/info/updateP" method="post" commandName="infoP" role="form">
+                        <div class="control-group">
+                            <label class="control-label"><s>*</s>用户：</label>
+                            <div class="controls">
+                                <div>
+                                    <input class="input-middle" type="text" id="show" name="userName">
+                                    <input type="hidden" id="hide" value="" name="userId">
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
 
+                                    var columns = [
+                                                {title : 'id',dataIndex :'id', width:'25%'},
+                                                {title : '姓名',dataIndex :'name', width:'25%'},
+                                                {title : '性别',dataIndex :'sex', width:'25%'},
+                                                {title : '年龄',dataIndex : 'age',width:'25%'}
+                                            ];
+                                    var store=new Data.Store({
+                                        url:'usersP',
+                                        autoLoad:true
+                                    }),
+                                    grid = new Grid.SimpleGrid({
+                                        idField : 'id',
+                                        columns : columns,
+                                        textGetter: function(item){ //返回选中的文本
+                                            return item.name;
+                                        },
+                                        store:store
+                                    }),
+                                    picker = new Picker.ListPicker({
+                                        trigger : '#show',
+                                        valueField : '#hide', //如果需要列表返回的value，放在隐藏域，那么指定隐藏域
+                                        width:300,  //指定宽度
+                                        height:300,
+                                        children : [grid] //配置picker内的列表
+                                    });
+                                    picker.render();
+                                });
+                            </script>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">电话：</label>
+                            <div class="controls">
+                                <%--<input type="hidden" id="hide" name="sex" value="" class="needReset">--%>
+                                <input class="input-middle" type="text" name="phone" data-rules="{number:true,maxlength:20}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">地址：</label>
+                            <div class="controls">
+                                <%--<input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>--%>
+                                <input class="input-large" type="text" name="address" data-rules="{maxlength:255}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">邮箱：</label>
+                            <div class="controls">
+                                <%--<input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>--%>
+                                <input class="input-large" type="text" name="email" data-rules="{email:true,maxlength:45}"/>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">手机：</label>
+                            <div class="controls">
+                                <%--<input class="input-small" type="text" name="age" placeholder="Enter age:" data-rules="{required : true,max:[120,'请输入有效年龄！'],min:[0,'请输入有效年龄！'],number:true}"/>--%>
+                                <input class="input-middle" type="text" name="mobile" data-rules="{mobile:true}"/>
+                            </div>
+                        </div>
+                        <div>
+                            <input type="hidden" name="id"/>
+                        </div>
+                        <div class="row">
+                            <div class="form-actions span13 offset3">
+                                <button type="submit" class="button button-primary">提交</button>
+                                <button type="reset" class="button resetBtn">重置</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
                 <script type="text/javascript">
@@ -114,10 +192,10 @@
                                     }
                                 }),
                                 editing = new Grid.Plugins.DialogEditing({
-                                    contentId : 'updateUser', //设置隐藏的Dialog内容
+                                    contentId : 'updateInfo', //设置隐藏的Dialog内容
                                     triggerCls : 'btn-edit', //触发显示Dialog的样式
                                     editor : {
-                                        title : '修改用户',
+                                        title : '修改信息',
                                         width : 600,
                                         form:{
                                             srcNode : '#U_Form',
@@ -142,13 +220,13 @@
 
                         grid.render();
 
-                        function deleteWarming(userID){
-                            BUI.Message.Alert('确定删除此用户？',function () {
+                        function deleteWarming(infoId,userName){
+                            BUI.Message.Alert('确定删除用户“'+userName+'”信息？',function () {
                                 $.ajax({
-                                    url:"/admin/users/deleteP",
+                                    url:"/admin/info/deleteP",
                                     type:"post",
                                     dataType:"json",
-                                    data:{"id":userID},
+                                    data:{"id":infoId},
                                     success:function (res) {
                                         if(res.error){
                                             BUI.Message.Alert(res.error,'error');
@@ -165,7 +243,7 @@
                                     field = ev.field, //点击对应列的dataIndex
                                     target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
-                                deleteWarming(record.id);
+                                deleteWarming(record.id,record.userName);
                             }
 
                         });

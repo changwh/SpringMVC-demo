@@ -187,13 +187,13 @@
 
                         grid.render();
 
-                        function deleteWarming(userID){
-                            BUI.Message.Alert('确定删除此用户？',function () {
+                        function deleteWarming(userId,userName){
+                            BUI.Message.Alert('确定删除用户:'+userName+'？',function () {
                                 $.ajax({
                                     url:"/admin/users/deleteP",
                                     type:"post",
                                     dataType:"json",
-                                    data:{"id":userID},
+                                    data:{"id":userId},
                                     success:function (res) {
                                         if(res.error){
                                             BUI.Message.Alert(res.error,'error');
@@ -210,7 +210,7 @@
                                     field = ev.field, //点击对应列的dataIndex
                                     target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
-                                deleteWarming(record.id);
+                                deleteWarming(record.id,record.name);
                             }
 
                         });

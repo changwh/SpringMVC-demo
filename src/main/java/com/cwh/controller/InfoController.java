@@ -5,10 +5,10 @@ import com.cnc.thirdparty.fastjson.JSONArray;
 import com.cnc.thirdparty.fastjson.JSONObject;
 import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
 import com.cwh.model.InfoEntity;
+import com.cwh.model.ReturnJson;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.InfoRepository;
 import com.cwh.repository.UserRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -131,26 +131,50 @@ public class InfoController {
 
     /**
      * 修改信息操作
-     * @param infoEntity
+     * @param returnJson
      * @return
      */
     @RequestMapping(value = "/admin/info/updateP",method = RequestMethod.POST)
-    public String updateInfoP(@ModelAttribute("infoP") InfoEntity infoEntity){
+    public String updateInfoP(@ModelAttribute("infoP") ReturnJson returnJson){
         //更新信息
-        infoRepository.updateInfo(infoEntity.getPhone(),infoEntity.getAddress(),infoEntity.getEmail(),infoEntity.getMobile(),infoEntity.getUserByUserId().getId(),infoEntity.getId());
+        infoRepository.updateInfo(returnJson.getPhone(),returnJson.getAddress(),returnJson.getEmail(),returnJson.getMobile(),returnJson.getUserId(),returnJson.getId());
         infoRepository.flush();
         return "redirect:/admin/info";
     }
 
-    /**
-     * 删除信息
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/admin/info/delete/{id}")
-    public String deleteInfo(@PathVariable("id") int id){
-        infoRepository.delete(id);
-        infoRepository.flush();
-        return "redirect:/admin/info";
+//    /**
+//     * 删除信息
+//     * @param id
+//     * @return
+//     */
+//    @RequestMapping(value = "/admin/info/delete/{id}")
+//    public String deleteInfo(@PathVariable("id") int id){
+//        infoRepository.delete(id);
+//        infoRepository.flush();
+//        return "redirect:/admin/info";
+//    }
+
+    @RequestMapping(value = "/admin/info/deleteP",method = RequestMethod.POST)
+    public @ResponseBody String deleteInfoPost(@ModelAttribute("deleteP") ReturnJson returnJson){
+
+        Map<String,Object> status=new HashMap<String,Object>();
+
+        status.put("hasError","false");
+        try {
+            //删除id为infoId的信息
+            infoRepository.delete(returnJson.getId());
+            //立即刷新
+            infoRepository.flush();
+        }catch (Exception e){
+            status.remove("hasError");
+            status.put("hasError","true");
+            status.put("error","删除失败");
+        }
+
+        String json=JSON.toJSONString(status,true);
+
+
+        return json;
     }
 }
+
