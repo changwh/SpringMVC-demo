@@ -82,15 +82,16 @@
                         var Grid = Grid,
                                 Store = Data.Store,
                                 columns = [
-                                    {title : 'ID',dataIndex :'id', width:'18%'},
-                                    {title : '用户姓名',dataIndex :'userName', width:'18%'},
-                                    {title : '电话',dataIndex : 'phone',width:'18%'},
-                                    {title:'地址',dataIndex:'address',width:'18%'},
-                                    {title:'邮箱',dataIndex:'email',width:'18%'},
-                                    {title:'手机',dataIndex:'mobile',width:'18%'},
+                                    {title : 'ID',dataIndex :'id', width:'4%'},
+                                    {title : '用户姓名',dataIndex :'userName', width:'8%'},
+                                    {title : '电话',dataIndex : 'phone',width:'10%'},
+                                    {title:'地址',dataIndex:'address',width:'20%'},
+                                    {title:'邮箱',dataIndex:'email',width:'20%'},
+                                    {title:'手机',dataIndex:'mobile',width:'10%'},
                                     {title:'操作',width:'28%',renderer:function () {
-                                        return '<span class="button button-warning btn-edit" style="margin-left: 20px"><i class="icon-white icon-edit btn-edit"></i>编辑</span>' +
-                                                '<span class="button button-danger btn-delete" style="margin-left: 20px"><i class="icon-white icon-trash btn-delete"></i>删除</span>';
+                                        return '<span class="button button-info btn-detail" style="margin-left: 9px"><i class="icon-white icon-th-list btn-detail"></i>详情</span>' +
+                                                '<span class="button button-warning btn-edit" style="margin-left: 9px"><i class="icon-white icon-edit btn-edit"></i>编辑</span>' +
+                                                '<span class="button button-danger btn-delete" style="margin-left: 9px"><i class="icon-white icon-trash btn-delete"></i>删除</span>';
                                     }}
                                 ];
 
