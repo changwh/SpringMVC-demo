@@ -88,7 +88,7 @@ public class MainController {
         userRepository.updateUser(user.getName(),user.getSex(),user.getAge(),user.getId());
         //刷新缓冲区
         userRepository.flush();
-        return "redirect:/admin/users";
+        return "redirect:/";
     }
 
 
