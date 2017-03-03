@@ -5,10 +5,10 @@ import com.cnc.thirdparty.fastjson.JSONArray;
 import com.cnc.thirdparty.fastjson.JSONObject;
 import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
 import com.cwh.model.InfoEntity;
+import com.cwh.model.ReturnJson;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.InfoRepository;
 import com.cwh.repository.UserRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -43,12 +43,13 @@ public class InfoController {
         return "admin/info";
     }
 
+
     @RequestMapping(value = "/admin/infoP",method = RequestMethod.GET)
     public @ResponseBody String getInfoP(ModelMap modelMap){
         //查询user表中所有记录
         Map<String,Object> map = new HashMap<String,Object>();
 
-        List<UserEntity> userList=userRepository.findAll();
+//        List<UserEntity> userList=userRepository.findAll();
         List<InfoEntity> infoList=infoRepository.findAll();
 
 //        SimplePropertyPreFilter fliterUser=new SimplePropertyPreFilter(UserEntity.class,"id","name","sex","age");
@@ -56,6 +57,9 @@ public class InfoController {
 
 //        String user= JSON.toJSONString(userList,fliterUser);
         String info=JSON.toJSONString(infoList,fliterInfo);
+
+        System.out.println("json:");
+        System.out.println(info);
 
         JSONArray jsonArray=JSON.parseArray(info);
 //        System.out.println("size of jsonArray:"+jsonArray.size());
@@ -70,9 +74,8 @@ public class InfoController {
                 jsonArray.getJSONObject(i).put("userId",userId);
             }
         }
-        System.out.println();
-        System.out.println(jsonArray.toJSONString());
-        System.out.println();
+
+//        System.out.println(jsonArray.toJSONString());
 
 //        List<Object> userL=JSON.parseArray(user,Object.class);
 //        List<Object> infoL=JSON.parseArray(info,Object.class);
@@ -90,15 +93,38 @@ public class InfoController {
         return json;
     }
 
-    /**
-     * 添加信息操作
-     * @param infoEntity
-     * @return
-     */
+
+
+//    /**
+//     * 添加信息操作
+//     * @param infoEntity
+//     * @return
+//     */
     @RequestMapping(value = "/admin/info/addP",method = RequestMethod.POST)
-    public String addInfoPost(@ModelAttribute("info") InfoEntity infoEntity){
-        infoRepository.saveAndFlush(infoEntity);
-        return "redirect:/admin/info";
+    public @ResponseBody String addInfoPost(@ModelAttribute("info") ReturnJson returnJson){
+//        infoRepository.saveAndFlush(infoEntity);
+//        infoRepository.saveAndFlush(returnJson);
+
+        UserEntity user=userRepository.findOne(returnJson.getUserId());
+
+        InfoEntity info=new InfoEntity();
+
+        info.setAddress(returnJson.getAddress());
+        info.setEmail(returnJson.getEmail());
+        info.setMobile(returnJson.getMobile());
+        info.setPhone(returnJson.getPhone());
+        info.setUserByUserId(user);
+
+        infoRepository.saveAndFlush(info);
+
+
+//        System.out.println(returnJson.toString());
+
+        Map<String,Object> status=new HashMap<String,Object>();
+        status.put("status",302);
+        status.put("location","/admin/users");
+        String json=JSON.toJSONString(status,true);
+        return json;
     }
 
     /**
@@ -114,43 +140,66 @@ public class InfoController {
         return "admin/infoDetail";
     }
 
-    /**
-     * 访问修改信息页面
-     * @param id
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping(value = "/admin/info/update/{id}",method = RequestMethod.GET)
-    public String updateInfo(@PathVariable("id") int id,ModelMap modelMap){
-        InfoEntity info=infoRepository.findOne(id);
-        List<UserEntity> userList=userRepository.findAll();
-        modelMap.addAttribute("info",info);
-        modelMap.addAttribute("userList",userList);
-        return "admin/updateInfo";
-    }
+//    /**
+//     * 访问修改信息页面
+//     * @param id
+//     * @param modelMap
+//     * @return
+//     */
+//    @RequestMapping(value = "/admin/info/update/{id}",method = RequestMethod.GET)
+//    public String updateInfo(@PathVariable("id") int id,ModelMap modelMap){
+//        InfoEntity info=infoRepository.findOne(id);
+//        List<UserEntity> userList=userRepository.findAll();
+//        modelMap.addAttribute("info",info);
+//        modelMap.addAttribute("userList",userList);
+//        return "admin/updateInfo";
+//    }
 
     /**
      * 修改信息操作
-     * @param infoEntity
+     * @param returnJson
      * @return
      */
     @RequestMapping(value = "/admin/info/updateP",method = RequestMethod.POST)
-    public String updateInfoP(@ModelAttribute("infoP") InfoEntity infoEntity){
+    public String updateInfoP(@ModelAttribute("infoP") ReturnJson returnJson){
         //更新信息
-        infoRepository.updateInfo(infoEntity.getPhone(),infoEntity.getAddress(),infoEntity.getEmail(),infoEntity.getMobile(),infoEntity.getUserByUserId().getId(),infoEntity.getId());
+        infoRepository.updateInfo(returnJson.getPhone(),returnJson.getAddress(),returnJson.getEmail(),returnJson.getMobile(),returnJson.getUserId(),returnJson.getId());
         infoRepository.flush();
         return "redirect:/admin/info";
     }
 
-    /**
-     * 删除信息
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/admin/info/delete/{id}")
-    public String deleteInfo(@PathVariable("id") int id){
-        infoRepository.delete(id);
-        infoRepository.flush();
-        return "redirect:/admin/info";
+//    /**
+//     * 删除信息
+//     * @param id
+//     * @return
+//     */
+//    @RequestMapping(value = "/admin/info/delete/{id}")
+//    public String deleteInfo(@PathVariable("id") int id){
+//        infoRepository.delete(id);
+//        infoRepository.flush();
+//        return "redirect:/admin/info";
+//    }
+
+    @RequestMapping(value = "/admin/info/deleteP",method = RequestMethod.POST)
+    public @ResponseBody String deleteInfoPost(@ModelAttribute("deleteP") ReturnJson returnJson){
+
+        Map<String,Object> status=new HashMap<String,Object>();
+
+        status.put("hasError","false");
+        try {
+            //删除id为infoId的信息
+            infoRepository.delete(returnJson.getId());
+            //立即刷新
+            infoRepository.flush();
+        }catch (Exception e){
+            status.remove("hasError");
+            status.put("hasError","true");
+            status.put("error","删除失败");
+        }
+
+        String json=JSON.toJSONString(status,true);
+
+        return json;
     }
 }
+

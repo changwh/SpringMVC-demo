@@ -63,7 +63,7 @@
                 contentId:'addUser',
                 buttons:[],
                 closeAction:'destroy'
-            })
+            });
             dialog.show();
         });
     })
@@ -93,7 +93,7 @@
                 </div>
 
                 <div id="updateUser" class="hide">
-                    <form id="U_Form" class="form-horizontal" action="/admin/users/updateP" method="post" commandName="userP" role="form">
+                    <form id="U_Form" class="form-horizontal bui-form bui-form-field-container" action="/admin/users/updateP" method="post" commandName="userP" role="form">
                         <div class="control-group">
                             <label class="control-label"><s>*</s>姓名：</label>
                             <div class="controls">
@@ -106,7 +106,6 @@
                                 <input type="hidden" id="hide" name="sex" value="" class="needReset">
                             </div>
                         </div>
-
                         <div class="control-group">
                             <label class="control-label"><s>*</s>年龄：</label>
                             <div class="controls">
@@ -187,13 +186,13 @@
 
                         grid.render();
 
-                        function deleteWarming(userID){
-                            BUI.Message.Alert('确定删除此用户？',function () {
+                        function deleteWarming(userId,userName){
+                            BUI.Message.Alert('确定删除用户:'+userName+'？',function () {
                                 $.ajax({
                                     url:"/admin/users/deleteP",
                                     type:"post",
                                     dataType:"json",
-                                    data:{"id":userID},
+                                    data:{"id":userId},
                                     success:function (res) {
                                         if(res.error){
                                             BUI.Message.Alert(res.error,'error');
@@ -210,7 +209,7 @@
                                     field = ev.field, //点击对应列的dataIndex
                                     target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
-                                deleteWarming(record.id);
+                                deleteWarming(record.id,record.name);
                             }
 
                         });

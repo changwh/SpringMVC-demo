@@ -17,5 +17,5 @@ public interface InfoRepository extends JpaRepository<InfoEntity,Integer>{
     @Modifying
     @Transactional
     @Query("update  InfoEntity info set info.address=:qAddress,info.phone=:qPhone,info.email=:qEmail,info.mobile=:qMobile,info.userByUserId.id=:qUserId where info.id=:qId")
-    void updateInfo(@Param("qPhone") String phone,@Param("qAddress") String address,@Param("qEmail") String email,@Param("qMobile") String mobile,@Param("qUserId") int userId,@Param("qId") int id);
+    public void updateInfo(@Param("qPhone") String phone,@Param("qAddress") String address,@Param("qEmail") String email,@Param("qMobile") String mobile,@Param("qUserId") int userId,@Param("qId") int id);
 }
