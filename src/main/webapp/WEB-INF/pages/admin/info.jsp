@@ -311,34 +311,27 @@
                         function showDetailInfo(userId,infoId) {
                             alert(userId+","+infoId);
                             //将这两个参数传到后端，重新读取数据后传回用户名、性别、年龄、电话、地址、邮箱、手机
-//                            BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
-//                                var form=new Form.Form({
-//                                    srcNode : '#A_Form',
-//                                    submitType:'ajax',
-//                                    callback:function(data){
-//                                        if(data.status==302){
-//                                            location.herf=data.location;
-//                                            location.reload();
-//                                        }
-//                                    }
-//                                }).render();
-//
-//                                $(".addB").click(function () {
-//                                    var dialog=new Overlay.Dialog({
-//                                        title:'添加信息',
-//                                        width:600,
-//                                        contentId:'addInfo',
-//                                        buttons:[],
-//                                        closeAction:'destroy',
-//                                        align : {
-//                                            //node : '',//对齐的元素，由于使用了trigger，默认跟trigger对齐
-//                                            points : ['tc','tc'], //对齐方式
-//                                            offset : [0,100] //偏移量
-//                                        },
-//                                    });
-//                                    dialog.show();
-//                                });
-//                            })
+                            BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
+                                var form=new Form.Form({
+                                    srcNode : '#D_Form',
+
+                                }).render();
+
+
+                                var dialog=new Overlay.Dialog({
+                                    title:'添加信息',
+                                    width:600,
+                                    contentId:'showInfo',
+                                    buttons:[],
+                                    closeAction:'destroy',
+                                    align : {
+                                        //node : '',//对齐的元素，由于使用了trigger，默认跟trigger对齐
+                                        points : ['tc','tc'], //对齐方式
+                                        offset : [0,100] //偏移量
+                                    },
+                                });
+                                dialog.show();
+                            });
 //
 //                            参考以上代码将弹窗显示出来，在通过js向列表中指定位置赋值（innerHtml）
 //                            http://www.cnblogs.com/Zjingwen/p/4657127.html
