@@ -1,10 +1,12 @@
 package com.cwh.controller;
 
 import com.cnc.thirdparty.fastjson.JSON;
-import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
+import com.cwh.model.Page;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,9 @@ public class MainController {
     @Autowired
     UserRepository userRepository;
 
+
     /**
-     * 查看所有用户
+     * 查看所有用户页面
      * @param modelMap
      * @return
      */
@@ -30,35 +33,39 @@ public class MainController {
     }
 
 
-
-
+    /**
+     * 查看所有用户操作
+     * @param page
+     * @return
+     */
     @RequestMapping(value = "/admin/usersP",method = RequestMethod.GET)
-    public @ResponseBody String getUsersP(ModelMap modelMap){
-        //查询user表中所有记录
+    public @ResponseBody String getUsersP(@ModelAttribute("page") Page page){
         Map<String,Object> map = new HashMap<String,Object>();
-        List<UserEntity> userList=userRepository.findAll();
-        SimplePropertyPreFilter fliter=new SimplePropertyPreFilter(UserEntity.class,"id","name","sex","age");
-        String user= JSON.toJSONString(userList,fliter);
-        List<Object> userL=JSON.parseArray(user,Object.class);
+
+        //防止在其他页面调用查询全部用户时因未传入pageSize而报错
+        int pageLimit;
+        if (page.getLimit()!=0){
+            pageLimit=page.getLimit();
+        }else {
+            pageLimit=9999999;
+        }
+
+        //分页查询user表中所有记录
+        Pageable pageable=new PageRequest(page.getPageIndex(),pageLimit);
+        org.springframework.data.domain.Page<UserEntity> userPage=userRepository.findAll(pageable);
+        List<UserEntity> userL=userPage.getContent();
         long results=userRepository.count();
 
         map.put("rows",userL);
         map.put("results",results);
-
         String json=JSON.toJSONString(map,true);
 
-//        System.out.println(json);
         return json;
-    }
-
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public String test(ModelMap modelMap){
-        return "test";
     }
 
 
     /**
-     * post请求，处理添加用户请求，并重定向到用户管理页面
+     * post请求，处理添加用户请求
      * @param userEntity
      * @return
      */
@@ -76,7 +83,6 @@ public class MainController {
     }
 
 
-
     /**
      * 更新用户信息操作
      * @param user
@@ -92,7 +98,11 @@ public class MainController {
     }
 
 
-
+    /**
+     * 删除用户操作
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "/admin/users/deleteP",method = RequestMethod.POST)
     public @ResponseBody String deleteUserPost(@ModelAttribute("deleteP") UserEntity user){
 
@@ -112,12 +122,17 @@ public class MainController {
 
         String json=JSON.toJSONString(status,true);
 
-
         return json;
     }
 
-    @RequestMapping(value = "/admin/test",method = RequestMethod.GET)
-    public String test(){
-        return "/admin/test";
+
+    /**
+     * 测试页面
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String test(ModelMap modelMap){
+        return "test";
     }
 }

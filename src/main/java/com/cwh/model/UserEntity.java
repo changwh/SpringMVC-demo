@@ -1,6 +1,10 @@
 package com.cwh.model;
 
+import org.springframework.data.annotation.*;
+
 import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.util.Collection;
 
 /**
@@ -78,7 +82,11 @@ public class UserEntity {
         result = 31 * result + age;
         return result;
     }
-    @OneToMany(mappedBy = "userByUserId",fetch=FetchType.EAGER) //关闭懒加载，解决“代理不能被初始化，session已经关闭”的问题
+
+    //fetch=FetchType.EAGER,关闭懒加载，解决“代理不能被初始化，session已经关闭”的问题
+    @OneToMany(mappedBy = "userByUserId",fetch=FetchType.EAGER)
+    //将原来的“双向关系”修改为“单向关系”，使其无法反向获取数值，避免因为关闭了fastjson的循环引用检测而出现的StackOverflowError
+    @Transient
     public Collection<InfoEntity> getInfoById() {
         return infoById;
     }

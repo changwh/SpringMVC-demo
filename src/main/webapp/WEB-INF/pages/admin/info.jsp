@@ -18,6 +18,12 @@
         body {
             background-color: #fff;
         }
+         .bui-list-picker{
+             overflow: auto;
+             overflow-x: hidden;
+             max-height: 150px;
+             _height : 150px;
+         }
     </style>
 </head>
 <script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
@@ -102,43 +108,43 @@
                         <div class="control-group">
                             <label class="control-label">用户名：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showName"></span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">性别：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showSex"></span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">年龄：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showAge"></span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">电话：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showPhone"></span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">地址：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showAddress"></span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">邮箱：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showEmail"></span>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label">手机：</label>
                             <div class="controls">
-                                <span class="control-text"></span>
+                                <span class="control-text" id="showMobile"></span>
                             </div>
                         </div>
                     </form>
@@ -154,7 +160,6 @@
                             </div>
                             <script type="text/javascript">
                                 BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
-
                                     var columns = [
                                                 {title : 'id',dataIndex :'id', width:'25%'},
                                                 {title : '姓名',dataIndex :'name', width:'25%'},
@@ -176,8 +181,7 @@
                                     picker = new Picker.ListPicker({
                                         trigger : '#show',
                                         valueField : '#hide', //如果需要列表返回的value，放在隐藏域，那么指定隐藏域
-                                        width:300,  //指定宽度
-                                        height:300,
+                                        width:300,
                                         children : [grid] //配置picker内的列表
                                     });
                                     picker.render();
@@ -308,15 +312,27 @@
                             },'warning');
                         }
 
-                        function showDetailInfo(userId,infoId) {
-                            alert(userId+","+infoId);
-                            //将这两个参数传到后端，重新读取数据后传回用户名、性别、年龄、电话、地址、邮箱、手机
+                        function showDetailInfo(infoId) {
+                            $.ajax({
+                               url:"/admin/info/show",
+                                type:"post",
+                                dataType:"json",
+                                data:{"id":infoId},
+                                success:function(res){
+                                    $("#showName").text(res.name);
+                                    $("#showSex").text(res.sex);
+                                    $("#showAge").text(res.age);
+                                    $("#showPhone").text(res.phone);
+                                    $("#showAddress").text(res.address);
+                                    $("#showEmail").text(res.email);
+                                    $("#showMobile").text(res.mobile);
+                                }
+                            });
+
                             BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
                                 var form=new Form.Form({
-                                    srcNode : '#D_Form',
-
+                                    srcNode : '#D_Form'
                                 }).render();
-
 
                                 var dialog=new Overlay.Dialog({
                                     title:'添加信息',
@@ -332,20 +348,17 @@
                                 });
                                 dialog.show();
                             });
-//
-//                            参考以上代码将弹窗显示出来，在通过js向列表中指定位置赋值（innerHtml）
-//                            http://www.cnblogs.com/Zjingwen/p/4657127.html
                         }
 
                         grid.on('cellclick',function  (ev) {
                             record = ev.record, //点击行的记录
-                                    field = ev.field, //点击对应列的dataIndex
-                                    target = $(ev.domTarget); //点击的元素
+                            field = ev.field, //点击对应列的dataIndex
+                            target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
                                 deleteWarming(record.id,record.userName);
                             }
                             if(target.hasClass('btn-detail')){
-                                showDetailInfo(record.userId,record.id);
+                                showDetailInfo(record.id);
                             }
                         });
                     });
@@ -364,7 +377,6 @@
                 </div>
                 <script type="text/javascript">
                     BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
-
                         var columns = [
                             {title : 'id',dataIndex :'id', width:'25%'},
                             {title : '姓名',dataIndex :'name', width:'25%'},
