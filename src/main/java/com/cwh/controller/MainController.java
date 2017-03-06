@@ -126,6 +126,23 @@ public class MainController {
     }
 
 
+
+    //因为每页只有10个，所以可以试着构造一个id0-9的模型接收json
+//    @RequestMapping(value = "/admin/users/deleteSelected",method = RequestMethod.POST)
+//    public @ResponseBody String deleteUsersPost(@ModelAttribute("deleteSelected") String[] selectedUser){
+//        System.out.println();
+//        System.out.println(selectedUser[0]);
+//        System.out.println();
+////        for (int i=0;i<selectedUser.length;i++){
+////            System.out.println(selectedUser[i].toString());
+////        };
+//        Map<String,Object> status=new  HashMap<String,Object>();
+//        status.put("hasError","false");
+//        String json=JSON.toJSONString(status,true);
+//        return json;
+//    }
+
+
     /**
      * 测试页面
      * @param modelMap

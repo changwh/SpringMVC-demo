@@ -78,7 +78,17 @@
 
     <div id="users">
         <div class="container">
-            <h1>所有用户<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
+            <h1>
+                所有用户
+                <button class="addB button button-primary" style="margin-left: 20px">
+                    <i class="icon-white icon-plus"></i>
+                    添加
+                </button>
+                <button class="deleteB button button-danger" style="margin-left: 20px">
+                    <i class="icon-white icon-trash"></i>
+                    批量删除
+                </button>
+            </h1>
             <div class="panel">
                 <%--如果用户列表为空--%>
                 <div class="noUser" style="display: none">
@@ -158,6 +168,7 @@
                             }
                         }),
                         editing = new Grid.Plugins.DialogEditing({
+                            triggerSelected : false,
                             contentId : 'updateUser', //设置隐藏的Dialog内容
                             triggerCls : 'btn-edit', //触发显示Dialog的样式
                             editor : {
@@ -176,7 +187,7 @@
                             width:'auto',
                             loadMask: true, //加载数据时显示屏蔽层
                             store: store,
-                            plugins:[editing],
+                            plugins:[editing,Grid.Plugins.CheckSelection,Grid.Plugins.ColumnChecked],
                             // 底部工具栏
                             bbar:{
                                 // pagingBar:表明包含分页栏
@@ -210,8 +221,42 @@
                                     target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
                                 deleteWarming(record.id,record.name);
+                                //点击后不被勾选
+                                return false;
                             }
+                        });
 
+                        function delSelected() {
+                            var selections = grid.getSelection();
+                            store.remove(selections);
+                            var json="{";
+                            var length=selections.length-1;
+                            for(var i=0;i<selections.length-1;i++){
+                                json+="\"id"+i+"\":"+selections[i].id+",";
+                            }
+                            json+="\"id"+length+"\":"+selections[selections.length-1].id+"}";
+
+                            var send = eval('(' + json + ')');
+                            alert(json);
+//                            console.log(selections);
+                            BUI.Message.Alert('确定删除选定用户？',function () {
+                                $.ajax({
+                                    url:"/admin/users/deleteSelected",
+                                    type:"post",
+                                    data:send,
+                                    dataType:'ajax',
+                                    success:function (res) {
+                                        if(res.error){
+                                            BUI.Message.Alert(res.error,'error');
+                                        }else {
+                                            location.reload();
+                                        }
+                                    }
+                                })
+                            },'warning');
+                        };
+                        $(".deleteB").click(function () {
+                            delSelected();
                         });
                     });
                 </script>
