@@ -19,8 +19,9 @@ public class MainController {
     @Autowired
     UserRepository userRepository;
 
+
     /**
-     * 查看所有用户
+     * 查看所有用户页面
      * @param modelMap
      * @return
      */
@@ -30,8 +31,11 @@ public class MainController {
     }
 
 
-
-
+    /**
+     * 查看所有用户操作
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "/admin/usersP",method = RequestMethod.GET)
     public @ResponseBody String getUsersP(ModelMap modelMap){
         //查询user表中所有记录
@@ -47,18 +51,12 @@ public class MainController {
 
         String json=JSON.toJSONString(map,true);
 
-//        System.out.println(json);
         return json;
-    }
-
-    @RequestMapping(value = "/test",method = RequestMethod.GET)
-    public String test(ModelMap modelMap){
-        return "test";
     }
 
 
     /**
-     * post请求，处理添加用户请求，并重定向到用户管理页面
+     * post请求，处理添加用户请求
      * @param userEntity
      * @return
      */
@@ -76,7 +74,6 @@ public class MainController {
     }
 
 
-
     /**
      * 更新用户信息操作
      * @param user
@@ -92,7 +89,11 @@ public class MainController {
     }
 
 
-
+    /**
+     * 删除用户操作
+     * @param user
+     * @return
+     */
     @RequestMapping(value = "/admin/users/deleteP",method = RequestMethod.POST)
     public @ResponseBody String deleteUserPost(@ModelAttribute("deleteP") UserEntity user){
 
@@ -112,12 +113,17 @@ public class MainController {
 
         String json=JSON.toJSONString(status,true);
 
-
         return json;
     }
 
-    @RequestMapping(value = "/admin/test",method = RequestMethod.GET)
-    public String test(){
-        return "/admin/test";
+
+    /**
+     * 测试页面
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String test(ModelMap modelMap){
+        return "test";
     }
 }
