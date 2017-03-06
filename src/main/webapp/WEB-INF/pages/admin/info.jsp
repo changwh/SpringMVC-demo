@@ -160,7 +160,6 @@
                             </div>
                             <script type="text/javascript">
                                 BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
-
                                     var columns = [
                                                 {title : 'id',dataIndex :'id', width:'25%'},
                                                 {title : '姓名',dataIndex :'name', width:'25%'},
@@ -378,7 +377,6 @@
                 </div>
                 <script type="text/javascript">
                     BUI.use(['bui/picker','bui/grid','bui/data'],function(Picker,Grid,Data){
-
                         var columns = [
                             {title : 'id',dataIndex :'id', width:'25%'},
                             {title : '姓名',dataIndex :'name', width:'25%'},
