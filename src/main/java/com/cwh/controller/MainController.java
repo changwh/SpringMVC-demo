@@ -128,6 +128,7 @@ public class MainController {
 
 
     //因为每页只有10个，所以可以试着构造一个id0-9的模型接收json
+
 //    @RequestMapping(value = "/admin/users/deleteSelected",method = RequestMethod.POST)
 //    public @ResponseBody String deleteUsersPost(@ModelAttribute("deleteSelected") String[] selectedUser){
 //        System.out.println();
