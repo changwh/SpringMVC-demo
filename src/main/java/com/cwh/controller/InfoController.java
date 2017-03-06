@@ -3,7 +3,7 @@ package com.cwh.controller;
 import com.cnc.thirdparty.fastjson.JSON;
 import com.cnc.thirdparty.fastjson.JSONArray;
 import com.cnc.thirdparty.fastjson.JSONObject;
-import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
+import com.cnc.thirdparty.fastjson.serializer.SerializerFeature;
 import com.cwh.model.InfoEntity;
 import com.cwh.model.Page;
 import com.cwh.model.ReturnJson;
@@ -58,8 +58,8 @@ public class InfoController {
         org.springframework.data.domain.Page<InfoEntity> infoPage=infoRepository.findAll(pageable);
         List<InfoEntity> infoList=infoPage.getContent();
 
-        //转化为JSONString
-        String info=JSON.toJSONString(infoList);
+        //转化为JSONString，关闭FastJSON的循环引用检测，防止出现"$ref"使前端无法解析
+        String info=JSON.toJSONString(infoList,SerializerFeature.DisableCircularReferenceDetect);
 
         //再转化为JSON数组便于遍历取值
         JSONArray jsonArray=JSON.parseArray(info);
@@ -82,7 +82,7 @@ public class InfoController {
         map.put("rows",jsonArray);
         map.put("results",results);
 
-        String json=JSON.toJSONString(map,true);
+        String json=JSON.toJSONString(map,SerializerFeature.DisableCircularReferenceDetect);
 
         return json;
     }
@@ -112,7 +112,7 @@ public class InfoController {
         status.put("status",302);
         //便于前端进行页面跳转
         status.put("location","/admin/users");
-        String json=JSON.toJSONString(status,true);
+        String json=JSON.toJSONString(status, SerializerFeature.DisableCircularReferenceDetect);
         return json;
     }
 
@@ -139,7 +139,7 @@ public class InfoController {
             detail.put("hasError",true);
         }
 
-        String json=JSON.toJSONString(detail);
+        String json=JSON.toJSONString(detail,SerializerFeature.DisableCircularReferenceDetect);
         return json;
     }
 
@@ -179,7 +179,7 @@ public class InfoController {
             status.put("error","删除失败");
         }
 
-        String json=JSON.toJSONString(status,true);
+        String json=JSON.toJSONString(status,SerializerFeature.DisableCircularReferenceDetect);
 
         return json;
     }
