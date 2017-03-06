@@ -4,16 +4,19 @@ import com.cnc.thirdparty.fastjson.JSON;
 import com.cnc.thirdparty.fastjson.JSONArray;
 import com.cnc.thirdparty.fastjson.JSONObject;
 import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
+import com.cnc.thirdparty.zookeeper.version.Info;
 import com.cwh.model.InfoEntity;
 import com.cwh.model.ReturnJson;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.InfoRepository;
 import com.cwh.repository.UserRepository;
+import com.sun.org.apache.bcel.internal.generic.IFNONNULL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +38,7 @@ public class InfoController {
      * @return
      */
     @RequestMapping(value = "/admin/info",method = RequestMethod.GET)
-    public String showInfo(ModelMap modelMap){
+    public String getInfo(ModelMap modelMap){
     //        List<InfoEntity> infoList=infoRepository.findAll();
     //        List<UserEntity>userList=userRepository.findAll();
     //        modelMap.addAttribute("userList",userList);
@@ -58,8 +61,8 @@ public class InfoController {
 //        String user= JSON.toJSONString(userList,fliterUser);
         String info=JSON.toJSONString(infoList,fliterInfo);
 
-        System.out.println("json:");
-        System.out.println(info);
+//        System.out.println("json:");
+//        System.out.println(info);
 
         JSONArray jsonArray=JSON.parseArray(info);
 //        System.out.println("size of jsonArray:"+jsonArray.size());
@@ -127,17 +130,40 @@ public class InfoController {
         return json;
     }
 
-    /**
-     * 显示信息详情
-     * @param id
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping(value = "/admin/info/show/{id}",method = RequestMethod.GET)
-    public String showInfo(@PathVariable("id") int id,ModelMap modelMap){
-        InfoEntity info=infoRepository.findOne(id);
-        modelMap.addAttribute("info",info);
-        return "admin/infoDetail";
+
+    @RequestMapping(value = "/admin/info/show",method = RequestMethod.POST)
+    public @ResponseBody String showInfo(@ModelAttribute("show") ReturnJson returnJson){
+//        InfoEntity info=infoRepository.findOne(id);
+//        modelMap.addAttribute("info",info);
+
+//        System.out.println();
+//        System.out.println("UserId:"+returnJson.getUserId());
+//        System.out.println("InfoId:"+returnJson.getId());
+//        System.out.println();
+        Map<String,Object> detail=new HashMap<String,Object>();
+
+        try {
+            InfoEntity info=infoRepository.findOne(returnJson.getId());
+//        System.out.println("name:"+info.getUserByUserId().getName());
+//        System.out.println("sex:"+info.getUserByUserId().getSex());
+//        System.out.println("age:"+info.getUserByUserId().getAge());
+//        System.out.println("phone:"+info.getPhone());
+//        System.out.println("address:"+info.getAddress());
+//        System.out.println("email:"+info.getEmail());
+//        System.out.println("mobile:"+info.getMobile());
+            detail.put("name",info.getUserByUserId().getName());
+            detail.put("sex",info.getUserByUserId().getSex());
+            detail.put("age",info.getUserByUserId().getAge());
+            detail.put("phone",info.getPhone());
+            detail.put("address",info.getAddress());
+            detail.put("email",info.getEmail());
+            detail.put("mobile",info.getMobile());
+        }catch (Exception e){
+            detail.put("hasError",true);
+        }
+
+        String json=JSON.toJSONString(detail);
+        return json;
     }
 
 //    /**
