@@ -5,11 +5,14 @@ import com.cnc.thirdparty.fastjson.JSONArray;
 import com.cnc.thirdparty.fastjson.JSONObject;
 import com.cnc.thirdparty.fastjson.serializer.SimplePropertyPreFilter;
 import com.cwh.model.InfoEntity;
+import com.cwh.model.Page;
 import com.cwh.model.ReturnJson;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.InfoRepository;
 import com.cwh.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -43,20 +46,20 @@ public class InfoController {
 
     /**
      * 查看所有信息操作
-     * @param modelMap
+     * @param page
      * @return
      */
     @RequestMapping(value = "/admin/infoP",method = RequestMethod.GET)
-    public @ResponseBody String getInfoP(ModelMap modelMap){
-        //查询user表中所有记录
+    public @ResponseBody String getInfoP(@ModelAttribute("page") Page page){
         Map<String,Object> map = new HashMap<String,Object>();
 
-        List<InfoEntity> infoList=infoRepository.findAll();
+        //分页查询user表中所有记录
+        Pageable pageable=new PageRequest(page.getPageIndex(),page.getLimit());
+        org.springframework.data.domain.Page<InfoEntity> infoPage=infoRepository.findAll(pageable);
+        List<InfoEntity> infoList=infoPage.getContent();
 
-        SimplePropertyPreFilter fliterInfo=new SimplePropertyPreFilter(InfoEntity.class,"id","userByUserId","phone","address","email","mobile");
-
-        //过滤出所需要的属性，转化为JSONString
-        String info=JSON.toJSONString(infoList,fliterInfo);
+        //转化为JSONString
+        String info=JSON.toJSONString(infoList);
 
         //再转化为JSON数组便于遍历取值
         JSONArray jsonArray=JSON.parseArray(info);
@@ -73,7 +76,7 @@ public class InfoController {
             }
         }
 
-        //数据数量
+        //获取数据数量
         long results=infoRepository.count();
 
         map.put("rows",jsonArray);

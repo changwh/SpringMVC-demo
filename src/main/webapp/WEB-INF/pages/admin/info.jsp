@@ -18,6 +18,12 @@
         body {
             background-color: #fff;
         }
+         .bui-list-picker{
+             overflow: auto;
+             overflow-x: hidden;
+             max-height: 150px;
+             _height : 150px;
+         }
     </style>
 </head>
 <script src="http://img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
@@ -176,8 +182,7 @@
                                     picker = new Picker.ListPicker({
                                         trigger : '#show',
                                         valueField : '#hide', //如果需要列表返回的value，放在隐藏域，那么指定隐藏域
-                                        width:300,  //指定宽度
-                                        height:300,
+                                        width:300,
                                         children : [grid] //配置picker内的列表
                                     });
                                     picker.render();
@@ -309,7 +314,6 @@
                         }
 
                         function showDetailInfo(infoId) {
-                            alert(infoId);
                             $.ajax({
                                url:"/admin/info/show",
                                 type:"post",
