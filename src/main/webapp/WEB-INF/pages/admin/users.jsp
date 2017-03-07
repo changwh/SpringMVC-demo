@@ -228,7 +228,6 @@
 
                         function delSelected() {
                             var selections = grid.getSelection();
-//                            store.remove(selections);
                             var json="{";
                             var length=selections.length-1;
                             for(var i=0;i<selections.length-1;i++){

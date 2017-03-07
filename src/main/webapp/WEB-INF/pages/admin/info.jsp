@@ -89,7 +89,17 @@
 
     <div id="info">
         <div class="container">
-            <h1>所有信息<button class="addB button button-primary" style="margin-left: 20px"><i class="icon-white icon-plus"></i>添加</button></h1>
+            <h1>
+                所有信息
+                <button class="addB button button-primary" style="margin-left: 20px">
+                    <i class="icon-white icon-plus"></i>
+                    添加
+                </button>
+                <button class="deleteB button button-danger" style="margin-left: 20px">
+                    <i class="icon-white icon-trash"></i>
+                    批量删除
+                </button>
+            </h1>
             <div class="panel">
                 <%--Info表为空--%>
                 <div class="noInfo" style="display: none">
@@ -284,7 +294,7 @@
                                     width:'auto',
                                     loadMask: true, //加载数据时显示屏蔽层
                                     store: store,
-                                    plugins:[editing],
+                                    plugins:[editing,Grid.Plugins.CheckSelection,Grid.Plugins.ColumnChecked],
                                     // 底部工具栏
                                     bbar:{
                                         // pagingBar:表明包含分页栏
@@ -356,10 +366,44 @@
                             target = $(ev.domTarget); //点击的元素
                             if(target.hasClass('btn-delete')){
                                 deleteWarming(record.id,record.userName);
+                                return false;
                             }
                             if(target.hasClass('btn-detail')){
                                 showDetailInfo(record.id);
+                                return false;
                             }
+                        });
+
+                        function delSelected() {
+                            var selections = grid.getSelection();
+                            var json="{";
+                            var length=selections.length-1;
+                            for(var i=0;i<selections.length-1;i++){
+                                json+="\"id"+i+"\":"+selections[i].id+",";
+                            }
+                            json+="\"id"+length+"\":"+selections[selections.length-1].id+"}";
+
+                            var send = eval('(' + json + ')');
+                            BUI.Message.Alert('确定删除选定信息？',function () {
+                                $.ajax({
+                                    url:"/admin/info/deleteSelected",
+                                    type:"post",
+                                    data:JSON.stringify(send),
+                                    contentType:"text/xml",
+                                    dataType:"json",
+                                    success:function (res) {
+                                        if(res.noError){
+                                            location.reload();
+                                        }else {
+                                            res=eval(res.errorList);
+                                            BUI.Message.Alert('信息id:'+res+'删除失败','error');
+                                        }
+                                    }
+                                })
+                            },'warning');
+                        };
+                        $(".deleteB").click(function () {
+                            delSelected();
                         });
                     });
                 </script>
