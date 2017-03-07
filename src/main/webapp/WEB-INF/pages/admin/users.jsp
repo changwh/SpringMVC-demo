@@ -228,7 +228,7 @@
 
                         function delSelected() {
                             var selections = grid.getSelection();
-                            store.remove(selections);
+//                            store.remove(selections);
                             var json="{";
                             var length=selections.length-1;
                             for(var i=0;i<selections.length-1;i++){
@@ -237,19 +237,19 @@
                             json+="\"id"+length+"\":"+selections[selections.length-1].id+"}";
 
                             var send = eval('(' + json + ')');
-                            alert(json);
-//                            console.log(selections);
                             BUI.Message.Alert('确定删除选定用户？',function () {
                                 $.ajax({
                                     url:"/admin/users/deleteSelected",
                                     type:"post",
-                                    data:send,
-                                    dataType:'ajax',
+                                    data:JSON.stringify(send),
+                                    contentType:"text/xml",
+                                    dataType:"json",
                                     success:function (res) {
-                                        if(res.error){
-                                            BUI.Message.Alert(res.error,'error');
-                                        }else {
+                                        if(res.noError){
                                             location.reload();
+                                        }else {
+                                            res=eval(res.errorList);
+                                            BUI.Message.Alert('用户id:'+res+'删除失败','error');
                                         }
                                     }
                                 })

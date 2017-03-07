@@ -1,6 +1,7 @@
 package com.cwh.controller;
 
 import com.cnc.thirdparty.fastjson.JSON;
+import com.cnc.thirdparty.fastjson.JSONObject;
 import com.cwh.model.Page;
 import com.cwh.model.UserEntity;
 import com.cwh.repository.UserRepository;
@@ -129,19 +130,36 @@ public class MainController {
 
     //因为每页只有10个，所以可以试着构造一个id0-9的模型接收json
 
-//    @RequestMapping(value = "/admin/users/deleteSelected",method = RequestMethod.POST)
-//    public @ResponseBody String deleteUsersPost(@ModelAttribute("deleteSelected") String[] selectedUser){
-//        System.out.println();
-//        System.out.println(selectedUser[0]);
-//        System.out.println();
-////        for (int i=0;i<selectedUser.length;i++){
-////            System.out.println(selectedUser[i].toString());
-////        };
-//        Map<String,Object> status=new  HashMap<String,Object>();
-//        status.put("hasError","false");
-//        String json=JSON.toJSONString(status,true);
-//        return json;
-//    }
+    @RequestMapping(value = "/admin/users/deleteSelected",method = RequestMethod.POST)
+    public @ResponseBody String deleteUsersPost(@RequestBody String test){
+        JSONObject idList=JSON.parseObject(test);
+
+        Map<String,Object> status=new  HashMap<String,Object>();
+        List<Integer> errorList=new ArrayList<Integer>();
+        status.put("noError",true);
+        int temp=0;
+        int length=0;
+        for (int i=0;i<idList.size();i++){
+            try {
+                temp=(int)idList.get("id"+i);
+                userRepository.delete(temp);
+            }catch (Exception e){
+                length++;
+                status.remove("noError");
+                errorList.add(temp);
+            }
+        }
+//        idList=JSON.parseObject(test);
+//        System.out.println(idList.id0);
+//        for (int i=0;i<selectedUser.length;i++){
+//            System.out.println(selectedUser[i].toString());
+//        };
+        status.put("length",length);
+        status.put("errorList",errorList);
+        String json=JSON.toJSONString(status,true);
+        System.out.println(json);
+        return json;
+    }
 
 
     /**
