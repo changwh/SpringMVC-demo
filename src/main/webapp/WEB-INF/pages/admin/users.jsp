@@ -16,39 +16,7 @@
     <link href="//img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="//img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
 </head>
-<script src="//img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
-<script src="//img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $(".resetBtn").click(function () {
-            $(".needReset").attr("value","");
-        });
-    });
 
-    BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
-        var form=new Form.Form({
-            srcNode : '#A_Form',
-            submitType:'ajax',
-            callback:function(data){
-                if(data.status==302){
-                    location.herf=data.location;
-                    location.reload();
-                }
-            }
-        }).render();
-
-        $(".addB").click(function () {
-            var dialog=new Overlay.Dialog({
-                title:'添加用户',
-                width:600,
-                contentId:'addUser',
-                buttons:[],
-                closeAction:'destroy'
-            });
-            dialog.show();
-        });
-    })
-</script>
 <body>
     <header class="ws-header">
         <div class="pull-left">
@@ -139,136 +107,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <script type="text/javascript">
-                                BUI.use(['bui/grid','bui/data'],function(Grid,Data){
-                                    var Grid = Grid,
-                                            Store = Data.Store,
-                                            columns = [
-                                                {title : 'ID',dataIndex :'id', width:'18%'},
-                                                {title : '姓名',dataIndex :'name', width:'18%'},
-                                                {title : '性别',dataIndex : 'sex',width:'18%'},
-                                                {title:'年龄',dataIndex:'age',width:'18%'},
-                                                {title:'操作',width:'28%',renderer:function () {
-                                                    return '<span class="button button-warning btn-edit" style="margin-left: 20px"><i class="icon-white icon-edit btn-edit"></i>编辑</span>' +
-                                                            '<span class="button button-danger btn-delete" style="margin-left: 20px"><i class="icon-white icon-trash btn-delete"></i>删除</span>';
-                                                }}
-                                            ];
-
-                                    var store = new Store({
-                                                url : 'admin/usersP',
-                                                autoLoad:true, //自动加载数据
-                                                pageSize:10,	// 配置分页数目
-                                                proxy : {
-                                                    ajaxOptions : { //ajax的配置项，不要覆盖success,和error方法
-                                                        traditional : true,
-                                                        type : 'get',
-                                                        dataType:'json',
-                                                        success:function (data) {
-                                                            if(data.results==0) {
-                                                                $(".noUser").show();
-                                                                $(".userExist").hide();
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }),
-                                            editing = new Grid.Plugins.DialogEditing({
-                                                triggerSelected : false,
-                                                contentId : 'updateUser', //设置隐藏的Dialog内容
-                                                triggerCls : 'btn-edit', //触发显示Dialog的样式
-                                                editor : {
-                                                    title : '修改用户',
-                                                    width : 600,
-                                                    form:{
-                                                        srcNode : '#U_Form',
-                                                        submitType:'ajax'
-                                                    },
-                                                    buttons:[]
-                                                }
-                                            }),
-                                            grid = new Grid.Grid({
-                                                render:'#grid',
-                                                columns : columns,
-                                                width:'auto',
-                                                loadMask: true, //加载数据时显示屏蔽层
-                                                store: store,
-                                                plugins:[editing,Grid.Plugins.CheckSelection,Grid.Plugins.ColumnChecked],
-                                                // 底部工具栏
-                                                bbar:{
-                                                    // pagingBar:表明包含分页栏
-                                                    pagingBar:true
-                                                }
-                                            });
-
-                                    grid.render();
-
-                                    function deleteWarming(userId,userName){
-                                        BUI.Message.Alert('确定删除用户:'+userName+'？',function () {
-                                            $.ajax({
-                                                url:"/admin/users/deleteP",
-                                                type:"post",
-                                                dataType:"json",
-                                                data:{"id":userId},
-                                                success:function (res) {
-                                                    if(res.error){
-                                                        BUI.Message.Alert(res.error,'error');
-                                                    }else {
-                                                        BUI.Message.Alert('删除成功',function () {
-                                                            location.reload();
-                                                        },'success');
-                                                    }
-                                                }
-                                            })
-                                        },'warning');
-                                    }
-
-                                    grid.on('cellclick',function  (ev) {
-                                        record = ev.record, //点击行的记录
-                                                field = ev.field, //点击对应列的dataIndex
-                                                target = $(ev.domTarget); //点击的元素
-                                        if(target.hasClass('btn-delete')){
-                                            deleteWarming(record.id,record.name);
-                                            //点击后不被勾选
-                                            return false;
-                                        }
-                                    });
-
-                                    function delSelected() {
-                                        var selections = grid.getSelection();
-                                        var json="{";
-                                        var length=selections.length-1;
-                                        for(var i=0;i<selections.length-1;i++){
-                                            json+="\"id"+i+"\":"+selections[i].id+",";
-                                        }
-                                        json+="\"id"+length+"\":"+selections[selections.length-1].id+"}";
-
-                                        var send = eval('(' + json + ')');
-                                        BUI.Message.Alert('确定删除选定用户？',function () {
-                                            $.ajax({
-                                                url:"/admin/users/deleteSelected",
-                                                type:"post",
-                                                data:JSON.stringify(send),
-                                                contentType:"text/xml",
-                                                dataType:"json",
-                                                success:function (res) {
-                                                    if(res.noError){
-                                                        BUI.Message.Alert('删除成功',function(){
-                                                            location.reload();
-                                                        },'success');
-                                                    }else {
-                                                        res=eval(res.errorList);
-                                                        BUI.Message.Alert('用户id“'+res+'”    删除失败','error');
-                                                    }
-                                                }
-                                            })
-                                        },'warning');
-                                    };
-                                    $(".deleteB").click(function () {
-                                        delSelected();
-                                    });
-                                });
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -302,23 +140,194 @@
                 </div>
             </div>
         </form>
-        <script type="text/javascript">
-            BUI.use('bui/form',function(Form){
-                //添加 名字为 sid的校验规则
-                Form.Rules.add({
-                    name : 'name',  //规则名称
-                    msg : '请输入正确的名字！',//默认显示的错误信息
-                    validator : function(value,baseValue,formatMsg){ //验证函数，验证值、基准值、格式化后的错误信息
-                        var regexp = new RegExp('((?=[\\x21-\\x7e]+)[^A-Za-z])|[\\uFE30-\\uFFA0]|[\\u3002\\uff1b\\uff0c\\uff1a\\u201c\\u2018\\u201d\\uff08\\uff09\\u3001\\uff1f\\u300a\\u300b\\u2026\\u2014]');
-                        //筛选键盘上的大多数符号（ 。 ；  ， ： “ ”（ ） 、 ？ 《 》 … —）以及数字
-                        if(value && regexp.test(value)){
-                            return formatMsg;
-                        }
-                    }
-                });
-            });
-        </script>
     </div>
+
+    <script src="//img.chinanetcenter.com/js/jquery/jquery-1.8.1.min.js"></script>
+    <script src="//img.chinanetcenter.com/lib/bui/1.1.21/seed-min.js"></script>
     <script src="//img.chinanetcenter.com/wsfe/1.0.0/prd/scripts/wsfe.js"></script>
+    <script type="text/javascript">
+        //在初始化时注册重置按钮，使隐藏域中的value也被重置
+        $(document).ready(function(){
+            $(".resetBtn").click(function () {
+                $(".needReset").attr("value","");
+            });
+        });
+
+        //生成添加用户窗口，先生成表单，后生成窗口包含表单
+        BUI.use(['bui/overlay','bui/form'],function(Overlay,Form) {
+            var form=new Form.Form({
+                srcNode : '#A_Form',
+                submitType:'ajax',
+                callback:function(data){
+                    if(data.status==302){
+                        location.herf=data.location;
+                        location.reload();
+                    }
+                }
+            }).render();
+
+            $(".addB").click(function () {
+                var dialog=new Overlay.Dialog({
+                    title:'添加用户',
+                    width:600,
+                    contentId:'addUser',
+                    buttons:[],
+                    closeAction:'destroy'
+                });
+                dialog.show();
+            });
+        });
+
+        //显示全部用户，在store中获取数据，填入grid中；使用编辑对话框，在对话框中添加修改用户的表单；使用多选框实现批量删除功能；删除用户时的提示框
+        BUI.use(['bui/grid','bui/data'],function(Grid,Data){
+            var Grid = Grid,
+                    Store = Data.Store,
+                    columns = [
+                        {title : 'ID',dataIndex :'id', width:'18%'},
+                        {title : '姓名',dataIndex :'name', width:'18%'},
+                        {title : '性别',dataIndex : 'sex',width:'18%'},
+                        {title:'年龄',dataIndex:'age',width:'18%'},
+                        {title:'操作',width:'28%',renderer:function () {
+                            return '<span class="button button-warning btn-edit" style="margin-left: 20px"><i class="icon-white icon-edit btn-edit"></i>编辑</span>' +
+                                    '<span class="button button-danger btn-delete" style="margin-left: 20px"><i class="icon-white icon-trash btn-delete"></i>删除</span>';
+                        }}
+                    ];
+
+            var store = new Store({
+                        url : 'admin/usersP',
+                        autoLoad:true, //自动加载数据
+                        pageSize:10,	// 配置分页数目
+                        proxy : {
+                            ajaxOptions : { //ajax的配置项，不要覆盖success,和error方法
+                                traditional : true,
+                                type : 'get',
+                                dataType:'json',
+                                success:function (data) {
+                                    if(data.results==0) {
+                                        $(".noUser").show();
+                                        $(".userExist").hide();
+                                    }
+                                }
+                            }
+                        }
+                    }),
+                    editing = new Grid.Plugins.DialogEditing({
+                        triggerSelected : false,
+                        contentId : 'updateUser', //设置隐藏的Dialog内容
+                        triggerCls : 'btn-edit', //触发显示Dialog的样式（按键的样式）
+                        editor : {
+                            title : '修改用户',
+                            width : 600,
+                            form:{
+                                srcNode : '#U_Form',
+                                submitType:'ajax'
+                            },
+                            buttons:[]
+                        }
+                    }),
+                    grid = new Grid.Grid({
+                        render:'#grid',
+                        columns : columns,
+                        width:'auto',
+                        loadMask: true, //加载数据时显示屏蔽层
+                        store: store,
+                        plugins:[editing,Grid.Plugins.CheckSelection,Grid.Plugins.ColumnChecked],
+                        // 底部工具栏
+                        bbar:{
+                            // pagingBar:表明包含分页栏
+                            pagingBar:true
+                        }
+                    });
+
+            grid.render();
+
+            function deleteWarming(userId,userName){
+                BUI.Message.Alert('确定删除用户:'+userName+'？',function () {
+                    $.ajax({
+                        url:"/admin/users/deleteP",
+                        type:"post",
+                        dataType:"json",
+                        data:{"id":userId},
+                        success:function (res) {
+                            if(res.error){
+                                BUI.Message.Alert(res.error,'error');
+                            }else {
+                                BUI.Message.Alert('删除成功',function () {
+                                    location.reload();
+                                },'success');
+                            }
+                        }
+                    })
+                },'warning');
+            }
+
+            //点击事件对该行数据进行取值
+            grid.on('cellclick',function  (ev) {
+                record = ev.record, //点击行的记录
+                        field = ev.field, //点击对应列的dataIndex
+                        target = $(ev.domTarget); //点击的元素
+                if(target.hasClass('btn-delete')){
+                    deleteWarming(record.id,record.name);
+                    //点击后不被勾选
+                    return false;
+                }
+            });
+
+            function delSelected() {
+                //获取被选定行的数据
+                var selections = grid.getSelection();
+
+                //拼接将要传回后端的json
+                var json="{";
+                var length=selections.length-1;
+                for(var i=0;i<selections.length-1;i++){
+                    json+="\"id"+i+"\":"+selections[i].id+",";
+                }
+                json+="\"id"+length+"\":"+selections[selections.length-1].id+"}";
+
+                //对象化
+                var send = eval('(' + json + ')');
+
+                BUI.Message.Alert('确定删除选定用户？',function () {
+                    $.ajax({
+                        url:"/admin/users/deleteSelected",
+                        type:"post",
+                        data:JSON.stringify(send),
+                        contentType:"text/xml",//避免传回后端的文本为url编码
+                        dataType:"json",
+                        success:function (res) {
+                            if(res.noError){
+                                BUI.Message.Alert('删除成功',function(){
+                                    location.reload();
+                                },'success');
+                            }else {
+                                res=eval(res.errorList);
+                                BUI.Message.Alert('用户id“'+res+'”删除失败','error');
+                            }
+                        }
+                    })
+                },'warning');
+            };
+            $(".deleteB").click(function () {
+                delSelected();
+            });
+        });
+
+        //添加 名字为name的校验规则
+        BUI.use('bui/form',function(Form){
+            Form.Rules.add({
+                name : 'name',  //规则名称
+                msg : '请输入正确的名字！',//默认显示的错误信息
+                validator : function(value,baseValue,formatMsg){ //验证函数，验证值、基准值、格式化后的错误信息
+                    var regexp = new RegExp('((?=[\\x21-\\x7e]+)[^A-Za-z])|[\\uFE30-\\uFFA0]|[\\u3002\\uff1b\\uff0c\\uff1a\\u201c\\u2018\\u201d\\uff08\\uff09\\u3001\\uff1f\\u300a\\u300b\\u2026\\u2014]');
+                    //筛选键盘上的大多数符号（ 。 ；  ， ： “ ”（ ） 、 ？ 《 》 … —）以及数字
+                    if(value && regexp.test(value)){
+                        return formatMsg;
+                    }
+                }
+            });
+        });
+
+    </script>
 </body>
 </html>
