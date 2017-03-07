@@ -198,8 +198,10 @@ public class InfoController {
         Map<String,Object> status=new  HashMap<String,Object>();
         List<Integer> errorList=new ArrayList<Integer>();
         status.put("noError",true);
+
         int temp=0;
         int length=0;
+
         for (int i=0;i<idList.size();i++){
             try {
                 temp=(int)idList.get("id"+i);
@@ -210,10 +212,10 @@ public class InfoController {
                 errorList.add(temp);
             }
         }
+
         status.put("length",length);
         status.put("errorList",errorList);
         String json=JSON.toJSONString(status,true);
-        System.out.println(json);
         return json;
     }
 }
