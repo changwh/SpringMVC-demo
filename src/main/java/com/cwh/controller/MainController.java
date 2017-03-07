@@ -127,6 +127,11 @@ public class MainController {
     }
 
 
+    /**
+     * 批量删除用户
+     * @param test
+     * @return
+     */
     @RequestMapping(value = "/admin/users/deleteSelected",method = RequestMethod.POST)
     public @ResponseBody String deleteSelectedUsers(@RequestBody String test){
         JSONObject idList=JSON.parseObject(test);

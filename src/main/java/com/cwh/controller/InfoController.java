@@ -186,6 +186,11 @@ public class InfoController {
     }
 
 
+    /**
+     * 批量删除信息
+     * @param test
+     * @return
+     */
     @RequestMapping(value = "/admin/info/deleteSelected",method = RequestMethod.POST)
     public @ResponseBody String deleteSelectedInfo(@RequestBody String test){
         JSONObject idList=JSON.parseObject(test);
