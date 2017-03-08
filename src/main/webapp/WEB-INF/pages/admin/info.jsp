@@ -70,6 +70,9 @@
                             </div>
                             <%--Info表不为空--%>
                             <div class="infoExist">
+                                <div>
+                                    <button class="button button-default button-small <%--pull-right--%> js-filterColumn-btn">自定义列</button>
+                                </div>
                                 <div class="row">
                                     <div id="grid">
                                     </div>
@@ -223,6 +226,9 @@
             $(".resetBtn").click(function () {
                 $(".needReset").attr("value","");
             });
+
+            //自定义列自动生成
+            columnPicker();
         });
 
         //生成添加信息窗口，先生成表单，后生成窗口包含表单
@@ -459,6 +465,124 @@
             $(".deleteB").click(function () {
                 delSelected();
             });
+        });
+
+        var columnPicker=function (opt) {
+            new Picker(this,opt);
+            return this;
+        }
+
+        var Picker=function (element,opt) {
+            this.$triggerBtn = $(element);
+            this.cache = null;
+            this.RTCheckedColumn = null;
+            this.$picker = null;
+            this.$searchInput = null;
+            this.isShow = false;
+            this.option = $.extend({
+                ajax: {
+                    url: '', //数据来源接口,
+                    dataType: 'json',
+                    type: 'get',
+                    data: '', //需要传到服务器的数据，可以是字符串，也可以是json对象。
+                    processResults: function(data) {
+                        return data;
+                    } //处理返回的数据，让其符合该组件渲染的需求
+                },
+                data: null, //如果不走ajax那么可以直接为这个字段赋值，默认数据格式是{defaultColumn: [key1, key2,...], allColumn: {'key': '字段label名称',...}, checkedColumn: [key1, key2,...]}
+                max: 10, //最多显示多少条，如果要查看更多，那就通过搜索过滤
+                callback: function() {}, //确定按钮触发的回调
+                events: 'click', //可以是多个事件触发该组件的显隐，例如'click change blur focus'
+                position: 'left', //支持left,right,center。默认center
+                filterButtons: {} //用于定义一些过滤按钮，例如默认{defaultColumn: '默认'}
+            }, opt);
+
+            this.init();
+        };
+        $.extend(Picker.prototype,{
+            init:function () {
+                var self=this;
+                self.render();
+                self.attachEvents();
+                self.$triggerBtn.trigger('inited.columnpicker',self);
+            },
+            
+            attachEvents:function () {
+                $(".js-filterColumn-btn").on(this.option.events, $.proxy(this.handleComponentToggle, this));
+//                this.$picker.find('.ui-buttons .js-filter-button').on('click', $.proxy(this.handleFilterBtnClick, this));
+                this.$picker.find('.js-confirm-btn').on('click', $.proxy(this.handleConfirm, this));
+                this.$picker.find('.js-cancel-btn').on('click', $.proxy(this.handleComponentToggle, this));
+//                this.$listContainer.on('change', 'input', $.proxy(this.handleCheckboxChange, this));
+//                this.$searchInput.on('keyup', $.proxy(this.handleSearchKeyup, this));
+            },
+
+            handleComponentToggle: function() {
+                if(this.isShow) {
+//                    alert("show:"+this.isShow);
+                    this.hide();
+//                    this.destroy();
+                } else {
+//                    alert("hide:"+this.isShow);
+                    this.show();
+                }
+            },
+
+            position: function() {
+                var offset = this.$triggerBtn.offset(),
+                        height = this.$triggerBtn.outerHeight(),
+                        width = this.$triggerBtn.outerWidth();
+                var top = offset.top + height + 10;
+                switch(this.option.position) {
+                    case 'center':
+                        this.$picker.offset({top: top, left: offset.left-(this.$picker.outerWidth()/2 - width/2)});
+                        break;
+                    case 'left':
+                        this.$picker.offset({top: top, left: offset.left-(this.$picker.outerWidth() - width)});
+                        break;
+                    case 'right':
+                        this.$picker.offset({top: top, left: offset.left});
+                        break;
+                }
+            },
+
+            show: function() {
+                this.isShow = true;
+//                this.RTCheckedColumn = this.cache.checkedColumn.slice();
+                this.$picker.show();
+                this.position();
+            },
+
+            hide: function() {
+                this.isShow = false;
+                this.$picker.hide();
+            },
+            render: function(data) {
+                var html =
+                        '<div class="ui-column-picker">' +
+                        '<div class="ui-content">' +
+                        '<div class="ui-top-panel">' +
+//                        '<h3>' +i18n('column')+ '</h3>' +
+                        '<div class="ui-buttons">' +
+//                        this.renderButtons() +//显示自定义列中的按键
+                        '</div>' +
+                        '</div>' +
+                        '<div class="ui-center-panel">' +
+                        '<div class="ui-search">' +
+//                        '<input type="text" class="ui-search-input" placeholder="'+i18n('input-search-placeholder')+'">' +
+                        '</div>' +
+                        '<div class="ui-checklist-container">' +
+//                        this.renderList(data.allColumn, data.checkedColumn) +//显示自定义列的列表
+                        '</div>' +
+                        '</div>' +
+                        '<div class="ui-button-panel">' +
+                        '<a class="button button-default js-confirm-btn">'+'确定'+'</a>' +
+                        '<a class="button js-cancel-btn" href="javascript:;">'+'取消'+'</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="ui-arrow"></div>' +
+                        '</div>';
+                this.$picker = $(html).appendTo('body');
+            }
         });
 
     </script>
