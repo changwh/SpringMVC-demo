@@ -648,7 +648,6 @@
                 this.cache.checkedColumn = this.RTCheckedColumn;
             },
 
-
             position: function() {
                 var offset = this.$triggerBtn.offset(),
                         height = this.$triggerBtn.outerHeight(),
