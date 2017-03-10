@@ -30,7 +30,7 @@
     <div id="ws-main row-fluid">
         <aside class="span4 span-first ws-sidebar ws-submenu" style="height: 100%">
             <ul class="ul-item">
-                <li><a href="#" class="current">概览</a></li>
+                <li><a href="/" class="current">概览</a></li>
                 <li>
                     <a href="javascript:;" class="open">统计分析</a>
                     <ul>
