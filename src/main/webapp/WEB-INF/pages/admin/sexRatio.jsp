@@ -32,17 +32,9 @@
         <ul class="ul-item">
             <li><a href="#">概览</a></li>
             <li>
-                <a href="javascript:;" class="open">自助配置</a>
-                <ul>
-                    <li><a href="#">带宽</a></li>
-                    <li><a href="#">流量</a></li>
-                    <li><a href="#">请求数</a></li>
-                </ul>
-            </li>
-            <li>
                 <a href="javascript:;" class="close">统计分析</a>
                 <ul>
-                    <li><a href="#">年龄</a></li>
+                    <li><a href="/admin/users/ageData">年龄分布</a></li>
                     <li><a href="/admin/users/sexData" class="current">性别占比</a></li>
                 </ul>
             </li>
@@ -107,8 +99,8 @@
                         data: data
                     }]
                 });
-            })
-        })
+            });
+        });
     });
 </script>
 </body>

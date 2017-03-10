@@ -1,11 +1,10 @@
 <%--
   Created by IntelliJ IDEA.
   User: changwh1
-  Date: 2017/2/28
-  Time: 11:49
+  Date: 2017/3/10
+  Time: 11:50
   To change this template use File | Settings | File Templates.
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="zh-CN">
 <head>
@@ -33,17 +32,9 @@
         <ul class="ul-item">
             <li><a href="#">概览</a></li>
             <li>
-                <a href="javascript:;" class="open">自助配置</a>
-                <ul>
-                    <li><a href="#">带宽</a></li>
-                    <li><a href="#">流量</a></li>
-                    <li><a href="#">请求数</a></li>
-                </ul>
-            </li>
-            <li>
                 <a href="javascript:;" class="close">统计分析</a>
                 <ul>
-                    <li><a href="#" class="current">年龄</a></li>
+                    <li><a href="/admin/users/ageData" class="current">年龄分布</a></li>
                     <li><a href="/admin/users/sexData">性别占比</a></li>
                 </ul>
             </li>

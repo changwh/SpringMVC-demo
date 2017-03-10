@@ -23,6 +23,30 @@ public interface UserRepository extends JpaRepository<UserEntity,Integer>{
     @Query("update UserEntity us set us.name=:qName,us.sex=:qSex,us.age=:qAge where us.id=:qId")
     public void updateUser(@Param("qName")String name,@Param("qSex")String sex,@Param("qAge")int age,@Param("qId")int id);
 
-    @Query("select count(*) from UserEntity us where us.sex='男'")
-    public long getMaleNum();
+    /**
+     * 查询男/女性用户数量
+     * @param sex
+     * @return
+     */
+    @Query("select count(*) from UserEntity us where us.sex=:qSex")
+    public long getSexNum(@Param("qSex")String sex);
+
+    /**
+     * 查询某个年龄段的男/女性用户数量
+     * @param sex
+     * @param ageMin
+     * @param ageMax
+     * @return
+     */
+    @Query("select count (*) from UserEntity us where us.sex=:qSex and us.age>=:qAgeMin and us.age<=:qAgeMax")
+    public long getAgeNum(@Param("qSex")String sex,@Param("qAgeMin")int ageMin,@Param("qAgeMax")int ageMax);
+
+    /**
+     * 查询某个年龄段的用户数量
+     * @param ageMin
+     * @param ageMax
+     * @return
+     */
+    @Query("select count (*) from UserEntity us where us.age>=:qAgeMin and us.age<=:qAgeMax")
+    public long getALLAgeNum(@Param("qAgeMin")int ageMin,@Param("qAgeMax")int ageMax);
 }
