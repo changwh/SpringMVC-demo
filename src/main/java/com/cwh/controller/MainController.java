@@ -1,6 +1,7 @@
 package com.cwh.controller;
 
 import com.cnc.thirdparty.fastjson.JSON;
+import com.cnc.thirdparty.fastjson.JSONArray;
 import com.cnc.thirdparty.fastjson.JSONObject;
 import com.cwh.model.Page;
 import com.cwh.model.UserEntity;
@@ -157,6 +158,43 @@ public class MainController {
         status.put("length",length);
         status.put("errorList",errorList);
         String json=JSON.toJSONString(status,true);
+        return json;
+    }
+
+
+    @RequestMapping(value = "/admin/users/sexData",method = RequestMethod.GET)
+    public String sexData(){
+        return "admin/sexRatio";
+    }
+
+
+    @RequestMapping(value = "/admin/users/getSexData",method = RequestMethod.GET)
+    public @ResponseBody String getSexData(){
+
+        long maleNum=userRepository.getMaleNum();
+        long results=userRepository.count();
+        long femaleNum=results-maleNum;
+
+        float male=(float) maleNum/results*100;
+        float female=(float)femaleNum/results*100;
+
+        List<Object> maleList=new JSONArray();
+        maleList.add('男');
+        maleList.add(male);
+
+        List<Object> femaleList=new JSONArray();
+        femaleList.add('女');
+        femaleList.add(female);
+
+        List<Object> list=new JSONArray();
+        list.add(maleList);
+        list.add(femaleList);
+
+        String json=JSON.toJSONString(list);
+        System.out.println(json);
+//        System.out.println(male);
+//        System.out.println(female);
+
         return json;
     }
 

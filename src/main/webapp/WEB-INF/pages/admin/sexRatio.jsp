@@ -1,11 +1,10 @@
 <%--
   Created by IntelliJ IDEA.
   User: changwh1
-  Date: 2017/2/28
-  Time: 11:49
+  Date: 2017/3/10
+  Time: 11:30
   To change this template use File | Settings | File Templates.
 --%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="zh-CN">
 <head>
@@ -44,7 +43,7 @@
                 <a href="javascript:;" class="close">统计分析</a>
                 <ul>
                     <li><a href="#">年龄</a></li>
-                    <li><a href="#" class="current">性别分布</a></li>
+                    <li><a href="/admin/users/sexData" class="current">性别占比</a></li>
                 </ul>
             </li>
         </ul>
@@ -77,9 +76,7 @@
         // Build the chart
         $(function () {
             $.getJSON('/admin/users/getSexData',function (data) {
-//            var test=[['Firefox',   45.0],['IE',       26.8],['Chrome',12.8],['Safari',    8.5],['Opera',     6.2],['其他',   0.7]];
-
-                    $('#container').highcharts({
+                $('#container').highcharts({
                     chart: {
                         plotBackgroundColor: null,
                         plotBorderWidth: null,
@@ -104,7 +101,6 @@
                             }
                         }
                     },
-//                    data:{data:[['Firefox',   45.0],['IE',       26.8],['Chrome',12.8],['Safari',    8.5],['Opera',     6.2],['其他',   0.7]]},
                     series: [{
                         type: 'pie',
                         name: '用户性别占比',
@@ -117,3 +113,4 @@
 </script>
 </body>
 </html>
+
