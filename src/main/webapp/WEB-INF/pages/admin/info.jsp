@@ -472,19 +472,19 @@
             this.$searchInput = null;
             this.isShow = false;
             this.option = $.extend({
-                ajax: {
-                    url: '', //数据来源接口,
-                    dataType: 'json',
-                    type: 'get',
-                    data: '', //需要传到服务器的数据，可以是字符串，也可以是json对象。
-                    processResults: function(data) {
-                        return data;
-                    } //处理返回的数据，让其符合该组件渲染的需求
-                },
+//                ajax: {
+//                    url: '', //数据来源接口,
+//                    dataType: 'json',
+//                    type: 'get',
+//                    data: '', //需要传到服务器的数据，可以是字符串，也可以是json对象。
+//                    processResults: function(data) {
+//                        return data;
+//                    } //处理返回的数据，让其符合该组件渲染的需求
+//                },
                 data: {defaultColumn: ['phone', 'address','email','mobile'],allColumn: {'phone': '电话','address': '地址','email': '邮箱','mobile': '手机'}, checkedColumn: ['phone', 'address','email','mobile']}, //如果不走ajax那么可以直接为这个字段赋值，默认数据格式是{defaultColumn: [key1, key2,...], allColumn: {'key': '字段label名称',...}, checkedColumn: [key1, key2,...]}
                 max: 10, //最多显示多少条，如果要查看更多，那就通过搜索过滤
                 callback: function() {}, //确定按钮触发的回调
-                events: 'click', //可以是多个事件触发该组件的显隐，例如'click change blur focus'
+//                events: 'click', //可以是多个事件触发该组件的显隐，例如'click change blur focus'
                 position: 'right', //支持left,right,center。默认center
                 filterButtons: {defaultColumn: '默认'} //用于定义一些过滤按钮，例如默认{defaultColumn: '默认'}
             }, opt);
@@ -513,7 +513,7 @@
              */
             attachEvents:function () {
                 //点击自定义列按键，显示、隐藏
-                this.$triggerBtn.on(this.option.events, $.proxy(this.handleComponentToggle, this));
+                this.$triggerBtn.on(/*this.option.events*/'click', $.proxy(this.handleComponentToggle, this));
                 //点击默认按键
                 this.$picker.find('.js-filter-button').on('click', $.proxy(this.handleFilterBtnClick, this));
                 //点击确认按键
