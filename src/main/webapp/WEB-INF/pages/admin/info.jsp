@@ -15,6 +15,14 @@
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="http://img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+    <style type="text/css">
+        .bui-list-picker{
+            overflow: auto;
+            overflow-x: hidden;
+            max-height: 150px;
+            _height : 150px;
+        }
+    </style>
 </head>
 <body>
     <header class="ws-header">
