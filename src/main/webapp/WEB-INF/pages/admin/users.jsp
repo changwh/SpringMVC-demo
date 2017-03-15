@@ -15,6 +15,12 @@
     <link href="//img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/dpl.css" rel="stylesheet">
     <link href="//img.chinanetcenter.com/lib/bui/1.1.21/css/bs3/bui.css" rel="stylesheet">
     <link href="//img.chinanetcenter.com/wsfe/1.0.0/prd/styles/wsfe.css" rel="stylesheet">
+    <%--修复选择框的向下箭头位置偏移的问题--%>
+    <style type="text/css">
+        .icon-caret-down{
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
