@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -183,5 +184,40 @@ public class InfoController {
 
         return json;
     }
+
+
+    /**
+     * 批量删除信息
+     * @param test
+     * @return
+     */
+    @RequestMapping(value = "/admin/info/deleteSelected",method = RequestMethod.POST)
+    public @ResponseBody String deleteSelectedInfo(@RequestBody String test){
+        JSONObject idList=JSON.parseObject(test);
+
+        Map<String,Object> status=new  HashMap<String,Object>();
+        List<Integer> errorList=new ArrayList<Integer>();
+        status.put("noError",true);
+
+        int temp=0;
+        int length=0;
+
+        for (int i=0;i<idList.size();i++){
+            try {
+                temp=(int)idList.get("id"+i);
+                infoRepository.delete(temp);
+            }catch (Exception e){
+                length++;
+                status.remove("noError");
+                errorList.add(temp);
+            }
+        }
+
+        status.put("length",length);
+        status.put("errorList",errorList);
+        String json=JSON.toJSONString(status,true);
+        return json;
+    }
 }
+
 
